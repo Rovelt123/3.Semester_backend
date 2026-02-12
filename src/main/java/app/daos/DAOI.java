@@ -1,7 +1,5 @@
 package app.daos;
 
-import app.entities.Announcement;
-
 import java.util.List;
 import java.util.Optional;
 

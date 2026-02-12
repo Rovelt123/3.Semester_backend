@@ -17,7 +17,7 @@ public class Responsibility {
 
     private String name;
 
-    protected Responsibility() {}
+    public Responsibility() {}
 
     public Responsibility(String name) {
         this.name = name;
