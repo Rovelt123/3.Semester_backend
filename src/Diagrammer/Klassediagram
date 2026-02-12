@@ -1,0 +1,114 @@
+@startuml
+
+enum Role {
+    USER
+    CHEF
+}
+
+enum HolidayStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
+enum ShiftStatus {
+    NO_RESPONSE
+    APPROVED
+    REJECTED
+}
+
+class User {
+    - int id
+    - String name
+    - Role role
+
+    + User(int id, String name, Role role)
+
+    + int getId()
+    + String getName()
+    + Role getRole()
+
+    + void setName(String name)
+    + void setRole(Role role)
+
+    + void addResponsibility(Responsibility responsibility)
+    + void removeResponsibility(Responsibility responsibility)
+
+    + void respondToShift(ShiftRequest request, ShiftStatus status)
+
+}
+
+class Responsibility {
+    - int id
+    - String name
+
+    + Responsibility(int id, String name)
+
+    + int getId()
+    + String getName()
+}
+
+class Holiday {
+    - int id
+    - LocalDate startDate
+    - LocalDate endDate
+    - HolidayStatus status
+
+    + Holiday(int id, LocalDate startDate, LocalDate endDate)
+
+    + void approve()
+    + void reject()
+}
+
+class Shift {
+    - int id
+    - LocalDate date
+    - LocalTime startTime
+    - LocalTime endTime
+
+    + Shift(int id, LocalDate date, LocalTime startTime, LocalTime endTime)
+}
+
+class ShiftRequest {
+    - int id
+    - ShiftStatus status
+    - boolean taken
+    - Employee assignedTo
+
+    + ShiftRequest(int id)
+
+    + ShiftStatus getStatus()
+    + void approve(Employee employee)
+    + void reject()
+}
+
+class Message {
+    - int id
+    - String content
+    - LocalDateTime sentAt
+
+    + Message(int id, String content)
+
+    + String getContent()
+}
+
+class Announcement {
+    - int id
+    - String title
+    - String content
+    - LocalDateTime lastUpdated
+
+    + Announcement(int id, String title, String content)
+
+    + void updateContent(String content)
+}
+
+User -- Responsibility : has
+User -- Holiday : requests
+User -- ShiftRequest : responds
+Shift -- ShiftRequest
+User -- Message : sends
+User -- Message : receives
+User -- Announcement : writes
+
+@enduml

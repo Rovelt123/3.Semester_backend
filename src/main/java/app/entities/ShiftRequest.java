@@ -1,0 +1,40 @@
+package app.entities;
+
+import app.enums.ShiftStatus;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class ShiftRequest {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Enumerated(EnumType.STRING)
+    private ShiftStatus status = ShiftStatus.NO_RESPONSE;
+
+    @ManyToOne
+    private User requester;
+
+    @ManyToOne
+    private Shift shift;
+
+    public ShiftRequest() {}
+
+    public ShiftRequest(User user, Shift shift) {
+        this.requester = user;
+        this.shift = shift;
+    }
+
+    public void approve() {
+        status = ShiftStatus.APPROVED;
+    }
+
+    public void reject() {
+        status = ShiftStatus.REJECTED;
+    }
+}
