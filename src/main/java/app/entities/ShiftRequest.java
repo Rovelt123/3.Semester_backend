@@ -17,10 +17,10 @@ public class ShiftRequest {
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.NO_RESPONSE;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User requester;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Shift shift;
 
     public ShiftRequest() {}

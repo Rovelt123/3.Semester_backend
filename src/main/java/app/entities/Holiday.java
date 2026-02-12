@@ -22,7 +22,7 @@ public class Holiday {
     @Enumerated(EnumType.STRING)
     private HolidayStatus status = HolidayStatus.PENDING;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     protected Holiday() {}

@@ -24,7 +24,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_responsibility",
             joinColumns = @JoinColumn(name = "user_id"),
