@@ -5,6 +5,7 @@ import app.entities.Shift;
 import app.entities.ShiftRequest;
 import app.entities.User;
 import app.enums.Role;
+import app.services.HolidayAPIService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.*;
@@ -56,19 +57,19 @@ class ShiftDAOTest {
 
     @Test
     void create() {
-        Shift shift = new Shift(testUser.getId(), LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        Shift shift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift);
 
-        Shift found = shiftDAO.getById(shift.getId()).orElse(null);
+        Shift found = shiftDAO.getById(shift.getId());
 
         assertNotNull(found);
     }
 
     @Test
     void getAll() {
-        Shift shift1 = new Shift(testUser.getId(), LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        Shift shift1 = new Shift("Shift1", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift1);
-        Shift shift2 = new Shift(testUser.getId(), LocalDate.now().plusDays(2), LocalTime.now(), LocalTime.now().plusHours(2));
+        Shift shift2 = new Shift("Shift2", testUser, LocalDate.now().plusDays(2), LocalTime.now(), LocalTime.now().plusHours(2));
         shiftDAO.create(shift2);
 
         List<Shift> shifts = shiftDAO.getAll();
@@ -79,10 +80,10 @@ class ShiftDAOTest {
 
     @Test
     void getById() {
-        Shift shift = new Shift(testUser.getId(), LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        Shift shift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift);
 
-        Shift found = shiftDAO.getById(shift.getId()).orElse(null);
+        Shift found = shiftDAO.getById(shift.getId());
 
         assertNotNull(found);
         assertEquals(shift.getId(), found.getId());
@@ -90,14 +91,14 @@ class ShiftDAOTest {
 
     @Test
     void update() {
-        Shift shift = new Shift(testUser.getId(), LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        Shift shift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift);
 
         LocalDate newDate = LocalDate.now().plusDays(10);
         shift.setDate(newDate);
         shiftDAO.update(shift);
 
-        Shift found = shiftDAO.getById(shift.getId()).orElse(null);
+        Shift found = shiftDAO.getById(shift.getId());
 
         assertNotNull(found);
         assertEquals(newDate, shift.getDate());
@@ -105,13 +106,33 @@ class ShiftDAOTest {
 
     @Test
     void delete() {
-        Shift shift = new Shift(testUser.getId(), LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        Shift shift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift);
 
         Integer id = shift.getId();
-        shiftDAO.delete(id);
+        shiftDAO.deleteById(id);
 
-        assertTrue(shiftDAO.getById(id).isEmpty());
+        assertNull(shiftDAO.getById(id));
 
+    }
+
+    @Test
+    void createShiftOnHoliday() {
+        HolidayAPIService holidayAPIService = new HolidayAPIService();
+        holidayAPIService.loadHolidays(2026);
+        LocalDate holiday = LocalDate.of(2026, 12, 25);
+
+        Shift shift = new Shift("Work shift", testUser, holiday, LocalTime.of(8,0), LocalTime.of(16,0));
+
+        if (holidayAPIService.isHoliday(holiday)) {
+            String name = holidayAPIService.getHoliday(holiday);
+            shift.setTitle("FRI: " + name);
+        }
+        shiftDAO.create(shift);
+
+        Shift found = shiftDAO.getById(shift.getId());
+
+        assertNotNull(found);
+        assertEquals("FRI: Juledag / 1. juledag",found.getTitle());
     }
 }

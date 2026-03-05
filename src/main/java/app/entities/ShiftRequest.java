@@ -25,14 +25,20 @@ public class ShiftRequest {
 
     public ShiftRequest() {}
 
+    // ________________________________________________________
+
     public ShiftRequest(User user, Shift shift) {
         this.requester = user;
         this.shift = shift;
     }
 
+    // ________________________________________________________
+
     public void approve() {
         status = ShiftStatus.APPROVED;
     }
+
+    // ________________________________________________________
 
     public void reject() {
         status = ShiftStatus.REJECTED;

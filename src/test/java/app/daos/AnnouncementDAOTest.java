@@ -51,7 +51,7 @@ class AnnouncementDAOTest {
         Announcement announcement = new Announcement(testUser, "Title", "Content");
         announcementDAO.create(announcement);
 
-        Announcement found = announcementDAO.getById(announcement.getId()).orElseThrow();
+        Announcement found = announcementDAO.getById(announcement.getId());
         assertEquals("Title", found.getTitle());
         assertEquals("Content", found.getContent());
         assertEquals(testUser.getId(), found.getAuthor().getId());
@@ -76,7 +76,7 @@ class AnnouncementDAOTest {
         announcement.updateContent("New Content");
         announcementDAO.update(announcement);
 
-        Announcement updated = announcementDAO.getById(announcement.getId()).orElseThrow();
+        Announcement updated = announcementDAO.getById(announcement.getId());
         assertEquals("New Content", updated.getContent());
     }
 
@@ -86,7 +86,7 @@ class AnnouncementDAOTest {
         announcementDAO.create(announcement);
 
         int id = announcement.getId();
-        announcementDAO.delete(id);
-        assertTrue(announcementDAO.getById(id).isEmpty());
+        announcementDAO.deleteById(id);
+        assertNull(announcementDAO.getById(id));
     }
 }

@@ -55,10 +55,10 @@ class MessageDAOTest {
         Message message = new Message(testUser, "Hello world");
         messageDAO.create(message);
 
-        Optional<Message> found = messageDAO.getById(message.getId());
-        assertTrue(found.isPresent());
-        assertEquals("Hello world", found.get().getContent());
-        assertEquals(testUser.getId(), found.get().getSender().getId());
+        Message found = messageDAO.getById(message.getId());
+        assertNotNull(found);
+        assertEquals("Hello world", found.getContent());
+        assertEquals(testUser.getId(), found.getSender().getId());
     }
 
     @Test
@@ -80,7 +80,7 @@ class MessageDAOTest {
         message.setContent("New Content");
         messageDAO.update(message);
 
-        Message updated = messageDAO.getById(message.getId()).orElseThrow();
+        Message updated = messageDAO.getById(message.getId());
         assertEquals("New Content", updated.getContent());
     }
 
@@ -90,7 +90,7 @@ class MessageDAOTest {
         messageDAO.create(message);
 
         int id = message.getId();
-        messageDAO.delete(id);
-        assertTrue(messageDAO.getById(id).isEmpty());
+        messageDAO.deleteById(id);
+        assertNull(messageDAO.getById(id));
     }
 }

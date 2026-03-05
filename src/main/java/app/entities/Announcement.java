@@ -24,11 +24,15 @@ public class Announcement {
 
     protected Announcement() {}
 
+    // ________________________________________________________
+
     public Announcement(User author, String title, String content) {
         this.author = author;
         this.title = title;
         this.content = content;
     }
+
+    // ________________________________________________________
 
     public void updateContent(String content) {
         this.content = content;

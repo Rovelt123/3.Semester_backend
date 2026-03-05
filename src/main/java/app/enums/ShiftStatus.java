@@ -1,17 +1,23 @@
 package app.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ShiftStatus {
     NO_RESPONSE("NO RESPONSE"),
     APPROVED("APPROVED"),
     REJECTED("REJECTED");
 
+    // ________________________________________________________
+
     private final String displayName;
+
+    // ________________________________________________________
 
     ShiftStatus(String displayName) {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
+    // ________________________________________________________
+
 }

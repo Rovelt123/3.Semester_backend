@@ -69,7 +69,7 @@ class UserDAOTest {
         User user = new User("Find Me", Role.USER);
         userDAO.create(user);
 
-        User found = userDAO.getById(user.getId()).orElse(null);
+        User found = userDAO.getById(user.getId());
 
         assertNotNull(found);
         assertEquals("Find Me", found.getName());
@@ -85,7 +85,7 @@ class UserDAOTest {
         user.setRole(Role.CHEF);
         userDAO.update(user);
 
-        User updated = userDAO.getById(user.getId()).orElse(null);
+        User updated = userDAO.getById(user.getId());
 
         assertEquals("New Name", updated.getName());
         assertEquals("Chefen", updated.getRole().getDisplayName());
@@ -97,9 +97,9 @@ class UserDAOTest {
         userDAO.create(user);
 
         Integer id = user.getId();
-        userDAO.delete(id);
+        userDAO.deleteById(id);
 
-        assertTrue(userDAO.getById(id).isEmpty());
+        assertNull(userDAO.getById(id));
     }
 
     @Test
@@ -113,7 +113,7 @@ class UserDAOTest {
 
         userDAO.addResponsibilityToUser(user, planner);
 
-        User updatedUser = userDAO.getById(user.getId()).orElseThrow();
+        User updatedUser = userDAO.getById(user.getId());
         assertEquals(1, updatedUser.getResponsibilities().size());
         assertEquals("Planning holidays", updatedUser.getResponsibilities().get(0).getName());
     }
@@ -129,12 +129,12 @@ class UserDAOTest {
         userDAO.addResponsibilityToUser(user, planner);
         userDAO.addResponsibilityToUser(user, cashier);
 
-        User beforeRemoval = userDAO.getById(user.getId()).orElseThrow();
+        User beforeRemoval = userDAO.getById(user.getId());
         assertEquals(2, beforeRemoval.getResponsibilities().size());
 
         userDAO.removeResponsibilityFromUser(user, planner);
 
-        User afterRemoval = userDAO.getById(user.getId()).orElseThrow();
+        User afterRemoval = userDAO.getById(user.getId());
         assertEquals(1, afterRemoval.getResponsibilities().size());
     }
 

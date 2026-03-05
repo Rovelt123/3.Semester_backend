@@ -8,11 +8,8 @@ import app.enums.Role;
 import app.enums.ShiftStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.*;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -44,7 +41,7 @@ class ShiftRequestDAOTest {
         testUser = new User("Test User", Role.USER);
         userDAO.create(testUser);
 
-        testShift = new Shift(1, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
+        testShift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(testShift);
     }
 
@@ -67,7 +64,7 @@ class ShiftRequestDAOTest {
         ShiftRequest shiftRequest = new ShiftRequest(testUser, testShift);
         shiftRequestDAO.create(shiftRequest);
 
-        ShiftRequest found = shiftRequestDAO.getById(shiftRequest.getId()).orElse(null);
+        ShiftRequest found = shiftRequestDAO.getById(shiftRequest.getId());
         assertNotNull(found);
         assertEquals(testUser.getId(), found.getRequester().getId());
         assertEquals(testShift.getId(), found.getShift().getId());
@@ -90,7 +87,7 @@ class ShiftRequestDAOTest {
         ShiftRequest shiftRequest = new ShiftRequest(testUser, testShift);
         shiftRequestDAO.create(shiftRequest);
 
-        ShiftRequest found = shiftRequestDAO.getById(shiftRequest.getId()).orElse(null);
+        ShiftRequest found = shiftRequestDAO.getById(shiftRequest.getId());
         assertNotNull(found);
         assertEquals(shiftRequest.getId(), found.getId());
     }
@@ -104,7 +101,7 @@ class ShiftRequestDAOTest {
         shiftRequest.setStatus(ShiftStatus.APPROVED);
         shiftRequestDAO.update(shiftRequest);
 
-        ShiftRequest updated = shiftRequestDAO.getById(shiftRequest.getId()).orElse(null);
+        ShiftRequest updated = shiftRequestDAO.getById(shiftRequest.getId());
         assertNotNull(updated);
         assertEquals("APPROVED", updated.getStatus().getDisplayName());
     }
@@ -115,8 +112,8 @@ class ShiftRequestDAOTest {
         shiftRequestDAO.create(shiftRequest);
 
         Integer id = shiftRequest.getId();
-        shiftRequestDAO.delete(id);
+        shiftRequestDAO.deleteById(id);
 
-        assertTrue(shiftRequestDAO.getById(id).isEmpty());
+        assertNull(shiftRequestDAO.getById(id));
     }
 }

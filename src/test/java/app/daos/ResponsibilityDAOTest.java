@@ -49,9 +49,9 @@ class ResponsibilityDAOTest {
         Responsibility responsibility = new Responsibility(Responsibilities.PLANNER.getDisplayName());
         responsibilityDAO.create(responsibility);
 
-        Optional<Responsibility> found = responsibilityDAO.getById(responsibility.getId());
-        assertTrue(found.isPresent());
-        assertEquals(Responsibilities.PLANNER.getDisplayName(), found.get().getName());
+        Responsibility found = responsibilityDAO.getById(responsibility.getId());
+        assertNotNull(found);
+        assertEquals(Responsibilities.PLANNER.getDisplayName(), found.getName());
     }
 
     @Test
@@ -71,9 +71,9 @@ class ResponsibilityDAOTest {
         Responsibility responsibility = new Responsibility(Responsibilities.RECEPTUR.getDisplayName());
         responsibilityDAO.create(responsibility);
 
-        Optional<Responsibility> found = responsibilityDAO.getById(responsibility.getId());
-        assertTrue(found.isPresent());
-        assertEquals(Responsibilities.RECEPTUR.getDisplayName(), found.get().getName());
+        Responsibility found = responsibilityDAO.getById(responsibility.getId());
+        assertNotNull(found);
+        assertEquals(Responsibilities.RECEPTUR.getDisplayName(), found.getName());
     }
 
     @Test
@@ -85,9 +85,9 @@ class ResponsibilityDAOTest {
         responsibility.setName(Responsibilities.CASHIER.getDisplayName());
         responsibilityDAO.update(responsibility);
 
-        Optional<Responsibility> updated = responsibilityDAO.getById(responsibility.getId());
-        assertTrue(updated.isPresent());
-        assertEquals(Responsibilities.CASHIER.getDisplayName(), updated.get().getName());
+        Responsibility updated = responsibilityDAO.getById(responsibility.getId());
+        assertNotNull(updated);
+        assertEquals(Responsibilities.CASHIER.getDisplayName(), updated.getName());
     }
 
     @Test
@@ -96,10 +96,10 @@ class ResponsibilityDAOTest {
         responsibilityDAO.create(responsibility);
 
         Integer id = responsibility.getId();
-        responsibilityDAO.delete(id);
+        responsibilityDAO.deleteById(id);
 
-        Optional<Responsibility> deleted = responsibilityDAO.getById(id);
-        assertTrue(deleted.isEmpty());
+        Responsibility deleted = responsibilityDAO.getById(id);
+        assertNull(deleted);
     }
 
     @Test

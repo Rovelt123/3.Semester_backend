@@ -32,16 +32,32 @@ public class User {
     )
     private List<Responsibility> responsibilities = new ArrayList<>();
 
-    protected User() {}
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Holiday> holidays = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Shift> shifts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Announcement> announcements = new ArrayList<>();
+
+
+    public User() {}
+
+    // ________________________________________________________
 
     public User(String name, Role role) {
         this.name = name;
         this.role = role;
     }
 
+    // ________________________________________________________
+
     public void addResponsibility(Responsibility r) {
         responsibilities.add(r);
     }
+
+    // ________________________________________________________
 
     public void removeResponsibility(Responsibility r) {
         responsibilities.remove(r);

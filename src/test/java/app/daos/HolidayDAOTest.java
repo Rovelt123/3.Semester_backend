@@ -53,7 +53,7 @@ class HolidayDAOTest {
         Holiday holiday = new Holiday(testUser, LocalDate.now(), LocalDate.now().plusDays(5));
         holidayDAO.create(holiday);
 
-        Holiday found = holidayDAO.getById(holiday.getId()).orElseThrow();
+        Holiday found = holidayDAO.getById(holiday.getId());
         assertEquals(testUser.getId(), found.getUser().getId());
         assertEquals(HolidayStatus.PENDING, found.getStatus());
     }
@@ -77,7 +77,7 @@ class HolidayDAOTest {
         holiday.approve();
         holidayDAO.update(holiday);
 
-        Holiday updated = holidayDAO.getById(holiday.getId()).orElseThrow();
+        Holiday updated = holidayDAO.getById(holiday.getId());
         assertEquals(HolidayStatus.APPROVED, updated.getStatus());
     }
 
@@ -87,7 +87,7 @@ class HolidayDAOTest {
         holidayDAO.create(holiday);
 
         int id = holiday.getId();
-        holidayDAO.delete(id);
-        assertTrue(holidayDAO.getById(id).isEmpty());
+        holidayDAO.deleteById(id);
+        assertNull(holidayDAO.getById(id));
     }
 }

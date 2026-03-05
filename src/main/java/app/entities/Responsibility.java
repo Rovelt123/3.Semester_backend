@@ -19,6 +19,8 @@ public class Responsibility {
 
     public Responsibility() {}
 
+    // ________________________________________________________
+
     public Responsibility(String name) {
         this.name = name;
     }

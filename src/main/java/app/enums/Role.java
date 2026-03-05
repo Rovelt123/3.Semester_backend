@@ -1,16 +1,22 @@
 package app.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
     USER("Medarbejder"),
-    CHEF("Chefen");
+    CHEF("Chef");
+
+    // ________________________________________________________
 
     private final String displayName;
+
+    // ________________________________________________________
 
     Role(String displayName) {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
+    // ________________________________________________________
+
 }

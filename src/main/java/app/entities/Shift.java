@@ -1,9 +1,6 @@
 package app.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,17 +16,23 @@ public class Shift {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int owner;
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User owner;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public Shift(int owner, LocalDate date, LocalTime now, LocalTime localTime) {
+    public Shift(String title, User owner, LocalDate date, LocalTime now, LocalTime localTime) {
+        this.title = title;
         this.owner = owner;
         this.date = date;
         this.startTime = now;
         this.endTime = localTime;
     }
+
+    // ________________________________________________________
 
     public Shift() {
 

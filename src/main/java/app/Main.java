@@ -1,17 +1,20 @@
 package app;
 
-import app.configs.HibernateConfig;
-import app.entities.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
+import app.Server.Setup;
+import app.configs.*;
 
 public class Main {
+
     public static Setup setup;
+    private static final int port = 7070;
+
 
     public static void main(String[] args) {
-        setup = new Setup(app.configs.HibernateConfig.getEntityManagerFactory().createEntityManager());
+        setup = new Setup(HibernateConfig.getEntityManagerFactory().createEntityManager(), port);
         setup.initialize();
-        setup.endSession();
+
+
+        //setup.endSession();
     }
 
 }

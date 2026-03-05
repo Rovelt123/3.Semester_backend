@@ -33,9 +33,13 @@ public class Holiday {
         this.endDate = end;
     }
 
+    // ________________________________________________________
+
     public void approve() {
         status = HolidayStatus.APPROVED;
     }
+
+    // ________________________________________________________
 
     public void reject() {
         status = HolidayStatus.REJECTED;

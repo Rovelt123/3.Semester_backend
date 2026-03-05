@@ -23,6 +23,8 @@ public class Message {
 
     protected Message() {}
 
+    // ________________________________________________________
+
     public Message(User sender, String content) {
         this.sender = sender;
         this.content = content;
