@@ -37,52 +37,46 @@ public class ShiftController {
         app.post("/updateHolidays", ShiftController::updateHolidays);
         app.get("/shifts", ShiftController::getAll);
         app.get("/shifts/{id}", ShiftController::getByID);
+
+        app.get("/shifts/user/{user_id}", ShiftController::getShiftsByUserID);
+        app.get("/shifts/date/{date}", ShiftController::getShiftsByDate);
     }
 
     // ________________________________________________________
 
     public static void createShift(Context ctx) {
-        String id = ctx.pathParam("id");
-        String dateString = ctx.pathParam("date");
-        try {
-            User user = userDao.getById(id);
-            String title = ctx.pathParam("title");
-            LocalDate date = LocalDate.parse(ctx.pathParam("date"));
-            LocalTime startTime = LocalTime.parse(ctx.pathParam("startTime"));
-            LocalTime endTime = LocalTime.parse(ctx.pathParam("endTime"));
+        ShiftDTO shift = createShift(
+                ctx,
+                ctx.pathParam("user_id"),
+                ctx.pathParam("title"),
+                ctx.pathParam("date"),
+                ctx.pathParam("start_time"),
+                ctx.pathParam("end_time")
+        );
 
-            Shift shift = new Shift(title, user, date, startTime, endTime);
 
-            if (holidayService.isHoliday(shift.getDate())) {
-                String holiday = holidayService.getHoliday(shift.getDate());
-                shift.setTitle("FRI: " + holiday);
-            }
+        String message = MessageService.buildMessage(
+            Notifications.SHIFT_CREATED,
+            shift.getUser().getName(),
+            shift.getDate().toString(),
+            shift.getStartTime().toString(),
+            shift.getEndTime().toString()
+        );
 
-            Shift created = shiftDao.create(shift);
+        MessageService.notify(message);
 
-            String message = MessageService.buildMessage(
-                    Notifications.SHIFT_CREATED,
-                    created.getOwner().getName(),
-                    created.getDate().toString(),
-                    created.getStartTime().toString(),
-                    created.getEndTime().toString()
-            );
+        ctx.status(201).json(Map.of(
+        "message", message,
+        "shift", shift
+        ));
+    }
 
-            MessageService.notify(message);
-
-            ctx.status(201).json(Map.of(
-                    "message", message,
-                    "shift", created
-            ));
-        } catch (NumberFormatException e) {
-            String message = MessageService.buildMessage(Notifications.MUST_BE_INT, id);
-            MessageService.notify(message);
-            ctx.status(500).json(message);
-        } catch (DateTimeParseException e) {
-            String message = MessageService.buildMessage(Notifications.MUST_BE_DATE_FORMAT, dateString);
-            MessageService.notify(message);
-            ctx.status(500).json(message);
-        }
+    public static void createSchedule(Context ctx) {
+        //TODO: Skal lave, så man kan planlægge:
+        // 1.) Så man kan ligge dage ind som fri
+        // 2.) Have forskellige mødetidspunkter på forskellige dage
+        // 3.) Indsætte perioden for skema planlægningen ind - Eksempelvis, at den skal
+        // oprette vagter automatisk for 6 månder frem.
     }
 
     // ________________________________________________________
@@ -227,9 +221,83 @@ public class ShiftController {
         }
     }
 
+    // ________________________________________________________
+
+    public static void getShiftsByUserID(Context ctx) {
+
+        String userId = ctx.pathParam("user_id");
+
+        List<ShiftDTO> shifts = new ArrayList<>();
+
+        shiftDao.getShiftsByUserId(userId).forEach(shift -> {
+            shifts.add(convertDTO(shift));
+        });
+
+        ctx.status(200).json(shifts);
+    }
+
+    // ________________________________________________________
+
+    public static void getShiftsByDate(Context ctx) {
+
+        try {
+
+            LocalDate date = LocalDate.parse(ctx.pathParam("date"));
+
+            List<ShiftDTO> shifts = new ArrayList<>();
+
+            shiftDao.getShiftsByDate(date).forEach(shift -> {
+                shifts.add(convertDTO(shift));
+            });
+
+            ctx.status(200).json(shifts);
+
+        } catch (DateTimeParseException e) {
+
+            String message = MessageService.buildMessage(
+                    Notifications.MUST_BE_DATE_FORMAT,
+                    ctx.pathParam("date")
+            );
+
+            MessageService.sendError(message);
+            ctx.status(400).json(message);
+        }
+    }
+
+    // ________________________________________________________
 
     public static ShiftDTO convertDTO(Shift shift) {
         return new ShiftDTO(shift);
+    }
+
+    public static ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
+
+        try {
+            User user = userDao.getById(id);
+            LocalDate date = LocalDate.parse(sDate);
+            LocalTime startTime = LocalTime.parse(sStartTime);
+            LocalTime endTime = LocalTime.parse(sEndTime);
+
+            Shift shift = new Shift(title, user, date, startTime, endTime);
+
+            if (holidayService.isHoliday(shift.getDate())) {
+                String holiday = holidayService.getHoliday(shift.getDate());
+                shift.setTitle("FRI: " + holiday);
+            }
+
+            Shift created = shiftDao.create(shift);
+
+            return convertDTO(created);
+        } catch (NumberFormatException e) {
+            String message = MessageService.buildMessage(Notifications.MUST_BE_INT, id);
+            MessageService.notify(message);
+            ctx.status(500).json(message);
+        } catch (DateTimeParseException e) {
+            String message = MessageService.buildMessage(Notifications.MUST_BE_DATE_FORMAT, sDate);
+            MessageService.notify(message);
+            ctx.status(500).json(message);
+        }
+        return null;
     }
 
 }

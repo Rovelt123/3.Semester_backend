@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Setter
 public class ShiftDTO {
     private int id;
+    private String title;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -20,6 +21,7 @@ public class ShiftDTO {
 
     public ShiftDTO(Shift shift) {
         this.id = shift.getId();
+        this.title = shift.getTitle();
         this.date = shift.getDate();
         this.startTime = shift.getStartTime();
         this.endTime = shift.getEndTime();
