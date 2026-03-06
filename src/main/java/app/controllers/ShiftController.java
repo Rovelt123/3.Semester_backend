@@ -4,6 +4,8 @@ import app.Main;
 import app.daos.ShiftDAO;
 import app.daos.UserDAO;
 import app.dtos.ShiftDTO;
+import app.dtos.schedule.DayScheduleDTO;
+import app.dtos.schedule.ScheduleDTO;
 import app.entities.Shift;
 import app.entities.User;
 import app.enums.Notifications;
@@ -31,13 +33,21 @@ public class ShiftController {
 
 
     public static void registerRoutes(Javalin app) {
-        app.post("/shifts", ShiftController::createShift);
-        app.delete("/shifts/{id}", ShiftController::deleteShift);
-        app.put("/shifts", ShiftController::updateShift);
+
+        //POST
         app.post("/updateHolidays", ShiftController::updateHolidays);
+        app.post("/shifts", ShiftController::createShift);
+        app.post("/schedules", ShiftController::createSchedule);
+
+        //DELETE
+        app.delete("/shifts/{id}", ShiftController::deleteShift);
+
+        //PUT
+        app.put("/shifts", ShiftController::updateShift);
+
+        //GET
         app.get("/shifts", ShiftController::getAll);
         app.get("/shifts/{id}", ShiftController::getByID);
-
         app.get("/shifts/user/{user_id}", ShiftController::getShiftsByUserID);
         app.get("/shifts/date/{date}", ShiftController::getShiftsByDate);
     }
@@ -71,12 +81,74 @@ public class ShiftController {
         ));
     }
 
+    // ________________________________________________________
+
+    //TODO: Skal lave, så man kan planlægge:
+    // 1.) Så man kan ligge dage ind som fri
+    // 2.) Have forskellige mødetidspunkter på forskellige dage
+    // 3.) Indsætte perioden for skema planlægningen ind - Eksempelvis, at den skal
+    // oprette vagter automatisk for 6 månder frem.
     public static void createSchedule(Context ctx) {
-        //TODO: Skal lave, så man kan planlægge:
-        // 1.) Så man kan ligge dage ind som fri
-        // 2.) Have forskellige mødetidspunkter på forskellige dage
-        // 3.) Indsætte perioden for skema planlægningen ind - Eksempelvis, at den skal
-        // oprette vagter automatisk for 6 månder frem.
+        ScheduleDTO schedule = ctx.bodyAsClass(ScheduleDTO.class);
+
+        User user = userDao.getById(schedule.getUser_id());
+        int months = schedule.getMonths();
+
+        LocalDate today = LocalDate.now();
+        LocalDate endDate = today.plusMonths(months);
+
+        List<ShiftDTO> createdShifts = new ArrayList<>();
+
+        for(LocalDate date = today; date.isBefore(endDate); date = date.plusDays(1)) {
+
+            DayScheduleDTO day = switch (date.getDayOfWeek()) {
+
+                case MONDAY -> schedule.getMonday();
+                case TUESDAY -> schedule.getTuesday();
+                case WEDNESDAY -> schedule.getWednesday();
+                case THURSDAY -> schedule.getThursday();
+                case FRIDAY -> schedule.getFriday();
+                case SATURDAY -> schedule.getSaturday();
+                case SUNDAY -> schedule.getSunday();
+
+            };
+
+            if(day == null || day.isOffDay()) {
+                continue;
+            }
+
+            ShiftDTO shift = createShift(
+                    ctx,
+                    String.valueOf(user.getId()),
+                    day.getTitle(),
+                    date.toString(),
+                    day.getStart_time(),
+                    day.getEnd_time()
+            );
+
+            if(shift != null){
+                createdShifts.add(shift);
+            }
+        }
+
+        String message = MessageService.buildMessage(
+            Notifications.SCHEDULE_CREATED,
+            user.getName(),
+            formatDay(schedule.getMonday()),
+            formatDay(schedule.getTuesday()),
+            formatDay(schedule.getWednesday()),
+            formatDay(schedule.getThursday()),
+            formatDay(schedule.getFriday()),
+            formatDay(schedule.getSaturday()),
+            formatDay(schedule.getSunday())
+        );
+
+        MessageService.notify(message);
+
+        ctx.status(201).json(Map.of(
+        "message", message,
+        "schedule", createdShifts
+        ));
     }
 
     // ________________________________________________________
@@ -270,6 +342,8 @@ public class ShiftController {
         return new ShiftDTO(shift);
     }
 
+    // ________________________________________________________
+
     public static ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
 
         try {
@@ -298,6 +372,17 @@ public class ShiftController {
             ctx.status(500).json(message);
         }
         return null;
+    }
+
+    // ________________________________________________________
+
+    private static String formatDay(DayScheduleDTO day){
+
+        if(day == null || day.isOffDay()){
+            return "FRI";
+        }
+
+        return day.getStart_time() + "-" + day.getEnd_time();
     }
 
 }
