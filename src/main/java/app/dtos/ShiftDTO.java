@@ -16,14 +16,15 @@ public class ShiftDTO {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private String firstName;
+    private UserDTO user;
 
     public ShiftDTO(Shift shift) {
         this.id = shift.getId();
         this.date = shift.getDate();
         this.startTime = shift.getStartTime();
         this.endTime = shift.getEndTime();
-        this.firstName = shift.getOwner().getName();
+        this.user = new UserDTO(shift.getOwner());
+
     }
 }
 

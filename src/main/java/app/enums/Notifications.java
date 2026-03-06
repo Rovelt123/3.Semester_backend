@@ -12,7 +12,8 @@ public enum Notifications {
     SHIFT_UPDATED("Shift with ID: %s got updated:\n USER: %s \nTitle: %s \nDate: %s \nTime: %s - %s"),
     SHIFT_GET_ALL("You fetched %s shifts"),
     SHIFT_GET_BY_ID("You fetched shift with id %s"),
-    CLASS_IS_NULL("Class %s is null!")
+    CLASS_IS_NULL("Class %s is null!"),
+    MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
     ;
 
     // ________________________________________________________

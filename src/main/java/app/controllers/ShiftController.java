@@ -2,22 +2,30 @@ package app.controllers;
 
 import app.Main;
 import app.daos.ShiftDAO;
+import app.daos.UserDAO;
 import app.dtos.ShiftDTO;
 import app.entities.Shift;
+import app.entities.User;
 import app.enums.Notifications;
 import app.services.HolidayAPIService;
 import app.services.MessageService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DataFormatException;
 
 
 public class ShiftController {
 
     private static final HolidayAPIService holidayService = new HolidayAPIService();
     private static final ShiftDAO shiftDao = Main.setup.getShiftDAO();
+    private static final UserDAO userDao = Main.setup.getUserDAO();
 
     // ________________________________________________________
 
@@ -34,27 +42,47 @@ public class ShiftController {
     // ________________________________________________________
 
     public static void createShift(Context ctx) {
+        String id = ctx.pathParam("id");
+        String dateString = ctx.pathParam("date");
+        try {
+            User user = userDao.getById(id);
+            String title = ctx.pathParam("title");
+            LocalDate date = LocalDate.parse(ctx.pathParam("date"));
+            LocalTime startTime = LocalTime.parse(ctx.pathParam("startTime"));
+            LocalTime endTime = LocalTime.parse(ctx.pathParam("endTime"));
 
-        Shift shift = ctx.bodyAsClass(Shift.class);
+            Shift shift = new Shift(title, user, date, startTime, endTime);
 
-        if (holidayService.isHoliday(shift.getDate())) {
-            String holiday = holidayService.getHoliday(shift.getDate());
-            shift.setTitle("FRI: " + holiday);
+            if (holidayService.isHoliday(shift.getDate())) {
+                String holiday = holidayService.getHoliday(shift.getDate());
+                shift.setTitle("FRI: " + holiday);
+            }
+
+            Shift created = shiftDao.create(shift);
+
+            String message = MessageService.buildMessage(
+                    Notifications.SHIFT_CREATED,
+                    created.getOwner().getName(),
+                    created.getDate().toString(),
+                    created.getStartTime().toString(),
+                    created.getEndTime().toString()
+            );
+
+            MessageService.notify(message);
+
+            ctx.status(201).json(Map.of(
+                    "message", message,
+                    "shift", created
+            ));
+        } catch (NumberFormatException e) {
+            String message = MessageService.buildMessage(Notifications.MUST_BE_INT, id);
+            MessageService.notify(message);
+            ctx.status(500).json(message);
+        } catch (DateTimeParseException e) {
+            String message = MessageService.buildMessage(Notifications.MUST_BE_DATE_FORMAT, dateString);
+            MessageService.notify(message);
+            ctx.status(500).json(message);
         }
-
-        Shift created = shiftDao.create(shift);
-
-        String message = MessageService.buildMessage(
-                Notifications.SHIFT_CREATED,
-                created.getOwner().getName(),
-                created.getDate().toString(),
-                created.getStartTime().toString(),
-                created.getEndTime().toString()
-        );
-
-        MessageService.notify(message);
-
-        ctx.status(201).json(created);
     }
 
     // ________________________________________________________
@@ -90,9 +118,9 @@ public class ShiftController {
     // ________________________________________________________
 
     public static void updateShift(Context ctx) {
-
+        String id = ctx.pathParam("id");
         try {
-            Shift shift = ctx.bodyAsClass(Shift.class);
+            Shift shift = shiftDao.getById(Integer.parseInt(id));
 
             Shift updated = shiftDao.update(shift);
 
@@ -114,10 +142,12 @@ public class ShiftController {
 
             MessageService.notify(message);
 
-            ctx.status(201).json(updated);
+            ctx.status(201).json(convertDTO(updated));
 
-        } catch (Exception e) {
-            ctx.status(400).json(e.getMessage());
+        } catch (NumberFormatException e) {
+            String message = MessageService.buildMessage(Notifications.MUST_BE_INT, id);
+            MessageService.notify(message);
+            ctx.status(500).json(message);
         }
     }
 
@@ -144,7 +174,7 @@ public class ShiftController {
                     created.getEndTime().toString()
             );
             MessageService.notify(message);
-            ctx.status(201).json(created);
+            ctx.status(201).json(convertDTO(created));
         } catch (Exception e) {
             String message = MessageService.buildMessage(Notifications.MUST_BE_INT, entered);
             MessageService.sendError(message);
@@ -156,7 +186,11 @@ public class ShiftController {
     // ________________________________________________________
 
     public static void getAll(Context ctx) {
-        List<Shift> shifts = shiftDao.getAll();
+        List<ShiftDTO> shifts = new ArrayList<>();
+
+        shiftDao.getAll().forEach(shift -> {
+           shifts.add(convertDTO(shift));
+        });
 
         String message = MessageService.buildMessage(
                 Notifications.SHIFT_GET_ALL,
