@@ -20,7 +20,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.DataFormatException;
 
 
 public class ShiftController {
@@ -35,7 +34,6 @@ public class ShiftController {
     public static void registerRoutes(Javalin app) {
 
         //POST
-        app.post("/updateHolidays", ShiftController::updateHolidays);
         app.post("/shifts", ShiftController::createShift);
         app.post("/schedules", ShiftController::createSchedule);
 
@@ -54,7 +52,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void createShift(Context ctx) {
+    private static void createShift(Context ctx) {
         ShiftDTO shift = createShift(
                 ctx,
                 ctx.pathParam("user_id"),
@@ -88,7 +86,7 @@ public class ShiftController {
     // 2.) Have forskellige mødetidspunkter på forskellige dage
     // 3.) Indsætte perioden for skema planlægningen ind - Eksempelvis, at den skal
     // oprette vagter automatisk for 6 månder frem.
-    public static void createSchedule(Context ctx) {
+    private static void createSchedule(Context ctx) {
         ScheduleDTO schedule = ctx.bodyAsClass(ScheduleDTO.class);
 
         User user = userDao.getById(schedule.getUser_id());
@@ -153,7 +151,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void deleteShift(Context ctx) {
+    private static void deleteShift(Context ctx) {
         String entered = ctx.pathParam("id");
         System.out.println(entered);
         try {
@@ -182,8 +180,8 @@ public class ShiftController {
     }
 
     // ________________________________________________________
-
-    public static void updateShift(Context ctx) {
+    //TODO: Insert values to be updated??
+    private static void updateShift(Context ctx) {
         String id = ctx.pathParam("id");
         try {
             Shift shift = shiftDao.getById(Integer.parseInt(id));
@@ -219,39 +217,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void updateHolidays(Context ctx) {
-        String entered = ctx.pathParam("shift_id");
-        try {
-            int id = Integer.parseInt(entered);
-            Shift shift = shiftDao.getById(id);
-
-            if (holidayService.isHoliday(shift.getDate())) {
-                String holiday = holidayService.getHoliday(shift.getDate());
-                shift.setTitle("FRI: " + holiday);
-            }
-
-            Shift created = shiftDao.create(shift);
-
-            String message = MessageService.buildMessage(
-                    Notifications.SHIFT_CREATED,
-                    created.getOwner().getName(),
-                    created.getDate().toString(),
-                    created.getStartTime().toString(),
-                    created.getEndTime().toString()
-            );
-            MessageService.notify(message);
-            ctx.status(201).json(convertDTO(created));
-        } catch (Exception e) {
-            String message = MessageService.buildMessage(Notifications.MUST_BE_INT, entered);
-            MessageService.sendError(message);
-            ctx.status(400).json(message);
-        }
-
-    }
-
-    // ________________________________________________________
-
-    public static void getAll(Context ctx) {
+    private static void getAll(Context ctx) {
         List<ShiftDTO> shifts = new ArrayList<>();
 
         shiftDao.getAll().forEach(shift -> {
@@ -269,7 +235,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void getByID(Context ctx) {
+    private static void getByID(Context ctx) {
 
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
@@ -295,7 +261,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void getShiftsByUserID(Context ctx) {
+    private static void getShiftsByUserID(Context ctx) {
 
         String userId = ctx.pathParam("user_id");
 
@@ -310,7 +276,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static void getShiftsByDate(Context ctx) {
+    private static void getShiftsByDate(Context ctx) {
 
         try {
 
@@ -338,13 +304,13 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    public static ShiftDTO convertDTO(Shift shift) {
+    private static ShiftDTO convertDTO(Shift shift) {
         return new ShiftDTO(shift);
     }
 
     // ________________________________________________________
 
-    public static ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
+    private static ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
 
         try {
             User user = userDao.getById(id);

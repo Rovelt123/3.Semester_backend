@@ -14,16 +14,18 @@ public enum Notifications {
     SHIFT_GET_BY_ID("You fetched shift with id %s"),
     CLASS_IS_NULL("Class %s is null!"),
     MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
-    SCHEDULE_CREATED(
-"You've created a schedule for: %s \n" +
-        "Monday: %s \n" +
-        "Tuesday: %s \n" +
-        "Wednesday: %s \n" +
-        "Thursday: %s \n" +
-        "Friday: %s \n" +
-        "Saturday: %s \n" +
-        "Sunday: %s"
+    SCHEDULE_CREATED("You've created a schedule for: %s \n" +
+        "Monday: %s \n" + "Tuesday: %s \n" + "Wednesday: %s \n" + "Thursday: %s \n" +
+        "Friday: %s \n" + "Saturday: %s \n" + "Sunday: %s"
     ),
+    USER_GET_BY_ID("You fetched user with id %s"),
+    USER_GET_ALL("You fetched %s shifts"),
+
+    SHIFTREQUEST_GET_BY_ID("You fetched request with id %s"),
+    SHIFTREQUEST_GET_ALL("You fetched %s requests"),
+
+    GET_ALL("You fetched %s %ss"),
+    GET_BY_ID("You fetched %s with ID: %s")
     ;
 
     // ________________________________________________________

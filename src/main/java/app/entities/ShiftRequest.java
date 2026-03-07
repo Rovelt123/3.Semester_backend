@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,7 +18,7 @@ public class ShiftRequest {
     private int id;
 
     @Enumerated(EnumType.STRING)
-    private ShiftStatus status = ShiftStatus.NO_RESPONSE;
+    private ShiftStatus status = ShiftStatus.WAITING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User requester;
@@ -23,24 +26,17 @@ public class ShiftRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     private Shift shift;
 
-    public ShiftRequest() {}
+    @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.ALL)
+    private List<Response> responses = new ArrayList<>();
 
-    // ________________________________________________________
+    public ShiftRequest() {}
 
     public ShiftRequest(User user, Shift shift) {
         this.requester = user;
         this.shift = shift;
     }
 
-    // ________________________________________________________
-
-    public void approve() {
-        status = ShiftStatus.APPROVED;
-    }
-
-    // ________________________________________________________
-
-    public void reject() {
-        status = ShiftStatus.REJECTED;
+    public void solve() {
+        status = ShiftStatus.SOLVED;
     }
 }

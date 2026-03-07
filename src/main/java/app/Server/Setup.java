@@ -20,6 +20,7 @@ public class Setup {
     private AnnouncementDAO announcementDAO;
     private ShiftRequestDAO shiftRequestDAO;
     private ShiftDAO shiftDAO;
+    private ResponseDAO responseDAO;
 
     // ________________________________________________________
 
@@ -45,6 +46,7 @@ public class Setup {
         announcementDAO = new AnnouncementDAO(em);
         shiftRequestDAO = new ShiftRequestDAO(em);
         shiftDAO = new ShiftDAO(em);
+        responseDAO = new ResponseDAO(em);
         TestData.generate();
         Routing.registerRoutes(app);
     }

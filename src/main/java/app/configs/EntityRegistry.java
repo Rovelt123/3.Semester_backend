@@ -15,6 +15,7 @@ final class EntityRegistry {
         configuration.addAnnotatedClass(Shift.class);
         configuration.addAnnotatedClass(ShiftRequest.class);
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Response.class);
         // TODO: Add more entities here...
     }
 }
