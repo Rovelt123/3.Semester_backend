@@ -80,10 +80,4 @@ public class UserController extends BaseController<User, UserDTO> {
         return userDAO.getById(id);
     }
 
-    // ________________________________________________________
-
-    private static UserDTO convertUserDTO(User user) {
-        return new UserDTO(user);
-    }
-
 }
