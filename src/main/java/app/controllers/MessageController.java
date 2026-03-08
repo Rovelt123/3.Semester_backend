@@ -26,7 +26,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
         //GET
         app.get("/messages", controller::getAll);
-        app.get("/message/id", controller::getByID);
+        app.get("/message/{id}", controller::getByID);
 
     }
 

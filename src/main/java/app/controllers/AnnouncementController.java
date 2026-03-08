@@ -26,7 +26,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         AnnouncementController controller = new AnnouncementController();
 
         app.get("/announcements", controller::getAll);
-        app.get("/annoucement/{id}", controller::getByID);
+        app.get("/announcement/{id}", controller::getByID);
     }
 
     // ________________________________________________________

@@ -12,17 +12,18 @@ import java.util.Map;
 public abstract class BaseController<T, DTO> implements IController {
 
     protected Class<T> entityClass;
-
     protected EntityMapper<T, DTO> mapper;
-
     protected abstract List<T> getAllEntities();
-
     protected abstract T getEntityById(int id);
+
+    // ________________________________________________________
 
     protected BaseController(Class<T> entityClass, EntityMapper<T, DTO> mapper) {
         this.entityClass = entityClass;
         this.mapper = mapper;
     }
+
+    // ________________________________________________________
 
     @Override
     public void getAll(Context ctx) {
@@ -41,8 +42,13 @@ public abstract class BaseController<T, DTO> implements IController {
 
         MessageService.notify(message);
 
-        ctx.status(200).json(list);
+        ctx.status(200).json(Map.of(
+                "Data", list,
+                "Message", message
+        ));
     }
+
+    // ________________________________________________________
 
     @Override
     public void getByID(Context ctx) {

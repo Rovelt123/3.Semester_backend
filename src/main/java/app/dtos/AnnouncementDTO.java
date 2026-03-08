@@ -2,9 +2,13 @@ package app.dtos;
 
 import app.entities.Announcement;
 import app.entities.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class AnnouncementDTO {
     private int id;
     private String title;
