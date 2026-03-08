@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.Main;
+import app.controllers.Generic.BaseController;
 import app.daos.ShiftDAO;
 import app.daos.UserDAO;
 import app.dtos.ShiftDTO;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ShiftController {
+public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private static final HolidayAPIService holidayService = new HolidayAPIService();
     private static final ShiftDAO shiftDao = Main.setup.getShiftDAO();
@@ -30,29 +31,37 @@ public class ShiftController {
 
     // ________________________________________________________
 
-
-    public static void registerRoutes(Javalin app) {
-
-        //POST
-        app.post("/shifts", ShiftController::createShift);
-        app.post("/schedules", ShiftController::createSchedule);
-
-        //DELETE
-        app.delete("/shifts/{id}", ShiftController::deleteShift);
-
-        //PUT
-        app.put("/shifts", ShiftController::updateShift);
-
-        //GET
-        app.get("/shifts", ShiftController::getAll);
-        app.get("/shifts/{id}", ShiftController::getByID);
-        app.get("/shifts/user/{user_id}", ShiftController::getShiftsByUserID);
-        app.get("/shifts/date/{date}", ShiftController::getShiftsByDate);
+    public ShiftController() {
+        super(Shift.class, ShiftDTO::new);
     }
 
     // ________________________________________________________
 
-    private static void createShift(Context ctx) {
+    public static void registerRoutes(Javalin app) {
+
+        ShiftController controller = new ShiftController();
+
+
+        //POST
+        app.post("/shift", controller::createShift);
+        app.post("/schedule", controller::createSchedule);
+
+        //DELETE
+        app.delete("/shift/{id}", controller::deleteShift);
+
+        //PUT
+        app.put("/shifts", controller::updateShift);
+
+        //GET
+        app.get("/shifts", controller::getAll);
+        app.get("/shift/{id}", controller::getByID);
+        app.get("/shifts/user/{user_id}", controller::getShiftsByUserID);
+        app.get("/shifts/date/{date}", controller::getShiftsByDate);
+    }
+
+    // ________________________________________________________
+
+    private void createShift(Context ctx) {
         ShiftDTO shift = createShift(
                 ctx,
                 ctx.pathParam("user_id"),
@@ -63,6 +72,7 @@ public class ShiftController {
         );
 
 
+        assert shift != null;
         String message = MessageService.buildMessage(
             Notifications.SHIFT_CREATED,
             shift.getUser().getName(),
@@ -86,7 +96,7 @@ public class ShiftController {
     // 2.) Have forskellige mødetidspunkter på forskellige dage
     // 3.) Indsætte perioden for skema planlægningen ind - Eksempelvis, at den skal
     // oprette vagter automatisk for 6 månder frem.
-    private static void createSchedule(Context ctx) {
+    private void createSchedule(Context ctx) {
         ScheduleDTO schedule = ctx.bodyAsClass(ScheduleDTO.class);
 
         User user = userDao.getById(schedule.getUser_id());
@@ -151,7 +161,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    private static void deleteShift(Context ctx) {
+    private void deleteShift(Context ctx) {
         String entered = ctx.pathParam("id");
         System.out.println(entered);
         try {
@@ -181,7 +191,7 @@ public class ShiftController {
 
     // ________________________________________________________
     //TODO: Insert values to be updated??
-    private static void updateShift(Context ctx) {
+    private void updateShift(Context ctx) {
         String id = ctx.pathParam("id");
         try {
             Shift shift = shiftDao.getById(Integer.parseInt(id));
@@ -217,66 +227,34 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    private static void getAll(Context ctx) {
-        List<ShiftDTO> shifts = new ArrayList<>();
-
-        shiftDao.getAll().forEach(shift -> {
-           shifts.add(convertDTO(shift));
-        });
-
-        String message = MessageService.buildMessage(
-                Notifications.SHIFT_GET_ALL,
-                String.valueOf(shifts.size())
-        );
-        MessageService.notify(message);
-
-        ctx.status(201).json(shifts);
+    @Override
+    protected List<Shift> getAllEntities() {
+        return shiftDao.getAll();
     }
 
     // ________________________________________________________
 
-    private static void getByID(Context ctx) {
-
-        try {
-            int id = Integer.parseInt(ctx.pathParam("id"));
-
-            Shift shift = shiftDao.getById(id);
-            if (shift == null) {
-                ctx.status(404);
-                return;
-            }
-            String message = MessageService.buildMessage(Notifications.SHIFT_GET_BY_ID, String.valueOf(id));
-            MessageService.notify(message);
-            ctx.status(200).json(Map.of(
-                    "Data", convertDTO(shift),
-                    "Message", message
-            ));
-        } catch (NumberFormatException e) {
-            MessageService.sendError(
-                    MessageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id"))
-            );
-            ctx.status(400);
-        }
+    @Override
+    protected Shift getEntityById(int id) {
+        return shiftDao.getById(id);
     }
 
     // ________________________________________________________
 
-    private static void getShiftsByUserID(Context ctx) {
+    private void getShiftsByUserID(Context ctx) {
 
         String userId = ctx.pathParam("user_id");
 
         List<ShiftDTO> shifts = new ArrayList<>();
 
-        shiftDao.getShiftsByUserId(userId).forEach(shift -> {
-            shifts.add(convertDTO(shift));
-        });
+        shiftDao.getShiftsByUserId(userId).forEach(shift -> shifts.add(convertDTO(shift)));
 
         ctx.status(200).json(shifts);
     }
 
     // ________________________________________________________
 
-    private static void getShiftsByDate(Context ctx) {
+    private void getShiftsByDate(Context ctx) {
 
         try {
 
@@ -284,9 +262,7 @@ public class ShiftController {
 
             List<ShiftDTO> shifts = new ArrayList<>();
 
-            shiftDao.getShiftsByDate(date).forEach(shift -> {
-                shifts.add(convertDTO(shift));
-            });
+            shiftDao.getShiftsByDate(date).forEach(shift -> shifts.add(convertDTO(shift)));
 
             ctx.status(200).json(shifts);
 
@@ -304,13 +280,13 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    private static ShiftDTO convertDTO(Shift shift) {
+    private ShiftDTO convertDTO(Shift shift) {
         return new ShiftDTO(shift);
     }
 
     // ________________________________________________________
 
-    private static ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
+    private ShiftDTO createShift(Context ctx, String id, String title, String sDate, String sStartTime, String sEndTime) {
 
         try {
             User user = userDao.getById(id);
@@ -342,7 +318,7 @@ public class ShiftController {
 
     // ________________________________________________________
 
-    private static String formatDay(DayScheduleDTO day){
+    private String formatDay(DayScheduleDTO day){
 
         if(day == null || day.isOffDay()){
             return "FRI";

@@ -1,69 +1,46 @@
 package app.controllers;
 
 import app.Main;
+import app.controllers.Generic.BaseController;
 import app.daos.ResponsibilityDAO;
+import app.dtos.ResponsibilityDTO;
 import app.entities.Responsibility;
-import app.entities.ShiftRequest;
-import app.enums.Notifications;
-import app.services.MessageService;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class ResponsibilityController {
+public class ResponsibilityController extends BaseController<Responsibility, ResponsibilityDTO> {
 
     private static final ResponsibilityDAO responsibilityDao = Main.setup.getRespDAO();
 
+    // ________________________________________________________
+
+    public ResponsibilityController() {
+        super(Responsibility.class, ResponsibilityDTO::new);
+    }
+
+    // ________________________________________________________
+
     public static void registerRoutes(Javalin app) {
+        ResponsibilityController controller = new ResponsibilityController();
 
         //GET
-        //app.get("/request", ResponsibilityController::getAll);
-        //app.get("/request/{id}", ResponsibilityController::getByID);
+        app.get("/responsibilities", controller::getAll);
+        app.get("/responsibility/{id}", controller::getByID);
     }
 
     // ________________________________________________________
 
-    /*private static void getAll(Context ctx) {
-
-        List<Responsibility> requests = new ArrayList<>(responsibilityDao.getAll());
-
-        String message = MessageService.buildMessage(
-                Notifications.RESPONSIBILITY_GET_BY_ID,
-                String.valueOf(requests.size())
-        );
-        MessageService.notify(message);
-
-        ctx.status(201).json(requests);
+    @Override
+    protected List<Responsibility> getAllEntities() {
+        return responsibilityDao.getAll();
     }
 
     // ________________________________________________________
 
-    private static void getByID(Context ctx) {
-
-        try {
-            int id = Integer.parseInt(ctx.pathParam("id"));
-
-            Responsibility responsibility = responsibilityDao.getById(id);
-            if (responsibility == null) {
-                ctx.status(404);
-                return;
-            }
-            String message = MessageService.buildMessage(Notifications.RESPONSIBILITY_GET_BY_ID, String.valueOf(id));
-            MessageService.notify(message);
-            ctx.status(200).json(Map.of(
-                    "Data", responsibility,
-                    "Message", message
-            ));
-        } catch (NumberFormatException e) {
-            MessageService.sendError(
-                    MessageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id"))
-            );
-            ctx.status(400);
-        }
-    }*/
+    @Override
+    protected Responsibility getEntityById(int id) {
+        return responsibilityDao.getById(id);
+    }
 
     // ________________________________________________________
 }

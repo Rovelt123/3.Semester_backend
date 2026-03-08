@@ -21,9 +21,13 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private static final UserDAO userDAO = Main.setup.getUserDAO();
 
+    // ________________________________________________________
+
     public UserController() {
         super(User.class, UserDTO::new);
     }
+
+    // ________________________________________________________
 
     public static void registerRoutes(Javalin app) {
 
@@ -39,10 +43,8 @@ public class UserController extends BaseController<User, UserDTO> {
         app.put("/user", UserController::updateUser);
 
         //GET
-        app.get("/user", controller::getAll);
+        app.get("/users", controller::getAll);
         app.get("/user/{id}", controller::getByID);
-        //app.get("/user", UserController::getAll);
-        //app.get("/user/{id}", UserController::getByID);
     }
 
 
