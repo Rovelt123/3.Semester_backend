@@ -16,7 +16,7 @@ public class Message {
     private int id;
 
     private String content;
-    private LocalDateTime sentAt = LocalDateTime.now();
+    private LocalDateTime sentAt;
 
     @ManyToOne
     private User sender;
@@ -28,5 +28,6 @@ public class Message {
     public Message(User sender, String content) {
         this.sender = sender;
         this.content = content;
+        this.sentAt = LocalDateTime.now();
     }
 }

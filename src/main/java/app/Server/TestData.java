@@ -20,6 +20,7 @@ public class TestData {
         AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
         MessageDAO messageDAO = Main.setup.getMessageDAO();
         HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
+        ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
         // ========================================================
         // USERS
@@ -27,9 +28,15 @@ public class TestData {
 
         User admin = new User("Admin User", Role.CHEF);
         User worker = new User("Worker User", Role.USER);
+        User worker2 = new User("Worker User", Role.USER);
+        User worker3 = new User("Worker User", Role.USER);
+        User worker4 = new User("Worker User", Role.USER);
 
         userDAO.create(admin);
         userDAO.create(worker);
+        userDAO.create(worker2);
+        userDAO.create(worker3);
+        userDAO.create(worker4);
 
         // ========================================================
         // RESPONSIBILITIES
@@ -72,9 +79,19 @@ public class TestData {
         // ========================================================
 
         ShiftRequest request = new ShiftRequest(worker, shift1);
-        request.setStatus(ShiftStatus.NO_RESPONSE);
 
         shiftRequestDAO.create(request);
+        for (User user : userDAO.getAll()) {
+
+            // Man skal ikke kunne acceptere sin egen vagt
+            if (user.getId() != worker.getId()) {
+
+                Response response = new Response(user, request);
+                response.setStatus(ShiftStatus.NO_RESPONSE);
+
+                responseDAO.create(response);
+            }
+        }
 
         // ========================================================
         // HOLIDAYS
