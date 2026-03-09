@@ -10,22 +10,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class ShiftRequestDTO {
     private int id;
     private ShiftStatus status;
-    private UserDTO requester;
-    private Shift shift;
-    private List<Response> responses;
+    private ShiftDTO shift;
+    private List<ResponseDTO> responses;
 
     public ShiftRequestDTO(ShiftRequest shiftRequest) {
         this.id = shiftRequest.getId();
         this.status = shiftRequest.getStatus();
-        this.requester = new UserDTO(Main.setup.getUserDAO().getById(shiftRequest.getRequesterID()));
-        this.shift = shiftRequest.getShift();
-        this.responses = shiftRequest.getResponses();
+        this.shift = new ShiftDTO(shiftRequest.getShift());
+        this.responses = shiftRequest.getResponses().stream().map(ResponseDTO::new).collect(Collectors.toList());
     }
 
 }

@@ -46,6 +46,8 @@ public class User {
     private List<Announcement> announcements = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "senderID", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages = new ArrayList<>();
 
     public User() {}
 

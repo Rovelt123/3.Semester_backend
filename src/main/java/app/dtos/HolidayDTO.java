@@ -17,14 +17,13 @@ public class HolidayDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private HolidayStatus status;
-    private UserDTO user;
 
     public HolidayDTO(Holiday holiday) {
         this.id = holiday.getId();
         this.startDate = holiday.getStartDate();
         this.endDate = holiday.getEndDate();
         this.status = holiday.getStatus();
-        this.user = new UserDTO(Main.setup.getUserDAO().getById(holiday.getUserID()));
+
     }
 }
 

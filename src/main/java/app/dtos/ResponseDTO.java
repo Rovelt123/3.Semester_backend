@@ -11,13 +11,9 @@ import lombok.Setter;
 public class ResponseDTO {
     private int id;
     private ShiftStatus status;
-    private UserDTO user;
-    private ShiftRequestDTO request;
 
     public ResponseDTO(Response response) {
         this.id = response.getId();
         this.status = response.getStatus();
-        this.user = new UserDTO(Main.setup.getUserDAO().getById(response.getUserID()));
-        this.request = new ShiftRequestDTO(Main.setup.getShiftRequestDAO().getById(response.getShiftRequestID()));
     }
 }

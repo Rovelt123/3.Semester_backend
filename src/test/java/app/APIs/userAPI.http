@@ -14,7 +14,7 @@ GET http://localhost:7070/users
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### GET USER BY ID
-GET http://localhost:7070/user/2
+GET http://localhost:7070/user/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### GET USER BY USERNAME
