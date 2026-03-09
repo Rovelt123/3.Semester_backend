@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,15 +20,17 @@ public class Shift {
 
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
+    private int ownerID;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
 
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShiftRequest> shiftRequests = new ArrayList<>();
+
     public Shift(String title, User owner, LocalDate date, LocalTime now, LocalTime localTime) {
         this.title = title;
-        this.owner = owner;
+        this.ownerID = owner.getId();
         this.date = date;
         this.startTime = now;
         this.endTime = localTime;

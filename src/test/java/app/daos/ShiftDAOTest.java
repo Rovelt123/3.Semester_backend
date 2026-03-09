@@ -37,7 +37,7 @@ class ShiftDAOTest {
         userDAO = new UserDAO(em);
         shiftDAO = new ShiftDAO(em);
 
-        testUser = new User("Test User", Role.USER);
+        testUser = new User("Test User", Role.USER, "user", "user");
         userDAO.create(testUser);
     }
 
@@ -109,7 +109,7 @@ class ShiftDAOTest {
         Shift shift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
         shiftDAO.create(shift);
 
-        Integer id = shift.getId();
+        int id = shift.getId();
         shiftDAO.deleteById(id);
 
         assertNull(shiftDAO.getById(id));

@@ -43,8 +43,9 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     @Override
     public T delete(T t) {
         return executeQuery(() -> {
-            em.remove(t);
-            return t;
+            T managed = em.contains(t) ? t : em.merge(t);
+            em.remove(managed);
+            return managed;
         });
     }
 
@@ -53,11 +54,11 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     @Override
     public T deleteById(Object id) {
         return executeQuery(() -> {
-            T t = findById(id);
-            if (t != null) {
-                em.remove(t);
+            T entity = findById(id);
+            if (entity != null) {
+                em.remove(entity);
             }
-            return t;
+            return entity;
         });
     }
 

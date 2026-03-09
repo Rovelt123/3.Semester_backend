@@ -60,7 +60,8 @@ public abstract class BaseController<T, DTO> implements IController {
             T entity = getEntityById(id);
 
             if (entity == null) {
-                ctx.status(404);
+                String message = MessageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(id));
+                ctx.status(404).json(message);
                 return;
             }
 

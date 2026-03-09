@@ -6,6 +6,7 @@ import app.entities.*;
 import app.enums.Responsibilities;
 import app.enums.Role;
 import app.enums.ShiftStatus;
+import app.services.PasswordService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,11 +27,11 @@ public class TestData {
         // USERS
         // ========================================================
 
-        User admin = new User("Admin User", Role.CHEF);
-        User worker = new User("Worker User", Role.USER);
-        User worker2 = new User("Worker User", Role.USER);
-        User worker3 = new User("Worker User", Role.USER);
-        User worker4 = new User("Worker User", Role.USER);
+        User admin = new User("Admin User", Role.CHEF, "admin", PasswordService.hashHelper("admin"));
+        User worker = new User("Worker User", Role.USER, "user", PasswordService.hashHelper("user"));
+        User worker2 = new User("Worker User1", Role.USER, "user1", PasswordService.hashHelper("user1"));
+        User worker3 = new User("Worker User2", Role.USER, "user2", PasswordService.hashHelper("user2"));
+        User worker4 = new User("Worker User3", Role.USER, "user3", PasswordService.hashHelper("user3"));
 
         userDAO.create(admin);
         userDAO.create(worker);
@@ -122,5 +123,6 @@ public class TestData {
                 "Hello manager, I would like to swap shift");
 
         messageDAO.create(message);
+
     }
 }

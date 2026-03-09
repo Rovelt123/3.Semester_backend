@@ -47,7 +47,7 @@ public class Setup {
         shiftRequestDAO = new ShiftRequestDAO(em);
         shiftDAO = new ShiftDAO(em);
         responseDAO = new ResponseDAO(em);
-        TestData.generate();
+        //TestData.generate();
         Routing.registerRoutes(app);
     }
 

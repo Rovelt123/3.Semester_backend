@@ -1,5 +1,6 @@
 package app.dtos;
 
+import app.Main;
 import app.entities.Holiday;
 import app.entities.User;
 import app.enums.HolidayStatus;
@@ -16,14 +17,14 @@ public class HolidayDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private HolidayStatus status;
-    private User user;
+    private UserDTO user;
 
     public HolidayDTO(Holiday holiday) {
         this.id = holiday.getId();
         this.startDate = holiday.getStartDate();
         this.endDate = holiday.getEndDate();
         this.status = holiday.getStatus();
-        this.user = holiday.getUser();
+        this.user = new UserDTO(Main.setup.getUserDAO().getById(holiday.getUserID()));
     }
 }
 

@@ -207,7 +207,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             String message = MessageService.buildMessage(
                     Notifications.SHIFT_UPDATED,
                     String.valueOf(updated.getId()),
-                    updated.getOwner().getName(),
+                    Main.setup.getUserDAO().getById(updated.getOwnerID()).getName(),
                     updated.getTitle(),
                     updated.getDate().toString(),
                     updated.getStartTime().toString(),
