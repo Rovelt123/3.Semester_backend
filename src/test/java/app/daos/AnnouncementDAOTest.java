@@ -30,7 +30,7 @@ class AnnouncementDAOTest {
         em = emf.createEntityManager();
         announcementDAO = new AnnouncementDAO(em);
 
-        testUser = new User("Announcement Author", Role.USER);
+        testUser = new User("Announcement Author", Role.USER, "user", "user");
         em.getTransaction().begin();
         em.persist(testUser);
         em.getTransaction().commit();

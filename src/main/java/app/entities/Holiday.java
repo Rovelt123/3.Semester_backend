@@ -22,13 +22,12 @@ public class Holiday {
     @Enumerated(EnumType.STRING)
     private HolidayStatus status = HolidayStatus.PENDING;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private int userID;
 
     protected Holiday() {}
 
     public Holiday(User user, LocalDate start, LocalDate end) {
-        this.user = user;
+        this.userID = user.getId();
         this.startDate = start;
         this.endDate = end;
     }

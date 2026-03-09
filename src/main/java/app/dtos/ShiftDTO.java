@@ -1,5 +1,6 @@
 package app.dtos;
 
+import app.Main;
 import app.entities.Shift;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,6 @@ public class ShiftDTO {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private UserDTO user;
 
     public ShiftDTO(Shift shift) {
         this.id = shift.getId();
@@ -25,7 +25,6 @@ public class ShiftDTO {
         this.date = shift.getDate();
         this.startTime = shift.getStartTime();
         this.endTime = shift.getEndTime();
-        this.user = new UserDTO(shift.getOwner());
 
     }
 }

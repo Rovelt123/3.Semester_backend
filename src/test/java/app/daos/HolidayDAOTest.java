@@ -1,5 +1,6 @@
 package app.daos;
 
+import app.Main;
 import app.configs.TestHibernateConfig;
 import app.entities.Holiday;
 import app.entities.User;
@@ -32,7 +33,7 @@ class HolidayDAOTest {
         em = emf.createEntityManager();
         holidayDAO = new HolidayDAO(em);
 
-        testUser = new User("Holiday User", Role.USER);
+        testUser = new User("Holiday User", Role.USER, "user", "user");
         em.getTransaction().begin();
         em.persist(testUser);
         em.getTransaction().commit();
@@ -54,7 +55,7 @@ class HolidayDAOTest {
         holidayDAO.create(holiday);
 
         Holiday found = holidayDAO.getById(holiday.getId());
-        assertEquals(testUser.getId(), found.getUser().getId());
+        assertEquals(testUser.getId(), Main.setup.getUserDAO().getById(found.getUserID()));
         assertEquals(HolidayStatus.PENDING, found.getStatus());
     }
 

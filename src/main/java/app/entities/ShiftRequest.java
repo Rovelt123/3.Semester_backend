@@ -20,19 +20,18 @@ public class ShiftRequest {
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.WAITING;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User requester;
+    private int requesterID;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Shift shift;
 
-    @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shiftRequestID", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Response> responses = new ArrayList<>();
 
     public ShiftRequest() {}
 
     public ShiftRequest(User user, Shift shift) {
-        this.requester = user;
+        this.requesterID = user.getId();
         this.shift = shift;
     }
 

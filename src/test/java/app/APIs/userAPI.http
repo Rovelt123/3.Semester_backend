@@ -1,0 +1,107 @@
+### LOGIN
+POST http://localhost:7070/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+#### ======== GET DATA ========
+
+### GET ALL USERS
+GET http://localhost:7070/users
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET USER BY ID
+GET http://localhost:7070/user/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET USER BY USERNAME
+GET http://localhost:7070/user/by-username/Rovelt
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+#### ====== END GET DATA ======
+
+
+
+#### ======== CREATE DATA ========
+### CREATE NEW USER (REGISTER)
+POST http://localhost:7070/auth/register
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "name": "Rovelt",
+  "username": "Rovelt",
+  "password": "Rovelt",
+  "password_repeat": "Rovelt"
+}
+#### ====== END CREATE DATA ======
+
+
+
+
+
+
+
+
+#### ======== UPDATE DATA ========
+
+### UPDATE USERNAME (admin)
+PUT http://localhost:7070/user/update-username
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "newUsername": "Rovelt",
+  "password": "Rovelt"
+}
+
+### UPDATE PASSWORD (admin)
+PUT http://localhost:7070/user/update-password
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "oldPassword": "Rovelt",
+  "newPassword": "Rovelt",
+  "newPassword_repeat": "Rovelt"
+}
+
+### ======== END UPDATE DATA ========
+
+
+
+
+
+### ========== DELETE DATA ==========
+### DELETE USER WITH CONFIRMATION (self)
+DELETE http://localhost:7070/user/delete
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "password1": "Rovelt",
+  "password2": "Rovelt"
+}
+
+
+### FORCE DELETE USER (admin only)
+DELETE http://localhost:7070/user/force-delete/11
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "confirm_username": "Rovelt2"
+}
+
+### ======== END DELETE DATA ========
+
+
+
+
+### ============ LOG OUT ============
+### LOGOUT
+POST http://localhost:7070/auth/logout
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+### ========= END  LOG OUT ==========

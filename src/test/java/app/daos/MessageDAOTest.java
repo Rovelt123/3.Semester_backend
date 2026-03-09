@@ -1,5 +1,6 @@
 package app.daos;
 
+import app.Main;
 import app.configs.TestHibernateConfig;
 import app.entities.Message;
 import app.entities.User;
@@ -30,7 +31,7 @@ class MessageDAOTest {
     void setup() {
         em = emf.createEntityManager();
         messageDAO = new MessageDAO(em);
-        testUser = new User("Message Sender", Role.USER);
+        testUser = new User("Message Sender", Role.USER, "user", "user");
         em.getTransaction().begin();
         em.persist(testUser);
         em.getTransaction().commit();
@@ -58,7 +59,7 @@ class MessageDAOTest {
         Message found = messageDAO.getById(message.getId());
         assertNotNull(found);
         assertEquals("Hello world", found.getContent());
-        assertEquals(testUser.getId(), found.getSender().getId());
+        assertEquals(testUser.getId(), Main.setup.getUserDAO().getById(found.getSenderID()));
     }
 
     @Test

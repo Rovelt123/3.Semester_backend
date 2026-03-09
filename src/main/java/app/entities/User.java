@@ -21,10 +21,14 @@ public class User {
 
     private String name;
 
+    @Column(unique = true)
+    private String username;
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_responsibility",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,23 +36,28 @@ public class User {
     )
     private List<Responsibility> responsibilities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userID", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Holiday> holidays = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ownerID", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Shift> shifts = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Announcement> announcements = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "senderID", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages = new ArrayList<>();
+
     public User() {}
 
     // ________________________________________________________
 
-    public User(String name, Role role) {
+    public User(String name, Role role, String username, String password) {
         this.name = name;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
     // ________________________________________________________

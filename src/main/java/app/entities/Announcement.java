@@ -19,7 +19,7 @@ public class Announcement {
     private String content;
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User author;
 
     protected Announcement() {}

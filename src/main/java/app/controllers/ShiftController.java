@@ -75,7 +75,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         assert shift != null;
         String message = MessageService.buildMessage(
             Notifications.SHIFT_CREATED,
-            shift.getUser().getName(),
+            String.valueOf(userDao.getById(shiftDao.getById(shift.getId()).getOwnerID())),
             shift.getDate().toString(),
             shift.getStartTime().toString(),
             shift.getEndTime().toString()
@@ -207,7 +207,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             String message = MessageService.buildMessage(
                     Notifications.SHIFT_UPDATED,
                     String.valueOf(updated.getId()),
-                    updated.getOwner().getName(),
+                    Main.setup.getUserDAO().getById(updated.getOwnerID()).getName(),
                     updated.getTitle(),
                     updated.getDate().toString(),
                     updated.getStartTime().toString(),

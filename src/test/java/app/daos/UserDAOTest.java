@@ -48,7 +48,7 @@ class UserDAOTest {
 
     @Test
     void create() {
-        User user = new User("Test Student", Role.USER);
+        User user = new User("Test Student", Role.USER, "user", "user");
         userDAO.create(user);
 
         assertNotNull(userDAO.getById(user.getId()));
@@ -56,8 +56,8 @@ class UserDAOTest {
 
     @Test
     void getAll() {
-        User user = new User("Test Student", Role.USER);
-        User user2 = new User("Test Student2", Role.CHEF);
+        User user = new User("Test Student", Role.USER, "user", "user");
+        User user2 = new User("Test Student2", Role.CHEF, "user", "user");
         userDAO.create(user);
         userDAO.create(user2);
         List<User> userList = userDAO.getAll();
@@ -66,7 +66,7 @@ class UserDAOTest {
 
     @Test
     void getById() {
-        User user = new User("Find Me", Role.USER);
+        User user = new User("Find Me", Role.USER, "user", "user");
         userDAO.create(user);
 
         User found = userDAO.getById(user.getId());
@@ -78,7 +78,7 @@ class UserDAOTest {
 
     @Test
     void update() {
-        User user = new User("Old Name", Role.USER);
+        User user = new User("Old Name", Role.USER, "user", "user");
         userDAO.create(user);
 
         user.setName("New Name");
@@ -93,7 +93,7 @@ class UserDAOTest {
 
     @Test
     void delete() {
-        User user = new User("To Delete", Role.USER);
+        User user = new User("To Delete", Role.USER, "user", "user");
         userDAO.create(user);
 
         Integer id = user.getId();
@@ -108,7 +108,7 @@ class UserDAOTest {
 
         Responsibility planner = responsibilityDAO.getByName(Responsibilities.PLANNER.getDisplayName());
 
-        User user = new User("Responsible User", Role.USER);
+        User user = new User("Responsible User", Role.USER, "user", "user");
         userDAO.create(user);
 
         userDAO.addResponsibilityToUser(user, planner);
@@ -124,7 +124,7 @@ class UserDAOTest {
         Responsibility planner = responsibilityDAO.getByName(Responsibilities.PLANNER.getDisplayName());
         Responsibility cashier = responsibilityDAO.getByName(Responsibilities.CASHIER.getDisplayName());
 
-        User user = new User("Responsible User", Role.USER);
+        User user = new User("Responsible User", Role.USER, "user", "user");
         userDAO.create(user);
         userDAO.addResponsibilityToUser(user, planner);
         userDAO.addResponsibilityToUser(user, cashier);

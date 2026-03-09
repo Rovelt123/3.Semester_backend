@@ -3,14 +3,26 @@ package app.daos;
 import app.entities.Responsibility;
 import app.entities.User;
 import jakarta.persistence.EntityManager;
-
-import java.util.List;
-import java.util.Optional;
+import jakarta.persistence.NoResultException;
 
 public class UserDAO extends EntityManagerDAO<User>{
 
     public UserDAO(EntityManager em) {
         super(em, User.class);
+    }
+
+    public User getByUsername(String username) {
+        String jpql = "SELECT u FROM User u WHERE u.username = :username";
+
+        try {
+            return executeQuery(() ->
+                    em.createQuery(jpql, User.class)
+                            .setParameter("username", username)
+                            .getSingleResult()
+            );
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public void addResponsibilityToUser(User user, Responsibility responsibility) {

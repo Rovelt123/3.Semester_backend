@@ -1,5 +1,6 @@
 package app.daos;
 
+import app.Main;
 import app.configs.TestHibernateConfig;
 import app.entities.Shift;
 import app.entities.ShiftRequest;
@@ -38,7 +39,7 @@ class ShiftRequestDAOTest {
         userDAO = new UserDAO(em);
         shiftDAO = new ShiftDAO(em);
 
-        testUser = new User("Test User", Role.USER);
+        testUser = new User("Test User", Role.USER, "user", "user");
         userDAO.create(testUser);
 
         testShift = new Shift("Shift", testUser, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(8));
@@ -66,7 +67,7 @@ class ShiftRequestDAOTest {
 
         ShiftRequest found = shiftRequestDAO.getById(shiftRequest.getId());
         assertNotNull(found);
-        assertEquals(testUser.getId(), found.getRequester().getId());
+        assertEquals(testUser.getId(), Main.setup.getUserDAO().getById(found.getRequesterID()));
         assertEquals(testShift.getId(), found.getShift().getId());
     }
 

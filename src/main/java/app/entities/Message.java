@@ -18,15 +18,14 @@ public class Message {
     private String content;
     private LocalDateTime sentAt;
 
-    @ManyToOne
-    private User sender;
+    private int senderID;
 
     protected Message() {}
 
     // ________________________________________________________
 
     public Message(User sender, String content) {
-        this.sender = sender;
+        this.senderID = sender.getId();
         this.content = content;
         this.sentAt = LocalDateTime.now();
     }

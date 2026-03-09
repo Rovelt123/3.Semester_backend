@@ -14,14 +14,13 @@ public class AnnouncementDTO {
     private String title;
     private String context;
     private LocalDateTime lastUpdated;
-    private User author;
+    private int userID;
 
     public AnnouncementDTO(Announcement announcement){
         this.id = announcement.getId();
         this.title = announcement.getTitle();
         this.context = announcement.getContent();
         this.lastUpdated = announcement.getLastUpdated();
-        this.author = announcement.getAuthor();
     }
 
 }
