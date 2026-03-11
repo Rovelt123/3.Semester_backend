@@ -7,6 +7,7 @@ import app.dtos.UserDTO;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
+import app.security.SecurityConfig;
 import app.services.MessageService;
 import app.services.PasswordService;
 import io.javalin.Javalin;
@@ -70,7 +71,13 @@ public class UserController extends BaseController<User, UserDTO> {
                 user.getName()
         );
 
+        String token = SecurityConfig.TOKEN_MANAGER.createToken(
+                user.getUsername(),
+                user.getRole().name()
+        );
+
         ctx.json(Map.of(
+                "token", token,
                 "message", message,
                 "user", new UserDTO(user)
         ));
