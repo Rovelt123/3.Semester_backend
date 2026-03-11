@@ -53,19 +53,19 @@ class MessageDAOTest {
 
     @Test
     void create() {
-        Message message = new Message(testUser, "Hello world");
+        Message message = new Message(testUser, "Hello world", 2);
         messageDAO.create(message);
 
         Message found = messageDAO.getById(message.getId());
         assertNotNull(found);
         assertEquals("Hello world", found.getContent());
-        assertEquals(testUser.getId(), Main.setup.getUserDAO().getById(found.getSenderID()));
+        assertEquals(testUser.getId(), found.getSender());
     }
 
     @Test
     void getAll() {
-        Message m1 = new Message(testUser, "Msg1");
-        Message m2 = new Message(testUser, "Msg2");
+        Message m1 = new Message(testUser, "Msg1", 2);
+        Message m2 = new Message(testUser, "Msg2", 2);
         messageDAO.create(m1);
         messageDAO.create(m2);
 
@@ -75,7 +75,7 @@ class MessageDAOTest {
 
     @Test
     void update() {
-        Message message = new Message(testUser, "Old Content");
+        Message message = new Message(testUser, "Old Content", 2);
         messageDAO.create(message);
 
         message.setContent("New Content");
@@ -87,7 +87,7 @@ class MessageDAOTest {
 
     @Test
     void delete() {
-        Message message = new Message(testUser, "To delete");
+        Message message = new Message(testUser, "To delete", 2);
         messageDAO.create(message);
 
         int id = message.getId();

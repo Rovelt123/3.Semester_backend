@@ -1,5 +1,6 @@
 package app.entities;
 
+import app.Main;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,14 +19,21 @@ public class Message {
     private String content;
     private LocalDateTime sentAt;
 
-    private int senderID;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
 
     protected Message() {}
 
     // ________________________________________________________
 
-    public Message(User sender, String content) {
-        this.senderID = sender.getId();
+    public Message(User sender, User receiver, String content) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
         this.sentAt = LocalDateTime.now();
     }

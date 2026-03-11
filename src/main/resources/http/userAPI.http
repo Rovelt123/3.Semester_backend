@@ -1,5 +1,5 @@
 ### LOGIN
-POST http://localhost:7070/auth/login
+POST {{url}}/auth/login
 Content-Type: application/json
 
 {
@@ -10,15 +10,15 @@ Content-Type: application/json
 #### ======== GET DATA ========
 
 ### GET ALL USERS
-GET http://localhost:7070/users
+GET {{url}}/users
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### GET USER BY ID
-GET http://localhost:7070/user/1
+GET {{url}}/user/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### GET USER BY USERNAME
-GET http://localhost:7070/user/by-username/Rovelt
+GET {{url}}/user/by-username/Rovelt
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 #### ====== END GET DATA ======
@@ -27,13 +27,13 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 #### ======== CREATE DATA ========
 ### CREATE NEW USER (REGISTER)
-POST http://localhost:7070/auth/register
+POST {{url}}/auth/register
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 {
   "name": "Rovelt",
-  "username": "Rovelt",
+  "username": "Rovel235t",
   "password": "Rovelt",
   "password_repeat": "Rovelt"
 }
@@ -49,24 +49,24 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 #### ======== UPDATE DATA ========
 
 ### UPDATE USERNAME (admin)
-PUT http://localhost:7070/user/update-username
+PUT {{url}}/user/update-username
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 {
-  "newUsername": "Rovelt",
-  "password": "Rovelt"
+  "newUsername": "admin",
+  "password": "admin"
 }
 
 ### UPDATE PASSWORD (admin)
-PUT http://localhost:7070/user/update-password
+PUT {{url}}/user/update-password
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 {
-  "oldPassword": "Rovelt",
-  "newPassword": "Rovelt",
-  "newPassword_repeat": "Rovelt"
+  "oldPassword": "admin2",
+  "newPassword": "admin",
+  "newPassword_repeat": "admin"
 }
 
 ### ======== END UPDATE DATA ========
@@ -77,7 +77,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### ========== DELETE DATA ==========
 ### DELETE USER WITH CONFIRMATION (self)
-DELETE http://localhost:7070/user/delete
+DELETE {{url}}/user/delete
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
@@ -88,11 +88,11 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 
 ### FORCE DELETE USER (admin only)
-DELETE http://localhost:7070/user/force-delete/11
+DELETE {{url}}/user/force-delete/10
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 {
-  "confirm_username": "Rovelt2"
+  "confirm_username": "Rovelt"
 }
 
 ### ======== END DELETE DATA ========
@@ -102,6 +102,6 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 ### ============ LOG OUT ============
 ### LOGOUT
-POST http://localhost:7070/auth/logout
+POST {{url}}/auth/logout
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 ### ========= END  LOG OUT ==========

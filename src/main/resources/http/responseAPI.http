@@ -1,0 +1,17 @@
+#### ======== GET DATA ========
+
+### GET ALL RESPONSES
+GET {{url}}/responses
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET RESPONSE BY ID
+GET {{url}}/response/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET RESPONSES BY USER
+GET {{url}}/responses/user/2
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET RESPONSES BY REQUEST
+GET {{url}}/responses/request/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0

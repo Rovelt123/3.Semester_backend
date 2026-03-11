@@ -16,6 +16,8 @@
         <hibernate-version>7.1.0.Final</hibernate-version>
         <junit.version>5.13.4</junit.version>
         <postgres.version>42.7.7</postgres.version>
+        <logback-classic>1.5.27</logback-classic>
+        <org.slf4j>2.0.17</org.slf4j>
     </properties>
 
 
@@ -120,6 +122,16 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j}</version>
+        </dependency>
 
 
 

@@ -1,0 +1,41 @@
+#### ======== GET DATA ========
+
+### GET ALL HOLIDAYS
+GET {{url}}/holidays
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+
+#### ======== REQUEST HOLIDAY ========
+
+POST {{url}}/holiday
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "start": "2026-07-01",
+  "end": "2026-07-10"
+}
+
+
+#### ======== UPDATE HOLIDAY ========
+
+PUT {{url}}/holiday/1
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "start": "2026-07-02",
+  "end": "2026-07-12"
+}
+
+
+#### ======== APPROVE HOLIDAY (CHEF) ========
+
+POST {{url}}/holiday/1/approve
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+
+#### ======== REJECT HOLIDAY (CHEF) ========
+
+POST {{url}}/holiday/1/reject
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0

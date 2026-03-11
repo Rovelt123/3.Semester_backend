@@ -1,0 +1,51 @@
+#### ======== GET DATA ========
+
+### GET ALL SHIFTS
+GET {{url}}/shifts
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET SHIFT BY ID
+GET {{url}}/shift/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET SHIFTS BY DATE
+GET {{url}}/shifts/date/2026-03-09
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET SHIFTS BY USER
+GET {{url}}/shifts/user/4
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+
+#### ======== CREATE SHIFT (CHEF) ========
+
+POST {{url}}/shift
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "user_id": "2",
+  "title": "Bar",
+  "date": "2026-05-01",
+  "start_time": "10:00",
+  "end_time": "16:00"
+}
+
+
+#### ======== UPDATE SHIFT ========
+
+PUT {{url}}/shift/1
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "title": "FRI",
+  "start_time": "11:00",
+  "end_time": "17:00"
+}
+
+
+#### ======== DELETE SHIFT ========
+
+DELETE {{url}}/shift/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0

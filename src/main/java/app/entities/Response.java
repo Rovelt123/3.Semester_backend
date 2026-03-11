@@ -17,15 +17,18 @@ public class Response {
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.NO_RESPONSE;
 
-    @JoinColumn(name = "user_id")
-    private int userID;
 
-    @JoinColumn(name = "shift_request_id")
-    private int shiftRequestID;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "shift_request")
+    private ShiftRequest shiftRequest;
 
     public Response(User user, ShiftRequest request) {
-        this.userID = user.getId();
-        this.shiftRequestID = request.getId();
+        this.user = user;
+        this.shiftRequest = request;
     }
 
     public Response() {

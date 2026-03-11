@@ -20,7 +20,9 @@ public class Shift {
 
     private String title;
 
-    private int ownerID;
+    @ManyToOne
+    @JoinColumn(name = "ownerid")
+    private User owner;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -30,7 +32,7 @@ public class Shift {
 
     public Shift(String title, User owner, LocalDate date, LocalTime now, LocalTime localTime) {
         this.title = title;
-        this.ownerID = owner.getId();
+        this.owner = owner;
         this.date = date;
         this.startTime = now;
         this.endTime = localTime;

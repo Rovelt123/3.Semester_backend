@@ -9,7 +9,7 @@ public enum Notifications {
     MUST_BE_INT("Input must be a number! You entered: %s"),
     SHIFT_CREATED("Shift created for: %s \nDate: %s \nTime:%s - %s"),
     SHIFT_DELETED("Shift with ID: %s got deleted"),
-    SHIFT_UPDATED("Shift with ID: %s got updated:\n USER: %s \nTitle: %s \nDate: %s \nTime: %s - %s"),
+    SHIFT_UPDATED("Shift with ID: %s got updated!"),
     CLASS_IS_NULL("Class %s is null!"),
     MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
     SCHEDULE_CREATED("You've created a schedule for: %s \n" +
@@ -39,7 +39,15 @@ public enum Notifications {
     ADMINS_ONLY("Forbidden! Admins only!"),
     USER_NOT_FOUND_ID("User not found with ID: %s!"),
     USER_NOT_FOUND_USERNAME("User not found with username: %s!"),
-    USERNAME_CONFIRM_MISMATCH("Username confirmation does not match!")
+    USERNAME_CONFIRM_MISMATCH("Username confirmation does not match!"),
+
+
+    SHIFT_NOT_FOUND("Shift not found with ID: %s"),
+    RESPONSIBILITY_DELETED("Responsibility deleted with ID: %s"),
+
+    NOT_ALLOWED("You're not allowed to do this!"),
+    SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
+
     ;
 
     // ________________________________________________________

@@ -119,7 +119,7 @@ public class TestData {
         // MESSAGES
         // ========================================================
 
-        Message message = new Message(worker,
+        Message message = new Message(worker, admin,
                 "Hello manager, I would like to swap shift");
 
         messageDAO.create(message);

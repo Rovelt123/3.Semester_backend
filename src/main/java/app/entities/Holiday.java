@@ -22,12 +22,14 @@ public class Holiday {
     @Enumerated(EnumType.STRING)
     private HolidayStatus status = HolidayStatus.PENDING;
 
-    private int userID;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     protected Holiday() {}
 
     public Holiday(User user, LocalDate start, LocalDate end) {
-        this.userID = user.getId();
+        this.user = user;
         this.startDate = start;
         this.endDate = end;
     }

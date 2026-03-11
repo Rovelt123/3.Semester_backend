@@ -6,42 +6,49 @@ import app.daos.ResponseDAO;
 import app.dtos.ResponseDTO;
 import app.entities.Response;
 import io.javalin.Javalin;
+import io.javalin.http.Context;
 
 import java.util.List;
 
-public class ResponseController  extends BaseController<Response, ResponseDTO> {
+public class ResponseController extends BaseController<Response, ResponseDTO> {
 
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
-    // ________________________________________________________
-
-    public ResponseController() {
+    public ResponseController(){
         super(Response.class, ResponseDTO::new);
     }
 
-    // ________________________________________________________
+    public static void registerRoutes(Javalin app){
 
-    public static void registerRoutes(Javalin app) {
         ResponseController controller = new ResponseController();
 
-        //GET
         app.get("/responses", controller::getAll);
         app.get("/response/{id}", controller::getByID);
+        app.get("/responses/user/{id}", controller::getByUser);
+        app.get("/responses/request/{id}", controller::getByRequest);
     }
 
-    // ________________________________________________________
+    private void getByUser(Context ctx){
+
+        int id = Integer.parseInt(ctx.pathParam("id"));
+
+        ctx.json(responseDAO.getByUserId(id));
+    }
+
+    private void getByRequest(Context ctx){
+
+        int id = Integer.parseInt(ctx.pathParam("id"));
+
+        ctx.json(responseDAO.getById(id));
+    }
 
     @Override
     protected List<Response> getAllEntities() {
         return responseDAO.getAll();
     }
 
-    // ________________________________________________________
-
     @Override
     protected Response getEntityById(int id) {
         return responseDAO.getById(id);
     }
-
-    // ________________________________________________________
 }

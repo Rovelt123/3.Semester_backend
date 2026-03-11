@@ -1,0 +1,37 @@
+#### ======== GET DATA ========
+
+### GET ALL MESSAGES
+GET {{url}}/messages
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET CONVERSATION
+GET {{url}}/conversation/2
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+
+#### ======== SEND MESSAGE ========
+
+POST {{url}}/message/2
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "content": "Hej hvordan går det?"
+}
+
+
+#### ======== UPDATE MESSAGE ========
+
+PUT {{url}}/message/1
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "content": "Redigeret besked"
+}
+
+
+#### ======== DELETE MESSAGE ========
+
+DELETE {{url}}/message/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0

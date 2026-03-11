@@ -36,17 +36,17 @@ public class User {
     )
     private List<Responsibility> responsibilities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userID", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Holiday> holidays = new ArrayList<>();
 
-    @OneToMany(mappedBy = "ownerID", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Shift> shifts = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Announcement> announcements = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "senderID", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages = new ArrayList<>();
 
     public User() {}

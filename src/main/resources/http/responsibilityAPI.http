@@ -1,0 +1,41 @@
+#### ======== GET DATA ========
+
+### GET ALL RESPONSIBILITIES
+GET {{url}}/responsibilities
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET RESPONSIBILITY BY ID
+GET {{url}}/responsibility/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+### GET RESPONSIBILITY BY NAME
+GET {{url}}/responsibility/name/Bar
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+
+#### ======== CREATE ========
+
+POST {{url}}/responsibility
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "name": "Bar"
+}
+
+
+#### ======== UPDATE ========
+
+PUT {{url}}/responsibility/1
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+
+{
+  "name": "Kitchen"
+}
+
+
+#### ======== DELETE ========
+
+DELETE {{url}}/responsibility/1
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
