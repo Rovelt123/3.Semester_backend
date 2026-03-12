@@ -1,0 +1,1273 @@
+2026-03-12 13:59:42 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 13:59:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 13:59:42 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38548b19
+2026-03-12 13:59:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 13:59:42 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 13:59:43 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 13:59:43 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 13:59:43 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 13:59:43 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@59a5bb61{/,null,AVAILABLE}
+2026-03-12 13:59:43 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@60a6840c{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 13:59:43 [main] INFO  org.eclipse.jetty.server.Server - Started Server@43ab0659{STARTING}[11.0.23,sto=0] @2189ms
+2026-03-12 13:59:43 [main] INFO  io.javalin.Javalin - Javalin started in 82ms \o/
+2026-03-12 13:59:43 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 13:59:43 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 14:00:11 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 14:00:11 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 14:00:11 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@198ef2ce
+2026-03-12 14:00:11 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 14:00:11 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 14:00:12 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 14:00:12 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 14:00:12 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 14:00:12 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4407b042{/,null,AVAILABLE}
+2026-03-12 14:00:12 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@3006bfb{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 14:00:12 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4fc3529{STARTING}[11.0.23,sto=0] @2160ms
+2026-03-12 14:00:12 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 14:00:12 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 14:00:12 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 14:01:57 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 14:01:57 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 14:01:57 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71391b3f
+2026-03-12 14:01:57 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 14:01:58 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 14:01:59 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 14:01:59 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 14:01:59 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 14:01:59 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2d459bda{/,null,AVAILABLE}
+2026-03-12 14:01:59 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2e3900dc{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 14:01:59 [main] INFO  org.eclipse.jetty.server.Server - Started Server@78e043e4{STARTING}[11.0.23,sto=0] @2248ms
+2026-03-12 14:01:59 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 14:01:59 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 14:01:59 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:22:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:22:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:22:47 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52fc5eb1
+2026-03-12 15:22:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:22:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:23:29 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:23:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:23:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fca2a8f
+2026-03-12 15:23:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:23:29 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:28:15 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:28:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:28:15 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4078695f
+2026-03-12 15:28:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:28:15 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:28:35 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:28:35 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:28:35 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41f35f7c
+2026-03-12 15:28:35 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:28:35 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:28:36 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:28:36 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:28:36 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:28:36 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4ed19b69{/,null,AVAILABLE}
+2026-03-12 15:28:36 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@4a453f8d{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:28:36 [main] INFO  org.eclipse.jetty.server.Server - Started Server@2faf6e4a{STARTING}[11.0.23,sto=0] @2174ms
+2026-03-12 15:28:36 [main] INFO  io.javalin.Javalin - Javalin started in 71ms \o/
+2026-03-12 15:28:36 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:28:36 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:28:57 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:28:57 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:28:57 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@425d5d46
+2026-03-12 15:28:57 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:28:57 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:28:59 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:28:59 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:28:59 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:28:59 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@749f61a3{/,null,AVAILABLE}
+2026-03-12 15:28:59 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@1be3f8f8{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:28:59 [main] INFO  org.eclipse.jetty.server.Server - Started Server@25421809{STARTING}[11.0.23,sto=0] @2147ms
+2026-03-12 15:28:59 [main] INFO  io.javalin.Javalin - Javalin started in 70ms \o/
+2026-03-12 15:28:59 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:28:59 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:33:22 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:33:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:33:22 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@198ef2ce
+2026-03-12 15:33:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:33:23 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:33:24 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:33:24 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:33:24 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:33:24 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@36d7a68a{/,null,AVAILABLE}
+2026-03-12 15:33:24 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@78b9155e{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:33:24 [main] INFO  org.eclipse.jetty.server.Server - Started Server@714bffd5{STARTING}[11.0.23,sto=0] @2245ms
+2026-03-12 15:33:24 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 15:33:24 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:33:24 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:34:40 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:34:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:34:40 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-12 15:34:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:34:40 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:34:41 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:34:41 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:34:41 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:34:41 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@3eedd0e3{/,null,AVAILABLE}
+2026-03-12 15:34:41 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@5503c7d{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:34:41 [main] INFO  org.eclipse.jetty.server.Server - Started Server@1da5c19d{STARTING}[11.0.23,sto=0] @2150ms
+2026-03-12 15:34:41 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 15:34:41 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:34:41 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:35:22 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:35:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:35:22 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-12 15:35:22 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:35:22 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:35:24 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:35:24 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:35:24 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:35:24 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@6b3b2c34{/,null,AVAILABLE}
+2026-03-12 15:35:24 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@7827d7b{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:35:24 [main] INFO  org.eclipse.jetty.server.Server - Started Server@16fc5622{STARTING}[11.0.23,sto=0] @2088ms
+2026-03-12 15:35:24 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 15:35:24 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:35:24 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:35:25 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Property ISSUER not found in config.properties
+2026-03-12 15:35:25 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:37:16 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:37:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:37:17 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4078695f
+2026-03-12 15:37:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:37:17 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:37:18 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:37:18 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:37:18 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:37:18 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@b339a08{/,null,AVAILABLE}
+2026-03-12 15:37:18 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@9147ba2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:37:18 [main] INFO  org.eclipse.jetty.server.Server - Started Server@74830d73{STARTING}[11.0.23,sto=0] @2197ms
+2026-03-12 15:37:18 [main] INFO  io.javalin.Javalin - Javalin started in 79ms \o/
+2026-03-12 15:37:18 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:37:18 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:37:21 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:41:06 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:41:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:41:06 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@79a1728c
+2026-03-12 15:41:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:41:06 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:41:07 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:41:07 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:41:07 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:41:08 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@1d556461{/,null,AVAILABLE}
+2026-03-12 15:41:08 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@3460e4ed{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:41:08 [main] INFO  org.eclipse.jetty.server.Server - Started Server@1827fc4e{STARTING}[11.0.23,sto=0] @2145ms
+2026-03-12 15:41:08 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 15:41:08 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:41:08 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:41:12 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:43:12 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:43:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:43:12 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@783efb48
+2026-03-12 15:43:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:43:12 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:43:13 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:43:13 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:43:13 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:43:13 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@305881b8{/,null,AVAILABLE}
+2026-03-12 15:43:13 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2be50bba{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:43:13 [main] INFO  org.eclipse.jetty.server.Server - Started Server@62883f8a{STARTING}[11.0.23,sto=0] @2133ms
+2026-03-12 15:43:13 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 15:43:13 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:43:13 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:43:31 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:45:15 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:45:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:45:15 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52fc5eb1
+2026-03-12 15:45:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:45:15 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:45:17 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:45:17 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:45:17 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:45:17 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2838eb{/,null,AVAILABLE}
+2026-03-12 15:45:17 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6de33fde{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:45:17 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4491eaeb{STARTING}[11.0.23,sto=0] @2137ms
+2026-03-12 15:45:17 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 15:45:17 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:45:17 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:45:19 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:47:04 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:47:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:47:04 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@a7f0ab6
+2026-03-12 15:47:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:47:04 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:47:05 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:47:05 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:47:06 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:47:06 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@5a583720{/,null,AVAILABLE}
+2026-03-12 15:47:06 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2efcc0b3{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:47:06 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4c41a177{STARTING}[11.0.23,sto=0] @2192ms
+2026-03-12 15:47:06 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 15:47:06 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:47:06 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:47:08 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:47:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:47:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:47:47 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4443ef6f
+2026-03-12 15:47:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:47:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:47:48 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:47:48 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:47:48 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:47:48 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@3eedd0e3{/,null,AVAILABLE}
+2026-03-12 15:47:48 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@5503c7d{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:47:48 [main] INFO  org.eclipse.jetty.server.Server - Started Server@1da5c19d{STARTING}[11.0.23,sto=0] @2118ms
+2026-03-12 15:47:48 [main] INFO  io.javalin.Javalin - Javalin started in 79ms \o/
+2026-03-12 15:47:48 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:47:48 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:47:54 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:49:00 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:49:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:49:00 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52fc5eb1
+2026-03-12 15:49:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:49:00 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:49:02 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:49:02 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:49:02 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:49:02 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2838eb{/,null,AVAILABLE}
+2026-03-12 15:49:02 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6de33fde{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:49:02 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4491eaeb{STARTING}[11.0.23,sto=0] @2135ms
+2026-03-12 15:49:02 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 15:49:02 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:49:02 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:49:52 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:57:51 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:57:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:57:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@31fc71ab
+2026-03-12 15:57:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:57:51 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:57:53 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:57:53 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:57:53 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:57:53 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@e6e5da4{/,null,AVAILABLE}
+2026-03-12 15:57:53 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@21ea1d9d{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:57:53 [main] INFO  org.eclipse.jetty.server.Server - Started Server@5e8f0f98{STARTING}[11.0.23,sto=0] @2163ms
+2026-03-12 15:57:53 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 15:57:53 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:57:53 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:57:59 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 15:58:37 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 15:58:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 15:58:37 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@51751e5f
+2026-03-12 15:58:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 15:58:37 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 15:58:38 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 15:58:38 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 15:58:38 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 15:58:38 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@72f35a31{/,null,AVAILABLE}
+2026-03-12 15:58:39 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2ec0ca83{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 15:58:39 [main] INFO  org.eclipse.jetty.server.Server - Started Server@e706aa{STARTING}[11.0.23,sto=0] @2125ms
+2026-03-12 15:58:39 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 15:58:39 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 15:58:39 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 15:58:41 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:01:29 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:01:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:01:30 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52fc5eb1
+2026-03-12 16:01:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:01:30 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:01:31 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:01:31 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:01:31 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:01:31 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2838eb{/,null,AVAILABLE}
+2026-03-12 16:01:31 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6de33fde{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:01:31 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4491eaeb{STARTING}[11.0.23,sto=0] @2114ms
+2026-03-12 16:01:31 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 16:01:31 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:01:31 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:01:37 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:05:41 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:05:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:05:41 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fca2a8f
+2026-03-12 16:05:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:05:41 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:05:42 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:05:42 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:05:42 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:05:42 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@1dcca426{/,null,AVAILABLE}
+2026-03-12 16:05:42 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@54234569{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:05:42 [main] INFO  org.eclipse.jetty.server.Server - Started Server@e91facf{STARTING}[11.0.23,sto=0] @2103ms
+2026-03-12 16:05:42 [main] INFO  io.javalin.Javalin - Javalin started in 71ms \o/
+2026-03-12 16:05:42 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:05:42 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:05:51 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:07:23 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:07:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:07:23 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-12 16:07:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:07:23 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:07:24 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:07:24 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:07:24 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:07:24 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@6b3b2c34{/,null,AVAILABLE}
+2026-03-12 16:07:24 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@7827d7b{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:07:24 [main] INFO  org.eclipse.jetty.server.Server - Started Server@16fc5622{STARTING}[11.0.23,sto=0] @2060ms
+2026-03-12 16:07:24 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 16:07:24 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:07:24 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:08:17 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:08:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:08:18 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7a639ec5
+2026-03-12 16:08:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:08:18 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:08:19 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:08:19 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:08:19 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:08:19 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@fb5d334{/,null,AVAILABLE}
+2026-03-12 16:08:19 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@69c33ea2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:08:19 [main] INFO  org.eclipse.jetty.server.Server - Started Server@71262020{STARTING}[11.0.23,sto=0] @2175ms
+2026-03-12 16:08:19 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 16:08:19 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:08:19 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:08:53 [JettyServerThreadPool-37] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:10:22 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:10:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:10:23 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@31fc71ab
+2026-03-12 16:10:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:10:23 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:10:24 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:10:24 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:10:24 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:10:24 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@e6e5da4{/,null,AVAILABLE}
+2026-03-12 16:10:24 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@21ea1d9d{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:10:24 [main] INFO  org.eclipse.jetty.server.Server - Started Server@5e8f0f98{STARTING}[11.0.23,sto=0] @2139ms
+2026-03-12 16:10:24 [main] INFO  io.javalin.Javalin - Javalin started in 69ms \o/
+2026-03-12 16:10:24 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:10:24 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:10:26 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:14:16 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:14:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:14:16 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1bcb79c2
+2026-03-12 16:14:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:14:16 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:14:18 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:14:18 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:14:18 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:14:18 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@12548f9a{/,null,AVAILABLE}
+2026-03-12 16:14:18 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@19ac93d2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:14:18 [main] INFO  org.eclipse.jetty.server.Server - Started Server@13ee97af{STARTING}[11.0.23,sto=0] @2152ms
+2026-03-12 16:14:18 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 16:14:18 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:14:18 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:14:20 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:14:36 [JettyServerThreadPool-38] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:15:29 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:15:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:15:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fca2a8f
+2026-03-12 16:15:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:15:29 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:15:31 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:15:31 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:15:31 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:15:31 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@c5a2d5{/,null,AVAILABLE}
+2026-03-12 16:15:31 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2e426dd2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:15:31 [main] INFO  org.eclipse.jetty.server.Server - Started Server@341ccfd1{STARTING}[11.0.23,sto=0] @2188ms
+2026-03-12 16:15:31 [main] INFO  io.javalin.Javalin - Javalin started in 73ms \o/
+2026-03-12 16:15:31 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:15:31 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:15:35 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:15:53 [JettyServerThreadPool-36] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:17:42 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:17:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:17:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41aaedaa
+2026-03-12 16:17:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:17:43 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:17:44 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:17:44 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:17:44 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:17:44 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@47c81e89{/,null,AVAILABLE}
+2026-03-12 16:17:44 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@288409f0{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:17:44 [main] INFO  org.eclipse.jetty.server.Server - Started Server@54941dfd{STARTING}[11.0.23,sto=0] @2098ms
+2026-03-12 16:17:44 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 16:17:44 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:17:44 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:17:45 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:26:42 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:26:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:26:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52fc5eb1
+2026-03-12 16:26:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:26:43 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:26:44 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:26:44 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:26:44 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:26:44 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@f08d676{/,null,AVAILABLE}
+2026-03-12 16:26:44 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@15371de2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:26:44 [main] INFO  org.eclipse.jetty.server.Server - Started Server@19a7906c{STARTING}[11.0.23,sto=0] @2179ms
+2026-03-12 16:26:44 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 16:26:44 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:26:44 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:26:48 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:27:18 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:27:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:27:18 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38548b19
+2026-03-12 16:27:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:27:18 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:27:19 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:27:19 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:27:19 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:27:19 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@37f41a81{/,null,AVAILABLE}
+2026-03-12 16:27:19 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@49e62b17{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:27:19 [main] INFO  org.eclipse.jetty.server.Server - Started Server@1fa98a22{STARTING}[11.0.23,sto=0] @2176ms
+2026-03-12 16:27:19 [main] INFO  io.javalin.Javalin - Javalin started in 71ms \o/
+2026-03-12 16:27:19 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:27:19 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:27:21 [JettyServerThreadPool-48] ERROR app.exceptions.ApiException - ApiException (code=500): Could not create token
+2026-03-12 16:27:36 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:27:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:27:36 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3005db4a
+2026-03-12 16:27:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:27:36 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:27:37 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:27:37 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:27:37 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:27:37 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@305881b8{/,null,AVAILABLE}
+2026-03-12 16:27:37 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2be50bba{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:27:37 [main] INFO  org.eclipse.jetty.server.Server - Started Server@62883f8a{STARTING}[11.0.23,sto=0] @2206ms
+2026-03-12 16:27:37 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 16:27:37 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:27:37 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:29:29 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:29:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:29:29 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5d235104
+2026-03-12 16:29:29 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:29:29 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:29:31 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:29:31 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:29:31 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:29:31 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@432a6a69{/,null,AVAILABLE}
+2026-03-12 16:29:31 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@6cd7f381{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:29:31 [main] INFO  org.eclipse.jetty.server.Server - Started Server@11015ca0{STARTING}[11.0.23,sto=0] @2159ms
+2026-03-12 16:29:31 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 16:29:31 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:29:31 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:30:00 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:30:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:30:00 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41aaedaa
+2026-03-12 16:30:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:30:00 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:30:01 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:30:01 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:30:01 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:30:01 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@47c81e89{/,null,AVAILABLE}
+2026-03-12 16:30:02 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@288409f0{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:30:02 [main] INFO  org.eclipse.jetty.server.Server - Started Server@54941dfd{STARTING}[11.0.23,sto=0] @2163ms
+2026-03-12 16:30:02 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 16:30:02 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:30:02 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:31:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:31:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:31:47 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@38548b19
+2026-03-12 16:31:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:31:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:31:48 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:31:48 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:31:48 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:31:48 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@37f41a81{/,null,AVAILABLE}
+2026-03-12 16:31:48 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@49e62b17{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:31:48 [main] INFO  org.eclipse.jetty.server.Server - Started Server@1fa98a22{STARTING}[11.0.23,sto=0] @2117ms
+2026-03-12 16:31:48 [main] INFO  io.javalin.Javalin - Javalin started in 82ms \o/
+2026-03-12 16:31:48 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:31:48 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:35:15 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:35:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:35:15 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-12 16:35:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:35:16 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:35:17 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:35:17 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:35:17 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:35:17 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@46d148bd{/,null,AVAILABLE}
+2026-03-12 16:35:17 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@727dcc64{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:35:17 [main] INFO  org.eclipse.jetty.server.Server - Started Server@cf984d9{STARTING}[11.0.23,sto=0] @2238ms
+2026-03-12 16:35:17 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 16:35:17 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:35:17 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:41:01 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:41:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:41:01 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@c446b14
+2026-03-12 16:41:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:41:02 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:41:03 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:41:03 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:41:03 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:41:03 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@3fe98084{/,null,AVAILABLE}
+2026-03-12 16:41:03 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@4e5d5ac1{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:41:03 [main] INFO  org.eclipse.jetty.server.Server - Started Server@50672905{STARTING}[11.0.23,sto=0] @2121ms
+2026-03-12 16:41:03 [main] INFO  io.javalin.Javalin - Javalin started in 83ms \o/
+2026-03-12 16:41:03 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:41:03 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:41:43 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:41:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:41:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-12 16:41:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:41:43 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:41:45 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:41:45 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:41:45 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:41:45 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@46d148bd{/,null,AVAILABLE}
+2026-03-12 16:41:45 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@727dcc64{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:41:45 [main] INFO  org.eclipse.jetty.server.Server - Started Server@cf984d9{STARTING}[11.0.23,sto=0] @2210ms
+2026-03-12 16:41:45 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 16:41:45 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:41:45 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:49:17 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:49:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:49:17 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e8e8621
+2026-03-12 16:49:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:49:17 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:49:18 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:49:18 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:49:18 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:49:18 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@6f52a229{/,null,AVAILABLE}
+2026-03-12 16:49:18 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@7df3da0b{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:49:18 [main] INFO  org.eclipse.jetty.server.Server - Started Server@6ebbc06{STARTING}[11.0.23,sto=0] @2274ms
+2026-03-12 16:49:18 [main] INFO  io.javalin.Javalin - Javalin started in 79ms \o/
+2026-03-12 16:49:18 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:49:18 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:50:05 [JettyServerThreadPool-38] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:50:07 [JettyServerThreadPool-39] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:50:13 [JettyServerThreadPool-33] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:50:56 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:50:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:50:56 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2cfbeac4
+2026-03-12 16:50:56 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:50:56 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:50:57 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:50:57 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:50:57 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:50:57 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4470106b{/,null,AVAILABLE}
+2026-03-12 16:50:57 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@8549c5f{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:50:57 [main] INFO  org.eclipse.jetty.server.Server - Started Server@53ba25ff{STARTING}[11.0.23,sto=0] @2238ms
+2026-03-12 16:50:57 [main] INFO  io.javalin.Javalin - Javalin started in 71ms \o/
+2026-03-12 16:50:57 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:50:57 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:51:09 [JettyServerThreadPool-33] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@2d4dc986
+2026-03-12 16:51:20 [JettyServerThreadPool-40] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@1edead3a
+2026-03-12 16:52:30 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:52:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:52:30 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2cfbeac4
+2026-03-12 16:52:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:52:30 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:52:31 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:52:31 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:52:31 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:52:31 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4470106b{/,null,AVAILABLE}
+2026-03-12 16:52:31 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@8549c5f{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:52:31 [main] INFO  org.eclipse.jetty.server.Server - Started Server@53ba25ff{STARTING}[11.0.23,sto=0] @2192ms
+2026-03-12 16:52:31 [main] INFO  io.javalin.Javalin - Javalin started in 79ms \o/
+2026-03-12 16:52:31 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:52:31 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:52:51 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:52:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:52:51 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41aaedaa
+2026-03-12 16:52:51 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:52:51 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:52:52 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:52:52 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:52:52 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:52:52 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@47c81e89{/,null,AVAILABLE}
+2026-03-12 16:52:52 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@288409f0{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:52:52 [main] INFO  org.eclipse.jetty.server.Server - Started Server@54941dfd{STARTING}[11.0.23,sto=0] @2242ms
+2026-03-12 16:52:52 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 16:52:52 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:52:52 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:53:01 [JettyServerThreadPool-36] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@298d4fc7
+2026-03-12 16:54:42 [JettyServerThreadPool-35] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:54:53 [JettyServerThreadPool-39] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:54:56 [JettyServerThreadPool-40] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:56:36 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:56:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:56:36 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41f35f7c
+2026-03-12 16:56:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:56:36 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:56:38 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:56:38 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:56:38 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:56:38 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@775c4054{/,null,AVAILABLE}
+2026-03-12 16:56:38 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2b9d4b0{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:56:38 [main] INFO  org.eclipse.jetty.server.Server - Started Server@10d905c1{STARTING}[11.0.23,sto=0] @2174ms
+2026-03-12 16:56:38 [main] INFO  io.javalin.Javalin - Javalin started in 71ms \o/
+2026-03-12 16:56:38 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:56:38 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 16:56:48 [JettyServerThreadPool-37] ERROR app.exceptions.ApiException - ApiException (code=401): Unauthorized. Could not verify token
+2026-03-12 16:59:53 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 16:59:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 16:59:53 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@d1a10ac
+2026-03-12 16:59:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 16:59:53 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 16:59:55 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 16:59:55 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 16:59:55 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 16:59:55 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@156ff70f{/,null,AVAILABLE}
+2026-03-12 16:59:55 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@116fc29e{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 16:59:55 [main] INFO  org.eclipse.jetty.server.Server - Started Server@67e11bda{STARTING}[11.0.23,sto=0] @2256ms
+2026-03-12 16:59:55 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 16:59:55 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 16:59:55 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:00:42 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:00:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:00:42 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@a7f0ab6
+2026-03-12 17:00:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:00:42 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:00:43 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:00:43 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:00:43 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:00:43 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@68c4db77{/,null,AVAILABLE}
+2026-03-12 17:00:43 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@1d806de6{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:00:43 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4152bd0f{STARTING}[11.0.23,sto=0] @2228ms
+2026-03-12 17:00:43 [main] INFO  io.javalin.Javalin - Javalin started in 78ms \o/
+2026-03-12 17:00:43 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:00:43 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:01:16 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:01:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:01:16 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3e83c18
+2026-03-12 17:01:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:01:16 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:01:18 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:01:18 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:01:18 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:01:18 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2e0fdc83{/,null,AVAILABLE}
+2026-03-12 17:01:18 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@460eb276{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:01:18 [main] INFO  org.eclipse.jetty.server.Server - Started Server@64665781{STARTING}[11.0.23,sto=0] @2240ms
+2026-03-12 17:01:18 [main] INFO  io.javalin.Javalin - Javalin started in 76ms \o/
+2026-03-12 17:01:18 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:01:18 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:01:22 [JettyServerThreadPool-49] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@73485577
+2026-03-12 17:02:04 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:02:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:02:04 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@79a1728c
+2026-03-12 17:02:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:02:04 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:02:06 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:02:06 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:02:06 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:02:06 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2c7375da{/,null,AVAILABLE}
+2026-03-12 17:02:06 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@319aa9ee{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:02:06 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4345fd45{STARTING}[11.0.23,sto=0] @2162ms
+2026-03-12 17:02:06 [main] INFO  io.javalin.Javalin - Javalin started in 70ms \o/
+2026-03-12 17:02:06 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:02:06 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:02:07 [JettyServerThreadPool-48] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@793fba07
+2026-03-12 17:02:14 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@27bbbae6
+2026-03-12 17:02:23 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@7f572aba
+2026-03-12 17:02:59 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:02:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:02:59 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2cfbeac4
+2026-03-12 17:02:59 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:02:59 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:03:00 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:03:00 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:03:00 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:03:00 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@4470106b{/,null,AVAILABLE}
+2026-03-12 17:03:00 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@8549c5f{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:03:00 [main] INFO  org.eclipse.jetty.server.Server - Started Server@53ba25ff{STARTING}[11.0.23,sto=0] @2223ms
+2026-03-12 17:03:00 [main] INFO  io.javalin.Javalin - Javalin started in 74ms \o/
+2026-03-12 17:03:00 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:03:00 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:03:02 [JettyServerThreadPool-48] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@4aacd748
+2026-03-12 17:03:06 [JettyServerThreadPool-35] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@2c108fee
+2026-03-12 17:03:08 [JettyServerThreadPool-36] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@b3620a5
+2026-03-12 17:03:10 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@385e59a3
+2026-03-12 17:04:00 [JettyServerThreadPool-33] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@34ae1362
+2026-03-12 17:04:09 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@6324539
+2026-03-12 17:04:14 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@3a03f065
+2026-03-12 17:10:12 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:10:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:10:12 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fca2a8f
+2026-03-12 17:10:12 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:10:12 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:10:14 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:10:14 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:10:14 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:10:14 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@c5a2d5{/,null,AVAILABLE}
+2026-03-12 17:10:14 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2e426dd2{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:10:14 [main] INFO  org.eclipse.jetty.server.Server - Started Server@341ccfd1{STARTING}[11.0.23,sto=0] @2183ms
+2026-03-12 17:10:14 [main] INFO  io.javalin.Javalin - Javalin started in 80ms \o/
+2026-03-12 17:10:14 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:10:14 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:10:23 [JettyServerThreadPool-48] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@1b4f2113
+2026-03-12 17:10:25 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@21c8d3f0
+2026-03-12 17:10:28 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@7a73968a
+2026-03-12 17:11:50 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:11:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:11:50 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@41f35f7c
+2026-03-12 17:11:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:11:50 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:11:51 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:11:51 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:11:51 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:11:51 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@775c4054{/,null,AVAILABLE}
+2026-03-12 17:11:51 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@2b9d4b0{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:11:51 [main] INFO  org.eclipse.jetty.server.Server - Started Server@10d905c1{STARTING}[11.0.23,sto=0] @2144ms
+2026-03-12 17:11:51 [main] INFO  io.javalin.Javalin - Javalin started in 75ms \o/
+2026-03-12 17:11:51 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:11:51 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:11:54 [JettyServerThreadPool-48] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@56ddb165
+2026-03-12 17:12:08 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-12 17:12:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-12 17:12:08 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@79a1728c
+2026-03-12 17:12:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-12 17:12:08 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-12 17:12:09 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-12 17:12:09 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-12 17:12:09 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-12 17:12:09 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@2c7375da{/,null,AVAILABLE}
+2026-03-12 17:12:09 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@319aa9ee{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-12 17:12:09 [main] INFO  org.eclipse.jetty.server.Server - Started Server@4345fd45{STARTING}[11.0.23,sto=0] @2176ms
+2026-03-12 17:12:09 [main] INFO  io.javalin.Javalin - Javalin started in 72ms \o/
+2026-03-12 17:12:09 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-12 17:12:09 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 566 days old. Consider checking for a newer version.).
+2026-03-12 17:12:13 [JettyServerThreadPool-48] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@1c573f57
+2026-03-12 17:12:22 [JettyServerThreadPool-35] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@7adab6e4
+2026-03-12 17:12:48 [JettyServerThreadPool-40] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@1bcfe6b3

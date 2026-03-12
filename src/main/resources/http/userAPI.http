@@ -1,85 +1,94 @@
+### =========================
 ### LOGIN
-POST {{url}}/auth/login
+### =========================
+POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "Rove34lt235",
+  "password": "Rovelt"
 }
 
-#### ======== GET DATA ========
+> {%
+    var data = JSON.parse(responseBody);
+    token = data.token;
+%}
 
-### GET ALL USERS
-GET {{url}}/users
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
-
-### GET USER BY ID
-GET {{url}}/user/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
-
-### GET USER BY USERNAME
-GET {{url}}/user/by-username/Rovelt
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
-
-#### ====== END GET DATA ======
+### =========================
+### LOGOUT
+### =========================
+POST {{url}}/users/auth/logout
+Authorization: Bearer {{token}}
 
 
-
-#### ======== CREATE DATA ========
-### CREATE NEW USER (REGISTER)
-POST {{url}}/auth/register
+### =========================
+### REGISTER USER
+### =========================
+POST {{url}}/users/auth/register
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 {
   "name": "Rovelt",
-  "username": "Rovel235t",
+  "username": "Rove34lt235",
   "password": "Rovelt",
   "password_repeat": "Rovelt"
 }
-#### ====== END CREATE DATA ======
 
 
+### =========================
+### GET ALL USERS
+### =========================
+GET {{url}}/users/users
+Authorization: Bearer {{token}}
 
 
+### =========================
+### GET USER BY ID
+### =========================
+GET {{url}}/users/user/1
+Authorization: Bearer {{token}}
 
 
+### =========================
+### GET USER BY USERNAME
+### =========================
+GET {{url}}/users/user/by-username/Rovelt
+Authorization: Bearer {{token}}
 
 
-#### ======== UPDATE DATA ========
-
-### UPDATE USERNAME (admin)
-PUT {{url}}/user/update-username
+### =========================
+### UPDATE USERNAME
+### =========================
+PUT {{url}}/users/user/update-username
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
-  "newUsername": "admin",
+  "newUsername": "admin2",
   "password": "admin"
 }
 
-### UPDATE PASSWORD (admin)
-PUT {{url}}/user/update-password
+
+### =========================
+### UPDATE PASSWORD
+### =========================
+PUT {{url}}/users/user/update-password
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
-  "oldPassword": "admin2",
-  "newPassword": "admin",
-  "newPassword_repeat": "admin"
+  "oldPassword": "admin",
+  "newPassword": "admin2",
+  "newPassword_repeat": "admin2"
 }
 
-### ======== END UPDATE DATA ========
 
-
-
-
-
-### ========== DELETE DATA ==========
-### DELETE USER WITH CONFIRMATION (self)
-DELETE {{url}}/user/delete
+### =========================
+### DELETE USER (SELF)
+### =========================
+DELETE {{url}}/users/user/delete
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "password1": "Rovelt",
@@ -87,21 +96,13 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 }
 
 
-### FORCE DELETE USER (admin only)
-DELETE {{url}}/user/force-delete/10
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+### =========================
+### FORCE DELETE USER (CHEF)
+### =========================
+DELETE {{url}}/users/user/force-delete/10
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "confirm_username": "Rovelt"
 }
-
-### ======== END DELETE DATA ========
-
-
-
-
-### ============ LOG OUT ============
-### LOGOUT
-POST {{url}}/auth/logout
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
-### ========= END  LOG OUT ==========

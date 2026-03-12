@@ -1,5 +1,6 @@
 package app.controllers;
 
+
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.UserDAO;
@@ -7,18 +8,23 @@ import app.dtos.UserDTO;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.security.SecurityConfig;
 import app.services.MessageService;
 import app.services.PasswordService;
-import io.javalin.Javalin;
+import app.services.security.SecurityService;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 
 public class UserController extends BaseController<User, UserDTO> {
 
     private static final UserDAO userDAO = Main.setup.getUserDAO();
+    private static SecurityService securityService = new SecurityService();
 
     public UserController() {
         super(User.class, UserDTO::new);
@@ -26,25 +32,26 @@ public class UserController extends BaseController<User, UserDTO> {
 
     // ________________________________________________________
 
-    public static void registerRoutes(Javalin app) {
+    public static EndpointGroup registerRoutes() {
         UserController controller = new UserController();
+        return ()->{
+            post("/auth/register", controller::createUser, Role.ANYONE);
+            post("/auth/login", controller::login, Role.ANYONE);
+            post("/auth/logout", controller::logout, Role.USER);
 
-        // Auth endpoints
-        app.post("/auth/register", controller::createUser);
-        app.post("/auth/login", controller::login);
-        app.post("/auth/logout", controller::logout);
+            // User endpoints
+            put("/user/update-username", controller::updateUsername, Role.USER);
+            put("/user/update-password", controller::updatePassword, Role.USER);
+            delete("/user/delete", controller::deleteUserWithConfirm, Role.USER);
+            get("/users", controller::getAll, Role.USER);
+            get("/user/{id}", controller::getByID, Role.USER);
+            get("/user/by-username/{username}", controller::getByUsername, Role.USER);
 
-        // User endpoints
-        app.put("/user/update-username", controller::updateUsername);
-        app.put("/user/update-password", controller::updatePassword);
-        app.delete("/user/delete", controller::deleteUserWithConfirm);
-        app.get("/users", controller::getAll);
-        app.get("/user/{id}", controller::getByID);
-        app.get("/user/by-username/{username}", controller::getByUsername);
-
-        // Admin endpoints
-        app.delete("/user/force-delete/{id}", controller::forceDeleteUser);
+            // Admin endpoints
+            delete("/user/force-delete/{id}", controller::forceDeleteUser, Role.CHEF);
+        };
     }
+
 
     // ________________________________________________________
 
@@ -64,16 +71,11 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        ctx.sessionAttribute("user", user);
+        String token = securityService.createToken(new UserDTO(user));
 
         String message = MessageService.buildMessage(
                 Notifications.LOGGED_IN,
                 user.getName()
-        );
-
-        String token = SecurityConfig.TOKEN_MANAGER.createToken(
-                user.getUsername(),
-                user.getRole().name()
         );
 
         ctx.json(Map.of(
@@ -86,9 +88,14 @@ public class UserController extends BaseController<User, UserDTO> {
     // ________________________________________________________
 
     private void logout(Context ctx) {
-        ctx.sessionAttribute("user", null);
 
-        ctx.json(Notifications.LOGGED_OUT.getDisplayName());
+        UserDTO userDTO = ctx.sessionAttribute("user");
+        if (userDTO != null) {
+            ctx.attribute("user", null);
+            ctx.json(Notifications.LOGGED_OUT.getDisplayName());
+        }
+        ctx.json(Notifications.NOT_LOGGED_IN.getDisplayName());
+
     }
 
     // ________________________________________________________
@@ -130,9 +137,13 @@ public class UserController extends BaseController<User, UserDTO> {
         User user = new User(name, role, username, PasswordService.hashHelper(password));
         userDAO.create(user);
 
+
+        String token = securityService.createToken(new UserDTO(user));
+
         String message = MessageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
 
         ctx.status(201).json(Map.of(
+                "token", token,
                 "message", message,
                 "user", new UserDTO(user)
 
@@ -143,7 +154,8 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void updateUsername(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.sessionAttribute("user");
+        User user = userDAO.getById(userDTO.getId());
         String newUsername = body.get("newUsername");
         String password = body.get("password");
 
@@ -175,7 +187,9 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void updatePassword(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.sessionAttribute("user");
+        User user = userDAO.getById(userDTO.getId());
+
 
         String oldPassword = body.get("oldPassword");
         String newPassword = body.get("newPassword");
@@ -205,7 +219,8 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void deleteUserWithConfirm(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.sessionAttribute("user");
+        User user = userDAO.getById(userDTO.getId());
 
         if(user == null){
             ctx.status(401).json(Notifications.NOT_LOGGED_IN.getDisplayName());
@@ -232,7 +247,8 @@ public class UserController extends BaseController<User, UserDTO> {
     // ________________________________________________________
 
     private void forceDeleteUser(Context ctx) {
-        User admin = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.sessionAttribute("user");
+        User admin = userDAO.getById(userDTO.getId());
         int targetId = Integer.parseInt(ctx.pathParam("id"));
 
         if(admin == null || admin.getRole() != Role.CHEF){

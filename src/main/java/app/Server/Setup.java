@@ -1,7 +1,10 @@
 package app.Server;
 
 import app.daos.*;
+import app.enums.Role;
+import app.services.security.AccessService;
 import io.javalin.Javalin;
+import io.javalin.config.JavalinConfig;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 
@@ -10,6 +13,7 @@ public class Setup {
 
     private final EntityManager em;
     private final Javalin app;
+    private final AccessService accessService;
 
     // ________________________________________________________
 
@@ -26,7 +30,19 @@ public class Setup {
 
     public Setup(EntityManager em, int port) {
         this.em = em;
-        this.app = Javalin.create().start(port);
+        this.accessService = new AccessService();
+
+        this.app = Javalin.create(Setup::configuration)
+        .beforeMatched(accessService::accessHandler)
+        .start(port);
+    }
+
+    // ________________________________________________________
+
+    public static void configuration(JavalinConfig config) {
+        config.showJavalinBanner = false;
+        config.bundledPlugins.enableRouteOverview("/routes", Role.ANYONE);
+        //TODO: Add more configs maybe???
     }
 
     // ________________________________________________________
@@ -47,8 +63,10 @@ public class Setup {
         shiftRequestDAO = new ShiftRequestDAO(em);
         shiftDAO = new ShiftDAO(em);
         responseDAO = new ResponseDAO(em);
+
+        app.unsafeConfig().router.apiBuilder(Routing.registerRoutes());
         //TestData.generate();
-        Routing.registerRoutes(app);
+
     }
 
 

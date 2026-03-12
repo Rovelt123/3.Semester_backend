@@ -1,9 +1,11 @@
 package app.enums;
 
+import io.javalin.security.RouteRole;
 import lombok.Getter;
 
 @Getter
-public enum Role {
+public enum Role implements RouteRole {
+    ANYONE("Alle"),
     USER("Medarbejder"),
     CHEF("Chef");
 
