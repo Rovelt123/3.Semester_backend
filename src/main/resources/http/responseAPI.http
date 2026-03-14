@@ -3,15 +3,19 @@
 ### GET ALL RESPONSES
 GET {{url}}/responses
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET RESPONSE BY ID
-GET {{url}}/response/1
+GET {{url}}/response/7
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
-### GET RESPONSES BY USER
-GET {{url}}/responses/user/2
+### GET RESPONSES BY SHIFT REQUEST
+GET {{url}}/responses/user/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET RESPONSES BY REQUEST
-GET {{url}}/responses/request/1
+GET {{url}}/responses/request/4
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

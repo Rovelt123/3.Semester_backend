@@ -19,6 +19,10 @@ public enum Notifications {
 
     GET_ALL("You fetched %s %ss"),
     GET_BY_ID("You fetched %s with ID: %s"),
+    NOT_FOUND_ID("%s not found with ID: %s"),
+
+    OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
+    OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
 
     LOGGED_IN("Welcome back %s!"),
     LOGGED_OUT("See you later!"),

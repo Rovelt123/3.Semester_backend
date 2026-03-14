@@ -3,10 +3,12 @@
 ### GET ALL MESSAGES
 GET {{url}}/messages
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET CONVERSATION
 GET {{url}}/conversation/2
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== SEND MESSAGE ========
@@ -14,17 +16,19 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 POST {{url}}/message/2
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
-  "content": "Hej hvordan går det?"
+  "content": "Går det godt habibi?"
 }
 
 
 #### ======== UPDATE MESSAGE ========
 
-PUT {{url}}/message/1
+PUT {{url}}/message/2
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "content": "Redigeret besked"
@@ -33,5 +37,6 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 #### ======== DELETE MESSAGE ========
 
-DELETE {{url}}/message/1
+DELETE {{url}}/message/2
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

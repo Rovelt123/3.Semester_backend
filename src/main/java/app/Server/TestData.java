@@ -10,6 +10,7 @@ import app.services.PasswordService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 public class TestData {
 
@@ -27,11 +28,11 @@ public class TestData {
         // USERS
         // ========================================================
 
-        User admin = new User("Admin User", Role.CHEF, "admin", PasswordService.hashHelper("admin"));
-        User worker = new User("Worker User", Role.USER, "user", PasswordService.hashHelper("user"));
-        User worker2 = new User("Worker User1", Role.USER, "user1", PasswordService.hashHelper("user1"));
-        User worker3 = new User("Worker User2", Role.USER, "user2", PasswordService.hashHelper("user2"));
-        User worker4 = new User("Worker User3", Role.USER, "user3", PasswordService.hashHelper("user3"));
+        User admin = new User("Admin User", Set.of(Role.CHEF, Role.USER), "admin", PasswordService.hashHelper("admin"));
+        User worker = new User("Worker User", Set.of(Role.USER), "user", PasswordService.hashHelper("user"));
+        User worker2 = new User("Worker User1", Set.of(Role.USER), "user1", PasswordService.hashHelper("user1"));
+        User worker3 = new User("Worker User2", Set.of(Role.USER), "user2", PasswordService.hashHelper("user2"));
+        User worker4 = new User("Worker User3", Set.of(Role.USER), "user3", PasswordService.hashHelper("user3"));
 
         userDAO.create(admin);
         userDAO.create(worker);

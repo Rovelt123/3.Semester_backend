@@ -3,40 +3,55 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.HolidayDAO;
+import app.daos.UserDAO;
 import app.dtos.HolidayDTO;
+import app.dtos.UserDTO;
 import app.entities.Holiday;
 import app.entities.User;
 import app.enums.Role;
-import io.javalin.Javalin;
+
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
 public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
+    private static final UserDAO userDAO = Main.setup.getUserDAO();
+
+    //________________________________________________________
 
     public HolidayController(){
         super(Holiday.class, HolidayDTO::new);
     }
 
-    public static void registerRoutes(Javalin app){
+    //________________________________________________________
+
+    public static EndpointGroup registerRoutes(){
 
         HolidayController controller = new HolidayController();
 
-        app.post("/holiday", controller::requestHoliday);
-        app.put("/holiday/{id}", controller::updateHoliday);
-        app.post("/holiday/{id}/approve", controller::approveHoliday);
-        app.post("/holiday/{id}/reject", controller::rejectHoliday);
+        return () -> {
+            post("/holiday", controller::requestHoliday, Role.USER);
+            put("/holiday/{id}", controller::updateHoliday, Role.USER);
+            post("/holiday/{id}/approve", controller::approveHoliday, Role.CHEF);
+            post("/holiday/{id}/reject", controller::rejectHoliday, Role.CHEF);
 
-        app.get("/holidays", controller::getAll);
+            get("/holidays", controller::getAll, Role.USER);
+        };
     }
+
+    //________________________________________________________
 
     private void requestHoliday(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = userDAO.getById(userDTO.getId());
 
         Map<String,String> body = ctx.bodyAsClass(Map.class);
 
@@ -50,9 +65,12 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
         ctx.status(201).json(new HolidayDTO(holiday));
     }
 
+    //________________________________________________________
+
     private void updateHoliday(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = userDAO.getById(userDTO.getId());
 
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -73,11 +91,14 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
         ctx.json(new HolidayDTO(holiday));
     }
 
+    //________________________________________________________
+
     private void approveHoliday(Context ctx){
 
-        User admin = ctx.sessionAttribute("user");
 
-        if(admin.getRole() != Role.CHEF){
+        UserDTO admin = ctx.attribute("user");
+
+        if(admin.getRole().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }
@@ -93,11 +114,13 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
         ctx.json(new HolidayDTO(holiday));
     }
 
+    //________________________________________________________
+
     private void rejectHoliday(Context ctx){
 
-        User admin = ctx.sessionAttribute("user");
+        UserDTO admin = ctx.attribute("user");
 
-        if(admin.getRole() != Role.CHEF){
+        if(admin.getRole().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }
@@ -113,10 +136,14 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
         ctx.json(new HolidayDTO(holiday));
     }
 
+    //________________________________________________________
+
     @Override
     protected List<Holiday> getAllEntities() {
         return holidayDAO.getAll();
     }
+
+    //________________________________________________________
 
     @Override
     protected Holiday getEntityById(int id) {

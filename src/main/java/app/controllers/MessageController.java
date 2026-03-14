@@ -5,55 +5,71 @@ import app.controllers.Generic.BaseController;
 import app.daos.MessageDAO;
 import app.daos.UserDAO;
 import app.dtos.MessageDTO;
+import app.dtos.UserDTO;
 import app.entities.Message;
 import app.entities.User;
-import io.javalin.Javalin;
+import app.enums.Role;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.util.List;
 import java.util.Map;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class MessageController extends BaseController<Message, MessageDTO> {
 
     private static final MessageDAO messageDAO = Main.setup.getMessageDAO();
     private static final UserDAO userDAO = Main.setup.getUserDAO();
 
+    // ________________________________________________________
+
     public MessageController(){
         super(Message.class, MessageDTO::new);
     }
 
-    public static void registerRoutes(Javalin app){
+    // ________________________________________________________
+
+    public static EndpointGroup registerRoutes(){
 
         MessageController controller = new MessageController();
 
-        app.post("/message", controller::sendMessage);
-        app.put("/message/{id}", controller::updateMessage);
-        app.delete("/message/{id}", controller::deleteMessage);
+        return () -> {
+            post("/message/{id}", controller::sendMessage, Role.USER);
+            put("/message/{id}", controller::updateMessage, Role.USER);
+            delete("/message/{id}", controller::deleteMessage, Role.USER);
 
-        app.get("/messages", controller::getAll);
-        app.get("/conversation/{user_id}", controller::getConversation);
+            get("/messages", controller::getAll, Role.USER);
+            get("/conversation/{user_id}", controller::getConversation, Role.USER);
+        };
     }
+
+    // ________________________________________________________
 
     private void sendMessage(Context ctx){
 
-        User sender = ctx.sessionAttribute("user");
+        UserDTO sender = ctx.attribute("user");
+        User user = userDAO.getById(sender.getId());
 
         Map<String,String> body = ctx.bodyAsClass(Map.class);
 
         String content = body.get("content");
 
-        User receiver = ctx.pathParamAsClass("receiver", User.class).get();
+        int id = Integer.parseInt(ctx.pathParam("id"));
+        User receiver = userDAO.getById(id);
 
-        Message message = new Message(sender, receiver, content);
+        Message message = new Message(user, receiver, content);
 
         messageDAO.create(message);
 
         ctx.status(201).json(new MessageDTO(message));
     }
 
+    // ________________________________________________________
+
     private void updateMessage(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO user = ctx.attribute("user");
 
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -73,9 +89,11 @@ public class MessageController extends BaseController<Message, MessageDTO> {
         ctx.json(new MessageDTO(message));
     }
 
+    // ________________________________________________________
+
     private void deleteMessage(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO user = ctx.attribute("user");
 
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -86,14 +104,16 @@ public class MessageController extends BaseController<Message, MessageDTO> {
             return;
         }
 
-        messageDAO.delete(message);
+        messageDAO.deleteById(message.getId());
 
         ctx.json("Message deleted");
     }
 
+    // ________________________________________________________
+
     private void getConversation(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO user = ctx.attribute("user");
 
         int other = Integer.parseInt(ctx.pathParam("user_id"));
 
@@ -106,10 +126,14 @@ public class MessageController extends BaseController<Message, MessageDTO> {
         ctx.json(messages);
     }
 
+    // ________________________________________________________
+
     @Override
     protected List<Message> getAllEntities() {
         return messageDAO.getAll();
     }
+
+    // ________________________________________________________
 
     @Override
     protected Message getEntityById(int id) {

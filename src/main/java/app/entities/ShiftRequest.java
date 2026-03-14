@@ -27,7 +27,7 @@ public class ShiftRequest {
     @ManyToOne
     private Shift shift;
 
-    @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Response> responses = new ArrayList<>();
 
     public ShiftRequest() {}

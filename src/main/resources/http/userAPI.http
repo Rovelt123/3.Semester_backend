@@ -5,7 +5,7 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "Rove34lt235",
+  "username": "Rovelt",
   "password": "Rovelt"
 }
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 {
   "name": "Rovelt",
-  "username": "Rove34lt235",
+  "username": "Rovelt",
   "password": "Rovelt",
   "password_repeat": "Rovelt"
 }
@@ -38,55 +38,55 @@ Content-Type: application/json
 ### =========================
 ### GET ALL USERS
 ### =========================
-GET {{url}}/users/users
+GET {{url}}/users
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### GET USER BY ID
 ### =========================
-GET {{url}}/users/user/1
+GET {{url}}/user/1
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### GET USER BY USERNAME
 ### =========================
-GET {{url}}/users/user/by-username/Rovelt
+GET {{url}}/user/by-username/Rovelt
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### UPDATE USERNAME
 ### =========================
-PUT {{url}}/users/user/update-username
+PUT {{url}}/user/update-username
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "newUsername": "admin2",
-  "password": "admin"
+  "newUsername": "Rovelt",
+  "password": "Rovelt"
 }
 
 
 ### =========================
 ### UPDATE PASSWORD
 ### =========================
-PUT {{url}}/users/user/update-password
+PUT {{url}}/user/update-password
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "oldPassword": "admin",
-  "newPassword": "admin2",
-  "newPassword_repeat": "admin2"
+  "oldPassword": "Rovelt123",
+  "newPassword": "Rovelt",
+  "newPassword_repeat": "Rovelt"
 }
 
 
 ### =========================
 ### DELETE USER (SELF)
 ### =========================
-DELETE {{url}}/users/user/delete
+DELETE {{url}}/user/delete
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -99,7 +99,7 @@ Authorization: Bearer {{token}}
 ### =========================
 ### FORCE DELETE USER (CHEF)
 ### =========================
-DELETE {{url}}/users/user/force-delete/10
+DELETE {{url}}/user/force-delete/4
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

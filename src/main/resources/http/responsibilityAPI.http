@@ -3,14 +3,17 @@
 ### GET ALL RESPONSIBILITIES
 GET {{url}}/responsibilities
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET RESPONSIBILITY BY ID
 GET {{url}}/responsibility/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET RESPONSIBILITY BY NAME
-GET {{url}}/responsibility/name/Bar
+GET {{url}}/responsibility/name/Chauffør
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== CREATE ========
@@ -18,6 +21,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 POST {{url}}/responsibility
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "name": "Bar"
@@ -29,6 +33,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 PUT {{url}}/responsibility/1
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "name": "Kitchen"
@@ -39,3 +44,4 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 DELETE {{url}}/responsibility/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

@@ -1,6 +1,7 @@
 package app.entities;
 
 import app.enums.HolidayStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Holiday {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     protected Holiday() {}

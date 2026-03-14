@@ -7,11 +7,13 @@ import app.dtos.AnnouncementDTO;
 import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Role;
-import io.javalin.Javalin;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.util.List;
 import java.util.Map;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class AnnouncementController extends BaseController<Announcement, AnnouncementDTO> {
 
@@ -21,23 +23,26 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         super(Announcement.class, AnnouncementDTO::new);
     }
 
-    public static void registerRoutes(Javalin app){
+    public static EndpointGroup registerRoutes(){
 
         AnnouncementController controller = new AnnouncementController();
 
-        app.post("/announcement", controller::createAnnouncement);
-        app.put("/announcement/{id}", controller::updateAnnouncement);
-        app.delete("/announcement/{id}", controller::deleteAnnouncement);
+        return () -> {
+            post("/announcement", controller::createAnnouncement, Role.CHEF);
+            put("/announcement/{id}", controller::updateAnnouncement, Role.CHEF);
+            delete("/announcement/{id}", controller::deleteAnnouncement, Role.CHEF);
 
-        app.get("/announcements", controller::getAll);
-        app.get("/announcement/{id}", controller::getByID);
+            get("/announcements", controller::getAll, Role.USER);
+            get("/announcement/{id}", controller::getByID, Role.USER);
+        };
+
     }
 
     private void createAnnouncement(Context ctx){
 
         User user = ctx.sessionAttribute("user");
 
-        if(user.getRole() != Role.CHEF){
+        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }
@@ -59,7 +64,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         User user = ctx.sessionAttribute("user");
 
-        if(user.getRole() != Role.CHEF){
+        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }
@@ -81,7 +86,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         User user = ctx.sessionAttribute("user");
 
-        if(user.getRole() != Role.CHEF){
+        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }

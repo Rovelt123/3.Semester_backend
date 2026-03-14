@@ -3,6 +3,7 @@
 ### GET ALL HOLIDAYS
 GET {{url}}/holidays
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== REQUEST HOLIDAY ========
@@ -10,6 +11,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 POST {{url}}/holiday
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "start": "2026-07-01",
@@ -22,6 +24,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 PUT {{url}}/holiday/1
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "start": "2026-07-02",
@@ -33,9 +36,11 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 POST {{url}}/holiday/1/approve
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== REJECT HOLIDAY (CHEF) ========
 
 POST {{url}}/holiday/1/reject
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

@@ -3,10 +3,12 @@
 ### GET ALL SHIFT REQUESTS
 GET {{url}}/shift-requests
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET SHIFT REQUEST BY ID
-GET {{url}}/shift-request/1
+GET {{url}}/shift-request/2
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== CREATE REQUEST ========
@@ -14,9 +16,10 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 POST {{url}}/shift-request
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
-  "shift_id": 3
+  "shift_id": 1
 }
 
 
@@ -24,9 +27,11 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 POST {{url}}/shift-request/1/take
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== DELETE REQUEST ========
 
-DELETE {{url}}/shift-request/1
+DELETE {{url}}/shift-request/3
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

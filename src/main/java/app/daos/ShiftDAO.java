@@ -14,7 +14,7 @@ public class ShiftDAO  extends EntityManagerDAO<Shift> {
 
     public List<Shift> getShiftsByUserId(int userId) {
         return em.createQuery(
-        "SELECT s FROM Shift s WHERE s.ownerid.id = :userId", Shift.class)
+        "SELECT s FROM Shift s WHERE s.owner.id = :userId", Shift.class)
             .setParameter("userId", userId).getResultList();
     }
 

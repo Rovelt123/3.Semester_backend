@@ -1,6 +1,8 @@
 package app.services.security;
 
+import app.Main;
 import app.dtos.UserDTO;
+import app.entities.User;
 import app.enums.Role;
 import app.exceptions.ApiException;
 import app.exceptions.NotAuthorizedException;
@@ -71,19 +73,23 @@ public class SecurityService implements ISecurityService {
 
     @Override
     // Check if the user's roles contain any of the allowed roles
-    public boolean authorize(UserDTO user, Set<RouteRole> allowedRoles) {
+    public boolean authorize(UserDTO userDTO, Set<RouteRole> allowedRoles) {
+        User user = Main.setup.getUserDAO().getById(userDTO.getId());
         if (user == null) {
             throw new UnauthorizedResponse("You need to log in, dude!");
         }
-        if (user.getRole().equals(Role.CHEF)) {
+
+        Set<String> roleNames = allowedRoles.stream()
+                .map(RouteRole::toString)  // Convert RouteRoles to  Set of Strings
+                .collect(Collectors.toSet());
+
+        Set<Role> roles = user.getRoles();
+
+        if (roles.stream().anyMatch(role -> role.equals(Role.CHEF))) {
             return true;
         }
-        Set<String> roleNames = allowedRoles.stream()
-                   .map(RouteRole::toString)  // Convert RouteRoles to  Set of Strings
-                   .collect(Collectors.toSet());
-        return Set.of(String.valueOf(user.getRole())).stream()
-                   .map(String::toUpperCase)
-                    .anyMatch(roleNames::contains);
+
+        return user.getRoles().stream().anyMatch(allowedRoles::contains);
     }
 
     @Override

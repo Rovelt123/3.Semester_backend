@@ -12,12 +12,15 @@ import app.enums.Role;
 import app.services.HolidayAPIService;
 import app.services.MessageService;
 import io.javalin.Javalin;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
@@ -31,27 +34,29 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     //________________________________________________________
 
-    public static void registerRoutes(Javalin app) {
+    public static EndpointGroup registerRoutes() {
 
         ShiftController controller = new ShiftController();
+        return () -> {
+            post("/shift", controller::createShift, Role.CHEF);
+            put("/shift/{id}", controller::updateShift, Role.CHEF);
+            delete("/shift/{id}", controller::deleteShift, Role.CHEF);
 
-        app.post("/shift", controller::createShift);
-        app.put("/shift/{id}", controller::updateShift);
-        app.delete("/shift/{id}", controller::deleteShift);
+            get("/shifts", controller::getAll, Role.USER);
+            get("/shift/{id}", controller::getByID, Role.USER);
+            get("/shifts/date/{date}", controller::getShiftsByDate, Role.USER);
+            get("/shifts/user/{id}", controller::getShiftsByUser, Role.USER);
 
-        app.get("/shifts", controller::getAll);
-        app.get("/shift/{id}", controller::getByID);
-        app.get("/shifts/date/{date}", controller::getShiftsByDate);
-        app.get("/shifts/user/{id}", controller::getShiftsByUser);
+        };
     }
 
     //________________________________________________________
 
     private void createShift(Context ctx) {
 
-        User admin = ctx.sessionAttribute("user");
+        User admin = ctx.attribute("user");
 
-        if (admin == null || admin.getRole() != Role.CHEF) {
+        if (admin == null || admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))) {
             ctx.status(403).json(Notifications.ADMINS_ONLY.getDisplayName());
             return;
         }
@@ -96,9 +101,9 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void updateShift(Context ctx) {
 
-        User admin = ctx.sessionAttribute("user");
+        User admin = ctx.attribute("user");
 
-        if (admin == null || admin.getRole() != Role.CHEF) {
+        if (admin == null || admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))) {
             ctx.status(403).json(Notifications.ADMINS_ONLY.getDisplayName());
             return;
         }
@@ -147,9 +152,9 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void deleteShift(Context ctx) {
 
-        User admin = ctx.sessionAttribute("user");
+        User admin = ctx.attribute("user");
 
-        if (admin == null || admin.getRole() != Role.CHEF) {
+        if (admin == null || admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))) {
             ctx.status(403).json(Notifications.ADMINS_ONLY.getDisplayName());
             return;
         }

@@ -2,12 +2,14 @@ package app.entities;
 
 import app.enums.Role;
 import app.enums.ShiftStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -25,8 +27,11 @@ public class User {
     private String username;
     private String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private Set<Role> roles;
 
     @ManyToMany
     @JoinTable(
@@ -37,6 +42,7 @@ public class User {
     private List<Responsibility> responsibilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Holiday> holidays = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -53,11 +59,23 @@ public class User {
 
     // ________________________________________________________
 
-    public User(String name, Role role, String username, String password) {
+    public User(String name, Set<Role> role, String username, String password) {
         this.name = name;
-        this.role = role;
+        this.roles = role;
         this.username = username;
         this.password = password;
+    }
+
+    // ________________________________________________________
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    // ________________________________________________________
+
+    public void removeRole(Role role) {
+        roles.remove(role);
     }
 
     // ________________________________________________________

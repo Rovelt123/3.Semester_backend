@@ -35,9 +35,9 @@ public class UserController extends BaseController<User, UserDTO> {
     public static EndpointGroup registerRoutes() {
         UserController controller = new UserController();
         return ()->{
-            post("/auth/register", controller::createUser, Role.ANYONE);
-            post("/auth/login", controller::login, Role.ANYONE);
-            post("/auth/logout", controller::logout, Role.USER);
+            post("users/auth/register", controller::createUser, Role.ANYONE);
+            post("users/auth/login", controller::login, Role.ANYONE);
+            post("users/auth/logout", controller::logout, Role.USER);
 
             // User endpoints
             put("/user/update-username", controller::updateUsername, Role.USER);
@@ -89,12 +89,8 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void logout(Context ctx) {
 
-        UserDTO userDTO = ctx.sessionAttribute("user");
-        if (userDTO != null) {
-            ctx.attribute("user", null);
-            ctx.json(Notifications.LOGGED_OUT.getDisplayName());
-        }
-        ctx.json(Notifications.NOT_LOGGED_IN.getDisplayName());
+        //TODO: Needed? Stateless API???
+        ctx.json(Notifications.LOGGED_OUT.getDisplayName());
 
     }
 
@@ -134,7 +130,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        User user = new User(name, role, username, PasswordService.hashHelper(password));
+        User user = new User(name, Set.of(role), username, PasswordService.hashHelper(password));
         userDAO.create(user);
 
 
@@ -154,7 +150,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void updateUsername(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        UserDTO userDTO = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
         User user = userDAO.getById(userDTO.getId());
         String newUsername = body.get("newUsername");
         String password = body.get("password");
@@ -187,7 +183,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void updatePassword(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        UserDTO userDTO = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
         User user = userDAO.getById(userDTO.getId());
 
 
@@ -219,7 +215,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void deleteUserWithConfirm(Context ctx) {
         Map<String,String> body = ctx.bodyAsClass(Map.class);
-        UserDTO userDTO = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
         User user = userDAO.getById(userDTO.getId());
 
         if(user == null){
@@ -251,7 +247,7 @@ public class UserController extends BaseController<User, UserDTO> {
         User admin = userDAO.getById(userDTO.getId());
         int targetId = Integer.parseInt(ctx.pathParam("id"));
 
-        if(admin == null || admin.getRole() != Role.CHEF){
+        if(admin == null || admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403).json(Notifications.ADMINS_ONLY.getDisplayName());
             return;
         }
@@ -297,8 +293,14 @@ public class UserController extends BaseController<User, UserDTO> {
         return userDAO.getAll();
     }
 
+    // ________________________________________________________
+
     @Override
     protected User getEntityById(int id) {
         return userDAO.getById(id);
     }
+
+    // ________________________________________________________
+
+    //TODO: Add/remove roles by admin should be created!!!
 }

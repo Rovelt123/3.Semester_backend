@@ -20,10 +20,9 @@ public class JWTTokenGenerator {
 
     // ---------------- CREATE TOKEN ----------------
     public static String createToken(UserDTO user, String issuer, String expireMillis, String secretKey) throws JOSEException {
-        // Ensure roles are non-empty
         Set<String> roles = Set.of(String.valueOf(user.getRole()));
         if (roles == null || roles.isEmpty()) {
-            roles = Set.of("USER"); // fallback role
+            roles = Set.of("USER");
         }
 
         String rolesStr = roles.stream().collect(Collectors.joining(","));

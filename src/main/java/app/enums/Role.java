@@ -7,6 +7,7 @@ import lombok.Getter;
 public enum Role implements RouteRole {
     ANYONE("Alle"),
     USER("Medarbejder"),
+    CO_OWNER("Sous chef"),
     CHEF("Chef");
 
     // ________________________________________________________
