@@ -3,10 +3,12 @@
 ### GET ALL ANNOUNCEMENTS
 GET {{url}}/announcements
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 ### GET ANNOUNCEMENT BY ID
 GET {{url}}/announcement/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 
 #### ======== CREATE ========
@@ -14,6 +16,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 POST {{url}}/announcement
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "title": "Møde",
@@ -26,6 +29,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 PUT {{url}}/announcement/1
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
 
 {
   "content": "Mødet er flyttet til kl 19"
@@ -36,3 +40,4 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 
 DELETE {{url}}/announcement/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}

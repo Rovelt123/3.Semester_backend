@@ -3,7 +3,9 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.AnnouncementDAO;
+import app.daos.UserDAO;
 import app.dtos.AnnouncementDTO;
+import app.dtos.UserDTO;
 import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Role;
@@ -18,10 +20,15 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class AnnouncementController extends BaseController<Announcement, AnnouncementDTO> {
 
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
+    private static final UserDAO userDao = Main.setup.getUserDAO();
+
+    //________________________________________________________
 
     public AnnouncementController(){
         super(Announcement.class, AnnouncementDTO::new);
     }
+
+    //________________________________________________________
 
     public static EndpointGroup registerRoutes(){
 
@@ -38,9 +45,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
     }
 
+    //________________________________________________________
+
     private void createAnnouncement(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = userDao.getById(userDTO.getId());
 
         if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
@@ -60,9 +70,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         ctx.status(201).json(new AnnouncementDTO(a));
     }
 
+    //________________________________________________________
+
     private void updateAnnouncement(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = userDao.getById(userDTO.getId());
 
         if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
@@ -82,9 +95,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         ctx.json(new AnnouncementDTO(a));
     }
 
+    //________________________________________________________
+
     private void deleteAnnouncement(Context ctx){
 
-        User user = ctx.sessionAttribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = userDao.getById(userDTO.getId());
 
         if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
@@ -98,10 +114,14 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         ctx.json("Announcement deleted");
     }
 
+    //________________________________________________________
+
     @Override
     protected List<Announcement> getAllEntities() {
         return announcementDAO.getAll();
     }
+
+    //________________________________________________________
 
     @Override
     protected Announcement getEntityById(int id) {

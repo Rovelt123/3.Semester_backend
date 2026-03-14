@@ -2918,3 +2918,33 @@
 2026-03-14 01:25:07 [JettyServerThreadPool-36] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@7c58ffa
 2026-03-14 01:25:17 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@a70440a
 2026-03-14 01:25:21 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@6b3afa64
+2026-03-14 01:49:44 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.0.Final
+2026-03-14 01:49:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-14 01:49:44 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7068f7ca
+2026-03-14 01:49:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-14 01:49:44 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/teamplanner]
+	Database driver: org.postgresql.Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.2
+	Default catalog/schema: teamplanner/public
+	Autocommit mode: true
+	Isolation level: READ_COMMITTED
+	JDBC fetch size: none
+	Pool: HikariCPConnectionProvider
+	Minimum pool size: 2
+	Maximum pool size: 10
+2026-03-14 01:49:46 [main] INFO  io.javalin.Javalin - Starting Javalin ...
+2026-03-14 01:49:46 [main] INFO  org.eclipse.jetty.server.Server - jetty-11.0.23; built: 2024-08-14T01:40:17.906Z; git: 6fcf5ccaebd7ca13a0cb96c96adca699a24080a0; jvm 17.0.12+8-LTS-286
+2026-03-14 01:49:46 [main] INFO  o.e.j.s.s.DefaultSessionIdManager - Session workerName=node0
+2026-03-14 01:49:46 [main] INFO  o.e.j.server.handler.ContextHandler - Started o.e.j.s.ServletContextHandler@54997f67{/,null,AVAILABLE}
+2026-03-14 01:49:46 [main] INFO  o.e.jetty.server.AbstractConnector - Started ServerConnector@3220c28{HTTP/1.1, (http/1.1)}{0.0.0.0:7070}
+2026-03-14 01:49:46 [main] INFO  org.eclipse.jetty.server.Server - Started Server@22c29aa8{STARTING}[11.0.23,sto=0] @2344ms
+2026-03-14 01:49:46 [main] INFO  io.javalin.Javalin - Javalin started in 98ms \o/
+2026-03-14 01:49:46 [main] INFO  io.javalin.Javalin - Listening on http://localhost:7070/
+2026-03-14 01:49:46 [main] INFO  io.javalin.Javalin - You are running Javalin 6.3.0 (released August 22, 2024. Your Javalin version is 568 days old. Consider checking for a newer version.).
+2026-03-14 01:50:04 [JettyServerThreadPool-34] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@b3edcb
+2026-03-14 01:50:10 [JettyServerThreadPool-36] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@731ee21d
+2026-03-14 01:50:14 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@44f8ce25
+2026-03-14 01:50:18 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@198e6d7b
+2026-03-14 01:50:20 [JettyServerThreadPool-39] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@4648efe4
