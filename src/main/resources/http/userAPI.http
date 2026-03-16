@@ -5,8 +5,8 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "Rovelt",
-  "password": "Rovelt"
+  "username": "admin",
+  "password": "admin"
 }
 
 > {%
@@ -70,17 +70,22 @@ Authorization: Bearer {{token}}
 
 
 ### =========================
-### UPDATE PASSWORD
+### ADD ROLE
 ### =========================
-PUT {{url}}/user/update-password
+
+PUT {{url}}/user/2/roles/CHEF
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-{
-  "oldPassword": "Rovelt123",
-  "newPassword": "Rovelt",
-  "newPassword_repeat": "Rovelt"
-}
+
+
+### =========================
+### REMOVE ROLE
+### =========================
+DELETE {{url}}/user/2/roles/CHEF
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
 
 
 ### =========================

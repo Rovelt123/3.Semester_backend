@@ -52,6 +52,14 @@ public enum Notifications {
     NOT_ALLOWED("You're not allowed to do this!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
 
+    ROLE_NOT_FOUND("Role %s was not found"),
+    ROLE_ADDED_USER("Role %s was added to %s"),
+    ROLE_REMOVED_USER("Role %s was removed from %s"),
+
+    BODY_EMPTY("Body is empty or invalid!"),
+    APP_CLOSING("TEAM PLANNER SHUTTING DOWN..."),
+    APP_CLOSED("TEAM PLANNER HAS BEEN SHUTTED DOWN...")
+
     ;
 
     // ________________________________________________________

@@ -11,8 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
         setup = new Setup(HibernateConfig.getEntityManagerFactory().createEntityManager(), port);
-        setup.initialize();
 
+        setup.initialize();
 
         //setup.endSession();
     }

@@ -2948,3 +2948,4 @@
 2026-03-14 01:50:14 [JettyServerThreadPool-37] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@44f8ce25
 2026-03-14 01:50:18 [JettyServerThreadPool-38] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@198e6d7b
 2026-03-14 01:50:20 [JettyServerThreadPool-39] INFO  a.services.security.SecurityService - User verified: app.dtos.UserDTO@4648efe4
+2026-03-16 18:10:11 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...

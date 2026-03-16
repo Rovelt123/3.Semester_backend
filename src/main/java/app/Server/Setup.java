@@ -1,7 +1,9 @@
 package app.Server;
 
 import app.daos.*;
+import app.enums.Notifications;
 import app.enums.Role;
+import app.services.MessageService;
 import app.services.security.AccessService;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
@@ -51,7 +53,6 @@ public class Setup {
 
         // Gives me error message
         app.exception(Exception.class, (e, ctx) -> {
-            e.printStackTrace();
             ctx.status(500).result(e.getMessage());
         });
 
@@ -74,7 +75,9 @@ public class Setup {
     // ________________________________________________________
 
     public void endSession() {
+        MessageService.notify(Notifications.APP_CLOSING.getDisplayName());
         em.close();
         if (app != null) app.stop();
+        MessageService.notify(Notifications.APP_CLOSED.getDisplayName());
     }
 }

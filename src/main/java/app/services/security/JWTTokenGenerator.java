@@ -13,27 +13,19 @@ import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Simple JWT generator and validator.
- */
 public class JWTTokenGenerator {
 
-    // ---------------- CREATE TOKEN ----------------
-    public static String createToken(UserDTO user, String issuer, String expireMillis, String secretKey) throws JOSEException {
-        Set<String> roles = Set.of(String.valueOf(user.getRole()));
-        if (roles == null || roles.isEmpty()) {
-            roles = Set.of("USER");
-        }
+    // ________________________________________________________
 
-        String rolesStr = roles.stream().collect(Collectors.joining(","));
+    public static String createToken(UserDTO user, String issuer, String expireMillis, String secretKey) throws JOSEException {
 
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
-                .issuer(issuer)
-                .claim("username", user.getUsername())
-                .claim("roles", rolesStr)
-                .expirationTime(new Date((new Date()).getTime() + (long)Integer.parseInt(expireMillis)))
-                .build();
+            .subject(user.getUsername())
+            .issuer(issuer)
+            .claim("username", user.getUsername())
+            .expirationTime(new Date((new Date()).getTime() + (long)Integer.parseInt(expireMillis)))
+            .build();
+
         Payload payload = new Payload(claims.toJSONObject());
         JWSSigner signer = new MACSigner(secretKey);
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
@@ -43,25 +35,26 @@ public class JWTTokenGenerator {
         return jwsObject.serialize();
     }
 
-    // ---------------- VALIDATE TOKEN ----------------
+    // ________________________________________________________
+
     public static boolean tokenIsValid(String token, String secretKey) throws JOSEException, ParseException {
         SignedJWT signedJWT = SignedJWT.parse(token);
         return signedJWT.verify(new MACVerifier(secretKey));
     }
 
-    // ---------------- CHECK EXPIRATION ----------------
+    // ________________________________________________________
+
     public static boolean tokenNotExpired(String token) throws ParseException {
         SignedJWT signedJWT = SignedJWT.parse(token);
         Date expiration = signedJWT.getJWTClaimsSet().getExpirationTime();
         return expiration != null && expiration.after(new Date());
     }
 
-    // ---------------- EXTRACT USER ----------------
+    // ________________________________________________________
+
     public static UserDTO getUserFromToken(String token) throws ParseException {
         SignedJWT signedJWT = SignedJWT.parse(token);
         String username = signedJWT.getJWTClaimsSet().getStringClaim("username");
-        String rolesStr = signedJWT.getJWTClaimsSet().getStringClaim("roles");
-        Set<String> roles = Set.of(rolesStr.split(","));
         return new UserDTO(Main.setup.getUserDAO().getByUsername(username));
     }
 }

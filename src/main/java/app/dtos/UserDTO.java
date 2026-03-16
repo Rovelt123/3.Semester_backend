@@ -18,7 +18,7 @@ public class UserDTO {
     private String name;
     private String username;
     private List<HolidayDTO> holidays;
-    private Set<Role> role;
+    private Set<Role> roles;
     private List<ResponsibilityDTO> responsibilities;
     private List<ShiftDTO> shifts;
     private List<AnnouncementDTO> announcements;
@@ -28,7 +28,7 @@ public class UserDTO {
         this.id = owner.getId();
         this.name = owner.getName();
         this.username = owner.getUsername();
-        this.role = owner.getRoles();
+        this.roles = owner.getRoles();
         this.holidays =  owner.getHolidays().stream().map(HolidayDTO::new).collect(Collectors.toList());
         this.responsibilities = owner.getResponsibilities().stream().map(ResponsibilityDTO::new).collect(Collectors.toList());
         this.shifts = owner.getShifts().stream().map(ShiftDTO::new).collect(Collectors.toList());

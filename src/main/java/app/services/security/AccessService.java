@@ -41,7 +41,7 @@ public class AccessService implements IAccessService {
         UserDTO user = ctx.attribute("user");
         Set<RouteRole> allowedRoles = ctx.routeRoles(); // roles allowed for the current route
         if (!securityController.authorize(user, allowedRoles)) {
-            throw new UnauthorizedResponse("Unauthorized with roles: " + user.getRole() + ". Needed roles are: " + allowedRoles);
+            throw new UnauthorizedResponse("Unauthorized with roles: " + user.getRoles() + ". Needed roles are: " + allowedRoles);
         }
     }
 }

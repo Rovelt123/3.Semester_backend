@@ -2,9 +2,9 @@ package app.services;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class PasswordService {
+public class HashService {
 
-    public static boolean equals(String hash, String enteredHash) {
+    public static boolean hashEquals(String hash, String enteredHash) {
         return (BCrypt.checkpw(hash, enteredHash));
     }
 

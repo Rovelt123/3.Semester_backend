@@ -9,7 +9,8 @@ import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.services.MessageService;
-import app.services.PasswordService;
+import app.services.HashService;
+import app.services.TryCatchService;
 import app.services.security.SecurityService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
@@ -37,9 +38,9 @@ public class UserController extends BaseController<User, UserDTO> {
         return ()->{
             post("users/auth/register", controller::createUser, Role.ANYONE);
             post("users/auth/login", controller::login, Role.ANYONE);
-            post("users/auth/logout", controller::logout, Role.USER);
 
             // User endpoints
+            post("users/auth/logout", controller::logout, Role.USER);
             put("/user/update-username", controller::updateUsername, Role.USER);
             put("/user/update-password", controller::updatePassword, Role.USER);
             delete("/user/delete", controller::deleteUserWithConfirm, Role.USER);
@@ -49,6 +50,11 @@ public class UserController extends BaseController<User, UserDTO> {
 
             // Admin endpoints
             delete("/user/force-delete/{id}", controller::forceDeleteUser, Role.CHEF);
+
+            delete("/user/{user_id}/roles/{role}", controller::removeRole , Role.CHEF);
+            put("/user/{user_id}/roles/{role}", controller::addRole , Role.CHEF);
+            put("/user/responsibility", controller::addResponsibility , Role.CHEF);
+            delete("/user/responsibility", controller::removeResponsibility , Role.CHEF);
         };
     }
 
@@ -60,13 +66,13 @@ public class UserController extends BaseController<User, UserDTO> {
         String username = body.get("username");
         String password = body.get("password");
 
-        User user = userDAO.getByUsername(username);
-        if (user == null) {
-            ctx.json(Notifications.WRONG_USERNAME.getDisplayName());
-            return;
-        }
+        User user = TryCatchService.tryEntity(
+                userDAO.getByUsername(username),
+                ctx,
+                Notifications.WRONG_USERNAME.getDisplayName()
+        );
 
-        if (!PasswordService.equals(password, user.getPassword())) {
+        if (!HashService.hashEquals(password, user.getPassword())) {
             ctx.json(Notifications.WRONG_PASSWORD.getDisplayName());
             return;
         }
@@ -130,7 +136,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        User user = new User(name, Set.of(role), username, PasswordService.hashHelper(password));
+        User user = new User(name, Set.of(role), username, HashService.hashHelper(password));
         userDAO.create(user);
 
 
@@ -160,7 +166,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        if(!PasswordService.equals(password, user.getPassword())){
+        if(!HashService.hashEquals(password, user.getPassword())){
             ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
             return;
         }
@@ -196,7 +202,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        if(!PasswordService.equals(oldPassword, user.getPassword())){
+        if(!HashService.hashEquals(oldPassword, user.getPassword())){
             ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
             return;
         }
@@ -206,7 +212,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        user.setPassword(PasswordService.hashHelper(newPassword));
+        user.setPassword(HashService.hashHelper(newPassword));
         userDAO.update(user);
         ctx.json(Notifications.PASSWORD_UPDATED.getDisplayName());
     }
@@ -226,7 +232,7 @@ public class UserController extends BaseController<User, UserDTO> {
         String password1 = body.get("password1");
         String password2 = body.get("password2");
 
-        if(!password1.equals(password2) || !PasswordService.equals(password1, user.getPassword())){
+        if(!password1.equals(password2) || !HashService.hashEquals(password1, user.getPassword())){
             ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
             return;
         }
@@ -302,5 +308,46 @@ public class UserController extends BaseController<User, UserDTO> {
 
     // ________________________________________________________
 
-    //TODO: Add/remove roles by admin should be created!!!
+    private void addRole(Context ctx) {
+        int userID = TryCatchService.tryParseInt(ctx.pathParam("user_id"), ctx, Notifications.MUST_BE_INT.getDisplayName());
+
+        User user = TryCatchService.tryEntity(userDAO.getById(userID), ctx, Notifications.USER_NOT_FOUND_ID.getDisplayName());
+
+
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), ctx, MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+
+        user.addRole(role);
+        userDAO.update(user);
+
+        String message = MessageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getName());
+        ctx.json(message);
+    }
+
+    // ________________________________________________________
+
+    private void removeRole(Context ctx) {
+        int userID = TryCatchService.tryParseInt(ctx.pathParam("user_id"), ctx, Notifications.MUST_BE_INT.getDisplayName());
+
+        User user = TryCatchService.tryEntity(userDAO.getById(userID), ctx, Notifications.USER_NOT_FOUND_ID.getDisplayName());
+
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), ctx, MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+
+        user.removeRole(role);
+        userDAO.update(user);
+
+        String message = MessageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getName());
+        ctx.json(message);
+    }
+
+    // ________________________________________________________
+
+    private void addResponsibility(Context ctx) {
+
+    }
+
+    // ________________________________________________________
+
+    private void removeResponsibility(Context ctx) {
+
+    }
 }

@@ -98,7 +98,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         UserDTO admin = ctx.attribute("user");
 
-        if(admin.getRole().stream().anyMatch(role -> role.equals(Role.CHEF))){
+        if(admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }
@@ -120,7 +120,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         UserDTO admin = ctx.attribute("user");
 
-        if(admin.getRole().stream().anyMatch(role -> role.equals(Role.CHEF))){
+        if(admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
             ctx.status(403);
             return;
         }

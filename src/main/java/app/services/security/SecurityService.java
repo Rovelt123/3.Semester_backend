@@ -79,10 +79,6 @@ public class SecurityService implements ISecurityService {
             throw new UnauthorizedResponse("You need to log in, dude!");
         }
 
-        Set<String> roleNames = allowedRoles.stream()
-                .map(RouteRole::toString)  // Convert RouteRoles to  Set of Strings
-                .collect(Collectors.toSet());
-
         Set<Role> roles = user.getRoles();
 
         if (roles.stream().anyMatch(role -> role.equals(Role.CHEF))) {
