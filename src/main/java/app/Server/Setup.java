@@ -66,7 +66,7 @@ public class Setup {
         responseDAO = new ResponseDAO(em);
 
         app.unsafeConfig().router.apiBuilder(Routing.registerRoutes());
-        //TestData.generate();
+        TestData.generate();
 
     }
 

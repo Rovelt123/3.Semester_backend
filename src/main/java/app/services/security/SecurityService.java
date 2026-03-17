@@ -73,8 +73,7 @@ public class SecurityService implements ISecurityService {
 
     @Override
     // Check if the user's roles contain any of the allowed roles
-    public boolean authorize(UserDTO userDTO, Set<RouteRole> allowedRoles) {
-        User user = Main.setup.getUserDAO().getById(userDTO.getId());
+    public boolean authorize(User user, Set<RouteRole> allowedRoles) {
         if (user == null) {
             throw new UnauthorizedResponse("You need to log in, dude!");
         }

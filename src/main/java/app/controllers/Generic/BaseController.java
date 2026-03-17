@@ -2,6 +2,7 @@ package app.controllers.Generic;
 
 import app.enums.Notifications;
 import app.services.MessageService;
+import app.services.TryCatchService;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
@@ -30,9 +31,16 @@ public abstract class BaseController<T, DTO> implements IController {
 
         List<DTO> list = new ArrayList<>();
 
+        if (getAllEntities().isEmpty()) {
+            String message = MessageService.buildMessage(Notifications.GET_ALL_EMPTY, entityClass.getSimpleName().toLowerCase(Locale.ROOT));
+            ctx.status(200).json(message);
+            return;
+        }
+
         getAllEntities().forEach(entity -> {
             list.add(mapper.map(entity));
         });
+
 
         String message = MessageService.buildMessage(
                 Notifications.GET_ALL,
@@ -52,47 +60,30 @@ public abstract class BaseController<T, DTO> implements IController {
 
     @Override
     public void getByID(Context ctx) {
+        int id = TryCatchService.tryParseInt(ctx.pathParam("id"), MessageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
 
-        try {
+        T entity = TryCatchService.tryEntity(
+            getEntityById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                entityClass.getSimpleName().substring(0,1).toUpperCase() + entityClass.getSimpleName().substring(1).toLowerCase(),
+                String.valueOf(id)
+            )
+        );
 
-            int id = Integer.parseInt(ctx.pathParam("id"));
+        DTO dto = mapper.map(entity);
 
-            T entity = getEntityById(id);
+        String message = MessageService.buildMessage(
+                Notifications.GET_BY_ID,
+                entityClass.getSimpleName().toLowerCase(Locale.ROOT),
+                String.valueOf(id)
+        );
 
-            if (entity == null) {
-                String message = MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        entityClass.getSimpleName().substring(0,1).toUpperCase() + entityClass.getSimpleName().substring(1).toLowerCase(),
-                        String.valueOf(id));
-                ctx.status(404).json(message);
-                return;
-            }
+        MessageService.notify(message);
 
-            DTO dto = mapper.map(entity);
-
-            String message = MessageService.buildMessage(
-                    Notifications.GET_BY_ID,
-                    entityClass.getSimpleName().toLowerCase(Locale.ROOT),
-                    String.valueOf(id)
-            );
-
-            MessageService.notify(message);
-
-            ctx.status(200).json(Map.of(
-                    "Data", dto,
-                    "Message", message
-            ));
-
-        } catch (NumberFormatException e) {
-
-            String message = MessageService.buildMessage(
-                    Notifications.MUST_BE_INT,
-                    ctx.pathParam("id")
-            );
-
-            MessageService.sendError(message);
-
-            ctx.status(400).json(message);
-        }
+        ctx.status(200).json(Map.of(
+                "Data", dto,
+                "Message", message
+        ));
     }
 }

@@ -11,7 +11,6 @@ import app.enums.Notifications;
 import app.enums.Role;
 import app.services.HolidayAPIService;
 import app.services.MessageService;
-import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
@@ -70,7 +69,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         LocalTime end = LocalTime.parse(body.get("end_time"));
 
         User owner = userDAO.getById(userId);
-        System.out.println(owner.getName());
+        System.out.println(owner.getFirstname());
         if (owner == null) {
             ctx.status(404).json("User not found for id " + userId);
             return;
@@ -85,7 +84,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         String message = MessageService.buildMessage(
                 Notifications.SHIFT_CREATED,
-                owner.getName(),
+                owner.getFirstname(),
                 date.toString(),
                 start.toString(),
                 end.toString()

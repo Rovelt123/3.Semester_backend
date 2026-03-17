@@ -5,17 +5,19 @@ import org.slf4j.LoggerFactory;
 
 public class ApiException extends RuntimeException {
 
-    private final int code;
+    private final int status;
     private static final Logger logger = LoggerFactory.getLogger(ApiException.class);
 
     // ________________________________________________________
 
     public ApiException(int code, String msg){
         super(msg);
-        this.code = code;
+        this.status = code;
         logger.error("ApiException (code={}): {}", code, msg);
     }
 
     // ________________________________________________________
+
+    public int getStatus() {return this.status; }
 
 }

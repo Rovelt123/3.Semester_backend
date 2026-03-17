@@ -1,6 +1,8 @@
 package app.services.security;
 
+import app.Main;
 import app.dtos.UserDTO;
+import app.entities.User;
 import app.enums.Role;
 import io.javalin.http.Context;
 import io.javalin.http.UnauthorizedResponse;
@@ -38,7 +40,8 @@ public class AccessService implements IAccessService {
         }
 
         // Check if the user has the necessary roles to access the route
-        UserDTO user = ctx.attribute("user");
+        UserDTO userDTO = ctx.attribute("user");
+        User user = Main.setup.getUserDAO().getById(userDTO.getId());
         Set<RouteRole> allowedRoles = ctx.routeRoles(); // roles allowed for the current route
         if (!securityController.authorize(user, allowedRoles)) {
             throw new UnauthorizedResponse("Unauthorized with roles: " + user.getRoles() + ". Needed roles are: " + allowedRoles);

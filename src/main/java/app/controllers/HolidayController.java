@@ -98,11 +98,6 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         UserDTO admin = ctx.attribute("user");
 
-        if(admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
-            ctx.status(403);
-            return;
-        }
-
         int id = Integer.parseInt(ctx.pathParam("id"));
 
         Holiday holiday = holidayDAO.getById(id);
@@ -119,11 +114,6 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
     private void rejectHoliday(Context ctx){
 
         UserDTO admin = ctx.attribute("user");
-
-        if(admin.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
-            ctx.status(403);
-            return;
-        }
 
         int id = Integer.parseInt(ctx.pathParam("id"));
 

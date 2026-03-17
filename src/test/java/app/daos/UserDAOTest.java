@@ -72,7 +72,7 @@ class UserDAOTest {
         User found = userDAO.getById(user.getId());
 
         assertNotNull(found);
-        assertEquals("Find Me", found.getName());
+        assertEquals("Find Me", found.getFirstname());
     }
 
 
@@ -81,13 +81,13 @@ class UserDAOTest {
         User user = new User("Old Name", Role.USER, "user", "user");
         userDAO.create(user);
 
-        user.setName("New Name");
+        user.setFirstname("New Name");
         user.setRole(Role.CHEF);
         userDAO.update(user);
 
         User updated = userDAO.getById(user.getId());
 
-        assertEquals("New Name", updated.getName());
+        assertEquals("New Name", updated.getFirstname());
         assertEquals("Chefen", updated.getRole().getDisplayName());
     }
 

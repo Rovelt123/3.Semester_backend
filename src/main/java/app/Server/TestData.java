@@ -24,15 +24,19 @@ public class TestData {
         HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
         ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
+        if (userDAO.getById(1) != null) {
+            return;
+        }
+
         // ========================================================
         // USERS
         // ========================================================
 
-        User admin = new User("Admin User", Set.of(Role.CHEF, Role.USER), "admin", HashService.hashHelper("admin"));
-        User worker = new User("Worker User", Set.of(Role.USER), "user", HashService.hashHelper("user"));
-        User worker2 = new User("Worker User1", Set.of(Role.USER), "user1", HashService.hashHelper("user1"));
-        User worker3 = new User("Worker User2", Set.of(Role.USER), "user2", HashService.hashHelper("user2"));
-        User worker4 = new User("Worker User3", Set.of(Role.USER), "user3", HashService.hashHelper("user3"));
+        User admin = new User("Admin User", "lastname", Set.of(Role.CHEF, Role.USER), "admin", HashService.hashHelper("admin"));
+        User worker = new User("Worker User", "lastname", Set.of(Role.USER), "user", HashService.hashHelper("user"));
+        User worker2 = new User("Worker User1", "lastname", Set.of(Role.USER), "user1", HashService.hashHelper("user1"));
+        User worker3 = new User("Worker User2", "lastname", Set.of(Role.USER), "user2", HashService.hashHelper("user2"));
+        User worker4 = new User("Worker User3", "lastname", Set.of(Role.USER), "user3", HashService.hashHelper("user3"));
 
         userDAO.create(admin);
         userDAO.create(worker);

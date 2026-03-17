@@ -1,15 +1,12 @@
 package app.entities;
 
 import app.enums.Role;
-import app.enums.ShiftStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -21,7 +18,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String firstname;
+    private String lastname;
 
     @Column(unique = true)
     private String username;
@@ -31,7 +29,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -39,17 +37,17 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "responsibility_id")
     )
-    private List<Responsibility> responsibilities = new ArrayList<>();
+    private Set<Responsibility> responsibilities = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Holiday> holidays = new ArrayList<>();
+    private Set<Holiday> holidays = new HashSet<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Shift> shifts = new ArrayList<>();
+    private Set<Shift> shifts =  new HashSet<>();;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Announcement> announcements = new ArrayList<>();
+    private Set<Announcement> announcements = new HashSet<>();
 
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -59,8 +57,9 @@ public class User {
 
     // ________________________________________________________
 
-    public User(String name, Set<Role> role, String username, String password) {
-        this.name = name;
+    public User(String name, String lastname, Set<Role> role, String username, String password) {
+        this.firstname = name;
+        this.lastname = lastname;
         this.roles = role;
         this.username = username;
         this.password = password;

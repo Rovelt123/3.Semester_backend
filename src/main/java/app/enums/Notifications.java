@@ -18,6 +18,7 @@ public enum Notifications {
     ),
 
     GET_ALL("You fetched %s %ss"),
+    GET_ALL_EMPTY("No data was fetched because %s was empty!"),
     GET_BY_ID("You fetched %s with ID: %s"),
     NOT_FOUND_ID("%s not found with ID: %s"),
 
@@ -36,18 +37,25 @@ public enum Notifications {
     REGISTER_NO_PASSWORD("You must enter a password"),
     REGISTER_NO_PASSWORD_REPEAT("You must verify your password"),
     REGISTER_PASSWORD_MISMATCH("Password confirmation does not match"),
-    REGISTER_NO_NAME("You must enter your name"),
+    REGISTER_NO_FIRSTNAME("You must enter your first name"),
+    REGISTER_NO_LASTNAME("You must enter your last name"),
     USERNAME_UPDATED("You updated your username to %s!"),
+    UPDATE_PASSWORD_NO_NEWPASSWORD("You must enter a new password!"),
+    UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT("You repeat your password!"),
     PASSWORD_UPDATED("You updated your password!"),
     DELETE_USER_SUCESS("You successfully deleted the user: %s"),
     ADMINS_ONLY("Forbidden! Admins only!"),
     USER_NOT_FOUND_ID("User not found with ID: %s!"),
     USER_NOT_FOUND_USERNAME("User not found with username: %s!"),
     USERNAME_CONFIRM_MISMATCH("Username confirmation does not match!"),
+    DELETE_USER_MISMATCH("Wrong username entered. \nYou entered: %s, expected: %s"),
 
 
     SHIFT_NOT_FOUND("Shift not found with ID: %s"),
     RESPONSIBILITY_DELETED("Responsibility deleted with ID: %s"),
+    RESPONSIBILITY_NOT_FOUND("Responsibility %s was not found!"),
+    RESPONSIBILITY_ADDED_USER("Responsibiltiy %s was added to %s"),
+    RESPONSIBILITY_REMOVED_USER("Responsibiltiy %s was removed from %s"),
 
     NOT_ALLOWED("You're not allowed to do this!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),

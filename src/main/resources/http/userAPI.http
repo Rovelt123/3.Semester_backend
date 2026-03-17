@@ -5,20 +5,10 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "Rovelt123",
+  "password": "Rovelt"
 }
 
-> {%
-    var data = JSON.parse(responseBody);
-    token = data.token;
-%}
-
-### =========================
-### LOGOUT
-### =========================
-POST {{url}}/users/auth/logout
-Authorization: Bearer {{token}}
 
 
 ### =========================
@@ -28,10 +18,11 @@ POST {{url}}/users/auth/register
 Content-Type: application/json
 
 {
-  "name": "Rovelt",
-  "username": "Rovelt",
-  "password": "Rovelt",
-  "password_repeat": "Rovelt"
+  "first_name": "Rovelt123",
+  "last_name": "Rovelt",
+  "username": "Rovelt123",
+  "password": "Rovelt123",
+  "repeat_password": "Rovelt123"
 }
 
 
@@ -44,6 +35,7 @@ Authorization: Bearer {{token}}
 
 ### =========================
 ### GET USER BY ID
+### /user/{id}
 ### =========================
 GET {{url}}/user/1
 Authorization: Bearer {{token}}
@@ -51,26 +43,45 @@ Authorization: Bearer {{token}}
 
 ### =========================
 ### GET USER BY USERNAME
+### /user/by-username/{username}
 ### =========================
-GET {{url}}/user/by-username/Rovelt
+GET {{url}}/user/by-username/Rovelt123w
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### UPDATE USERNAME
 ### =========================
-PUT {{url}}/user/update-username
+PUT {{url}}/user/username
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+
 {
-  "newUsername": "Rovelt",
+  "new_username": "Rovelt123",
   "password": "Rovelt"
 }
 
 
 ### =========================
+### UPDATE PASSWORD
+### =========================
+PUT {{url}}/user/password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+  "old_password": "",
+  "new_password": "",
+  "new_password_repeat": ""
+}
+
+
+
+### =========================
 ### ADD ROLE
+### /user/{id}/roles/{role}
 ### =========================
 
 PUT {{url}}/user/2/roles/CHEF
@@ -81,8 +92,30 @@ Authorization: Bearer {{token}}
 
 ### =========================
 ### REMOVE ROLE
+### /user/{id}/roles/{role}
 ### =========================
 DELETE {{url}}/user/2/roles/CHEF
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+
+### =========================
+### ADD RESPONSIBILITY
+### /user/{id}/responsibility/{responsibility}
+### =========================
+
+PUT {{url}}/user/8/responsibility/Chauffør
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+
+### =========================
+### REMOVE RESPONSIBILITY
+### /user/{id}/responsibility/{responsibility}
+### =========================
+DELETE {{url}}/user/8/responsibility/Chauffør
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -96,18 +129,14 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "password1": "Rovelt",
-  "password2": "Rovelt"
+  "password": "w"
 }
 
 
 ### =========================
 ### FORCE DELETE USER (CHEF)
+### /user/force-delete/{id}/{username}
 ### =========================
-DELETE {{url}}/user/force-delete/4
+DELETE {{url}}/user/force-delete/4/Rovelt
 Content-Type: application/json
 Authorization: Bearer {{token}}
-
-{
-  "confirm_username": "Rovelt"
-}
