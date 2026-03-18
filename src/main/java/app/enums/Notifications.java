@@ -12,6 +12,7 @@ public enum Notifications {
     SHIFT_UPDATED("Shift with ID: %s got updated!"),
     CLASS_IS_NULL("Class %s is null!"),
     MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
+    MUST_BE_TIME_FORMAT("Wrong time format. Must be 00:00! You entered: %s "),
     SCHEDULE_CREATED("You've created a schedule for: %s \n" +
         "Monday: %s \n" + "Tuesday: %s \n" + "Wednesday: %s \n" + "Thursday: %s \n" +
         "Friday: %s \n" + "Saturday: %s \n" + "Sunday: %s"
@@ -52,6 +53,13 @@ public enum Notifications {
 
 
     SHIFT_NOT_FOUND("Shift not found with ID: %s"),
+    SHIFT_NOT_OWNED("You must own the shift!"),
+    SHIFT_REQUEST_CREATE_FAILED("Creation of shift request failed!"),
+    RESPONSE_CREATION_FAILED("Response creation failed for user: %s!"),
+    DELETE_FAILED("Delete of %s failed for ID: %s!"),
+    SHIFT_TAKEN("Shift with ID: %s has been taken by %s"),
+    NO_SHIFTS("No shifts for user with id: %s!"),
+    GET_BY_DATE_EMPTY("No shifts for date: %s!"),
     RESPONSIBILITY_DELETED("Responsibility deleted with ID: %s"),
     RESPONSIBILITY_NOT_FOUND("Responsibility %s was not found!"),
     RESPONSIBILITY_ADDED_USER("Responsibiltiy %s was added to %s"),
@@ -59,6 +67,8 @@ public enum Notifications {
 
     NOT_ALLOWED("You're not allowed to do this!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
+
+    MUST_ENTER_TITLE("You must enter a title!"),
 
     ROLE_NOT_FOUND("Role %s was not found"),
     ROLE_ADDED_USER("Role %s was added to %s"),

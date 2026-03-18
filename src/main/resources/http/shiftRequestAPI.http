@@ -1,37 +1,32 @@
 #### ======== GET DATA ========
 
 ### GET ALL SHIFT REQUESTS
-GET {{url}}/shift-requests
+GET {{url}}/shiftrequests
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET SHIFT REQUEST BY ID
-GET {{url}}/shift-request/2
+GET {{url}}/shiftrequest/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
 #### ======== CREATE REQUEST ========
 
-POST {{url}}/shift-request
-Content-Type: application/json
+POST {{url}}/shiftrequest/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
-
-{
-  "shift_id": 1
-}
 
 
 #### ======== TAKE SHIFT ========
 
-POST {{url}}/shift-request/1/take
+POST {{url}}/shiftrequest/1/take
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
 #### ======== DELETE REQUEST ========
 
-DELETE {{url}}/shift-request/3
+DELETE {{url}}/shiftrequest/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

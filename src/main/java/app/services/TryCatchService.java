@@ -3,6 +3,8 @@ package app.services;
 import app.exceptions.ApiException;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ public class TryCatchService {
 
     public static <T> T tryEntity(T entity, String message) {
         if (entity == null) {
+            System.out.println(message);
             throw new ApiException(404, message);
         }
         return entity;
@@ -56,6 +59,22 @@ public class TryCatchService {
     public static double tryParseDouble(String value, String message) {
         try {
             return Double.parseDouble(value);
+        } catch (Exception e) {
+            throw new ApiException(400, message);
+        }
+    }
+
+    public static LocalDate tryParseLocalDate(String value, String message) {
+        try {
+            return LocalDate.parse(value);
+        } catch (Exception e) {
+            throw new ApiException(400, message);
+        }
+    }
+
+    public static LocalTime tryParseLocalTime(String value, String message) {
+        try {
+            return LocalTime.parse(value);
         } catch (Exception e) {
             throw new ApiException(400, message);
         }

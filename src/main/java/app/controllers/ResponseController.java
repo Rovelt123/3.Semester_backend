@@ -74,4 +74,5 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
     protected Response getEntityById(int id) {
         return responseDAO.getById(id);
     }
+
 }

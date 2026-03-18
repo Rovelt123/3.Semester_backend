@@ -29,7 +29,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
-  "user_id": "2",
+  "user_id": "6",
   "title": "Bar",
   "date": "2026-05-01",
   "start_time": "10:00",
@@ -39,20 +39,22 @@ Authorization: Bearer {{token}}
 
 #### ======== UPDATE SHIFT ========
 
-PUT {{url}}/shift/1
+PUT {{url}}/shift/3
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
-  "title": "FRI",
-  "start_time": "11:00",
-  "end_time": "17:00"
+  "start_time": "19:00",
+  "end_time": "20:00"
 }
+
+### You can update the following: date, start_time, end_time, owner, title
+### Yes, you can update multiple at a time!
 
 
 #### ======== DELETE SHIFT ========
 
-DELETE {{url}}/shift/1
+DELETE {{url}}/shift/3
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

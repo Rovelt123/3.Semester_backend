@@ -67,6 +67,7 @@ public class SecurityService implements ISecurityService {
                 throw new UnauthorizedResponse("Invalid User or Token");
             }
             logger.info("User verified: " + verifiedTokenUser);
+            //TODO: Stateless? Gotta check up on Thomas Hartmann's stateless API method? Is is stateless?
             ctx.attribute("user", verifiedTokenUser);
         };
     }

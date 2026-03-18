@@ -5,8 +5,8 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "Rovelt123",
-  "password": "Rovelt"
+  "username": "admin",
+  "password": "admin"
 }
 
 
@@ -18,11 +18,11 @@ POST {{url}}/users/auth/register
 Content-Type: application/json
 
 {
-  "first_name": "Rovelt123",
+  "first_name": "Andreas",
   "last_name": "Rovelt",
-  "username": "Rovelt123",
-  "password": "Rovelt123",
-  "repeat_password": "Rovelt123"
+  "username": "Rovelt",
+  "password": "Rovelt",
+  "repeat_password": "Rovelt"
 }
 
 

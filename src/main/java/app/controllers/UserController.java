@@ -117,6 +117,10 @@ public class UserController extends BaseController<User, UserDTO> {
             userDAO.create(new User(firstname, lastname, Set.of(role), username, HashService.hashHelper(password))),
             MessageService.buildMessage(Notifications.USERNAME_EXISTS, username)
         );
+
+        //Make sure to make responses for new users - Otherwise new users can't take older shift requests!
+        ShiftRequestController.checkActiveShiftRequests(user);
+
         String token = securityService.createToken(new UserDTO(user));
 
         String message = MessageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());

@@ -40,4 +40,12 @@ public class ShiftRequest {
     public void solve() {
         status = ShiftStatus.SOLVED;
     }
+
+    public void addResponse(Response response) {
+        responses.add(response);
+    }
+
+    public void removeResponse(Response response) {
+        responses.remove(response);
+    }
 }
