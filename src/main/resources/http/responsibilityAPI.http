@@ -18,30 +18,24 @@ Authorization: Bearer {{token}}
 
 #### ======== CREATE ========
 
-POST {{url}}/responsibility
+POST {{url}}/responsibility/Bar
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
-{
-  "name": "Bar"
-}
 
 
 #### ======== UPDATE ========
 
-PUT {{url}}/responsibility/1
+PUT {{url}}/responsibility/Bar/update/Chauffør2
 Content-Type: application/json
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
-{
-  "name": "Kitchen"
-}
 
 
 #### ======== DELETE ========
 
-DELETE {{url}}/responsibility/1
+DELETE {{url}}/responsibility/Bar
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

@@ -22,6 +22,7 @@ public enum Notifications {
     GET_ALL_EMPTY("No data was fetched because %s was empty!"),
     GET_BY_ID("You fetched %s with ID: %s"),
     NOT_FOUND_ID("%s not found with ID: %s"),
+    NOT_FOUND_WITH_NAME("%s not found with name: %s"),
 
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
     OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
@@ -50,6 +51,8 @@ public enum Notifications {
     USER_NOT_FOUND_USERNAME("User not found with username: %s!"),
     USERNAME_CONFIRM_MISMATCH("Username confirmation does not match!"),
     DELETE_USER_MISMATCH("Wrong username entered. \nYou entered: %s, expected: %s"),
+    ENTER_NAME("You must enter a name"),
+    RESPONSIBILITY_EXISTS("Responsibility with the name %s already exists!"),
 
 
     SHIFT_NOT_FOUND("Shift not found with ID: %s"),

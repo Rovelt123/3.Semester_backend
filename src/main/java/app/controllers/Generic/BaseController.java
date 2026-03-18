@@ -1,5 +1,9 @@
 package app.controllers.Generic;
 
+import app.Main;
+import app.daos.UserDAO;
+import app.dtos.UserDTO;
+import app.entities.User;
 import app.enums.Notifications;
 import app.services.MessageService;
 import app.services.TryCatchService;
@@ -10,12 +14,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 public abstract class BaseController<T, DTO> implements IController {
 
     protected Class<T> entityClass;
     protected EntityMapper<T, DTO> mapper;
     protected abstract List<T> getAllEntities();
     protected abstract T getEntityById(int id);
+    private final UserDAO userDAO = Main.setup.getUserDAO();
 
     // ________________________________________________________
 
@@ -85,5 +91,48 @@ public abstract class BaseController<T, DTO> implements IController {
                 "Data", dto,
                 "Message", message
         ));
+    }
+
+    // ________________________________________________________
+
+    protected User getAuthenticatedUser(Context ctx) {
+        UserDTO userDTO = TryCatchService.tryEntity(
+                ctx.attribute("user"),
+                Notifications.NOT_LOGGED_IN.getDisplayName()
+        );
+
+        return TryCatchService.tryEntity(
+                userDAO.getById(userDTO.getId()),
+                MessageService.buildMessage(
+                        Notifications.USER_NOT_FOUND_ID,
+                        String.valueOf(userDTO.getId())
+                )
+        );
+    }
+
+    // ________________________________________________________
+    //TODO: Figure out if i wanna make them generic? Would it make sense? Mabye...
+    protected int getPathId(Context ctx) {
+        return TryCatchService.tryParseInt(
+                ctx.pathParam("id"),
+                Notifications.MUST_BE_INT.getDisplayName()
+        );
+    }
+
+    // ________________________________________________________
+
+    protected User getUserByID(Context ctx) {
+        int userID = TryCatchService.tryParseInt(ctx.pathParam("user_id"), Notifications.MUST_BE_INT.getDisplayName());
+
+        return TryCatchService.tryEntity(userDAO.getById(userID), Notifications.USER_NOT_FOUND_ID.getDisplayName());
+    }
+
+    // ________________________________________________________
+
+    protected String getPathName(Context ctx) {
+        return TryCatchService.tryString(
+            ctx.pathParam("name"),
+            Notifications.ENTER_NAME.getDisplayName()
+        );
     }
 }

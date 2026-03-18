@@ -1,5 +1,6 @@
 package app.daos;
 
+import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
@@ -161,7 +162,7 @@ public class EntityManagerDAO<T> implements IDAO<T> {
             if (startedTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e;
+            throw new ApiException(500, e.getMessage());
         }
     }
 

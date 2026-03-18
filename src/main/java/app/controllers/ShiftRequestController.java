@@ -8,7 +8,6 @@ import app.daos.ShiftRequestDAO;
 import app.daos.UserDAO;
 import app.dtos.ShiftDTO;
 import app.dtos.ShiftRequestDTO;
-import app.dtos.UserDTO;
 import app.entities.Response;
 import app.entities.Shift;
 import app.entities.ShiftRequest;
@@ -59,16 +58,8 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
     // ________________________________________________________
 
     private void createRequest(Context ctx) {
-        UserDTO userDTO = TryCatchService.tryEntity(
-                ctx.attribute("user"),
-                Notifications.NOT_LOGGED_IN.getDisplayName()
-        );
 
-
-        User owner = TryCatchService.tryEntity(
-                userDAO.getById(userDTO.getId()),
-                Notifications.NOT_LOGGED_IN.getDisplayName()
-        );
+        User owner = getAuthenticatedUser(ctx);
 
 
         int shiftId = TryCatchService.tryParseInt(
@@ -109,18 +100,9 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
     // ________________________________________________________
 
     private void deleteRequest(Context ctx){
+        User user = getAuthenticatedUser(ctx);
 
-        UserDTO userDTO = TryCatchService.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
-
-        User user = TryCatchService.tryEntity(
-                userDAO.getById(userDTO.getId()),
-                MessageService.buildMessage(
-                        Notifications.USER_NOT_FOUND_ID,
-                        String.valueOf(userDTO.getId())
-                )
-        );
-
-        int id = TryCatchService.tryParseInt(ctx.pathParam("id"),  Notifications.MUST_BE_INT.getDisplayName());
+        int id = getPathId(ctx);
 
         ShiftRequest request =  TryCatchService.tryEntity(
             requestDAO.getById(id),
@@ -150,24 +132,9 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
     // ________________________________________________________
 
     private void takeShift(Context ctx){
+        User user = getAuthenticatedUser(ctx);
 
-        UserDTO userDTO = TryCatchService.tryEntity(
-                ctx.attribute("user"),
-                Notifications.NOT_LOGGED_IN.getDisplayName()
-        );
-
-        User user = TryCatchService.tryEntity(
-            userDAO.getById(userDTO.getId()),
-            MessageService.buildMessage(
-                Notifications.USER_NOT_FOUND_ID,
-                String.valueOf(userDTO.getId())
-            )
-        );
-
-        int requestId = TryCatchService.tryParseInt(
-                ctx.pathParam("id"),
-                Notifications.MUST_BE_INT.getDisplayName()
-        );
+        int requestId = getPathId(ctx);
 
         ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
             MessageService.buildMessage(
@@ -226,7 +193,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
     // ________________________________________________________
 
-    // Ensures that new users can take shifts older then their creation of user... #BUG
+    // Ensures that new users can take shifts older than their creation of user... #BUG
     public static void checkActiveShiftRequests(User user) {
         requestDAO.getAll().forEach(s -> {
 

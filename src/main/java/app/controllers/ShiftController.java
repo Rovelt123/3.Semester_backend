@@ -54,7 +54,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void createShift(Context ctx) {
         Map<String,String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
-        int userId = TryCatchService.tryParseInt(body.get("user_id"), Notifications.MUST_BE_INT.getDisplayName());
+        int userId = getPathId(ctx);
         String title = TryCatchService.tryString(body.get("title"), Notifications.MUST_ENTER_TITLE.getDisplayName());
 
         LocalDate date = TryCatchService.tryParseLocalDate(
@@ -114,10 +114,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
     //________________________________________________________
 
     private void updateShift(Context ctx) {
-        int id = TryCatchService.tryParseInt(
-            ctx.pathParam("id"),
-            Notifications.MUST_BE_INT.getDisplayName()
-        );
+        int id = getPathId(ctx);
 
         Shift shift = TryCatchService.tryEntity(
             shiftDAO.getById(id),
@@ -197,10 +194,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void deleteShift(Context ctx) {
 
-        int id = TryCatchService.tryParseInt(
-                ctx.pathParam("id"),
-                Notifications.MUST_BE_INT.getDisplayName()
-        );
+        int id = getPathId(ctx);
 
         Shift shift  = TryCatchService.tryEntity(shiftDAO.getById(id), MessageService.buildMessage(
                 Notifications.SHIFT_NOT_FOUND,
@@ -221,10 +215,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void getShiftsByUser(Context ctx) {
 
-        int userId = TryCatchService.tryParseInt(
-                ctx.pathParam("id"),
-                Notifications.MUST_BE_INT.getDisplayName()
-        );
+        int userId = getPathId(ctx);
 
         List<ShiftDTO> shifts = shiftDAO.getShiftsByUserId(userId)
                 .stream()
