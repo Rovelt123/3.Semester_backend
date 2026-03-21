@@ -50,6 +50,8 @@ public class UserController extends BaseController<User, UserDTO> {
             get("/users", controller::getAll, Role.USER);
             get("/user/{id}", controller::getByID, Role.USER);
             get("/user/by-username/{username}", controller::getByUsername, Role.USER);
+            get("/users/responsibility/{responsibility}", controller::getUsersWithResponsibility, Role.USER);
+            get("/users/role/{role}", controller::getUsersWithRole, Role.USER);
 
             // Admin endpoints
             delete("/user/force-delete/{id}/{confirm_name}", controller::forceDeleteUser, Role.CHEF);
@@ -317,8 +319,18 @@ public class UserController extends BaseController<User, UserDTO> {
         ctx.status(200).json(message);
     }
 
-
+    // ________________________________________________________
     //TODO:
     // getUsersWithResponsibility
     // getUsersWithRole
+
+    private void getUsersWithResponsibility(Context ctx) {
+        System.out.println("NOT MADE YET!");
+    }
+
+    // ________________________________________________________
+
+    private void getUsersWithRole(Context ctx) {
+        System.out.println("NOT MADE YET!");
+    }
 }

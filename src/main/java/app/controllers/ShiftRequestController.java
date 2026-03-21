@@ -6,7 +6,6 @@ import app.daos.ResponseDAO;
 import app.daos.ShiftDAO;
 import app.daos.ShiftRequestDAO;
 import app.daos.UserDAO;
-import app.dtos.ShiftDTO;
 import app.dtos.ShiftRequestDTO;
 import app.entities.Response;
 import app.entities.Shift;
@@ -14,14 +13,12 @@ import app.entities.ShiftRequest;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.util.List;
-import java.util.Map;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -51,16 +48,20 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             get("/shiftrequests", controller::getAll, Role.USER);
             get("/shiftrequest/{id}", controller::getByID, Role.USER);
 
-            post("/shiftrequest/{id}/take", controller::takeShift, Role.USER);
+            post("/shiftrequest/{id}/take", controller::transferShift, Role.USER);
+
+            put("/shiftrequest/{id}", controller::update);
+
+
         };
     }
+
 
     // ________________________________________________________
 
     private void createRequest(Context ctx) {
 
         User owner = getAuthenticatedUser(ctx);
-
 
         int shiftId = TryCatchService.tryParseInt(
                 ctx.pathParam("id"),
@@ -72,15 +73,13 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             Notifications.SHIFT_NOT_FOUND.getDisplayName()
         );
 
-        if (shift.getOwner().getId() != owner.getId()) {
+        if (shift.getOwner().getId() != owner.getId() || owner.getRoles().contains(Role.CHEF)) {
             ctx.status(400).json(Notifications.SHIFT_NOT_OWNED.getDisplayName());
             return;
         }
 
-        System.out.println("6");
         ShiftRequest request = TryCatchService.tryEntity(new ShiftRequest(owner, shift), Notifications.SHIFT_REQUEST_CREATE_FAILED.getDisplayName());
 
-        System.out.println("7");
         userDAO.getAll().stream()
                 .filter(u -> u.getId() != owner.getId()).forEach(u -> request.getResponses()
                     .add(
@@ -91,7 +90,6 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
                     )
                 );
 
-        System.out.println("8");
         requestDAO.create(request);
 
         ctx.status(201).json(new ShiftRequestDTO(request));
@@ -114,7 +112,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         );
 
 
-        if(request.getRequester().getId() != user.getId()){
+        if(request.getRequester().getId() != user.getId() || user.getRoles().contains(Role.CHEF)){
             ctx.status(403).json(Notifications.NOT_ALLOWED.getDisplayName());
             return;
         }
@@ -127,54 +125,6 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         requestDAO.delete(request);
 
         ctx.json(message);
-    }
-
-    // ________________________________________________________
-
-    private void takeShift(Context ctx){
-        User user = getAuthenticatedUser(ctx);
-
-        int requestId = getPathId(ctx);
-
-        ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
-            MessageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Shift request",
-                String.valueOf(requestId)
-            )
-        );
-
-        Shift shift = TryCatchService.tryEntity(
-                request.getShift(),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Shift",
-                        String.valueOf(requestId)
-                )
-        );
-
-        Response response = TryCatchService.tryEntity(
-            responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
-            MessageService.buildMessage(
-                    Notifications.NOT_FOUND_ID,
-                    "Response",
-                    String.valueOf(requestId)
-            )
-        );
-
-        response.setStatus(ShiftStatus.ACCEPTED);
-        request.solve();
-        shift.setOwner(user);
-        requestDAO.update(request);
-        responseDAO.update(response);
-        shiftDAO.update(shift);
-
-        MessageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
-        ctx.json(Map.of(
-                "message", "Shift taken successfully",
-                "shift", new ShiftDTO(shift)
-        ));
-
     }
 
     // ________________________________________________________
@@ -193,7 +143,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
     // ________________________________________________________
 
-    // Ensures that new users can take shifts older than their creation of user... #BUG
+    // Ensures that new users can take shifts older than their creation of user... #BUGFIX
     public static void checkActiveShiftRequests(User user) {
         requestDAO.getAll().forEach(s -> {
 
@@ -215,8 +165,26 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             }
         });
     }
+
+    // ________________________________________________________
     //TODO:
+    // Create shiftRequests by admin for users?? (Made in original create but added role checker (ROLE.CHEF))???
+    // Delete shiftRequests by admin for users?? (Made in original create but added role checker (ROLE.CHEF))???
     // Update shiftRequest?
-    // Delete shiftRequest by admin?
-    // Create shiftRequests by admin for users??
+    // Set status by admin (Made in update???)
+    // Set owner by admin (If I decide to do this, I MUST DELETE ACTIVE RESPONSES AND ADD TO THE OLD OWNER OF SHIFT REQUEST!) (Made in update???)
+    // set shift by admin (Made in update???)
+    // delete 30 days after shift ended? Just to make sure the database does not get spammed?
+
+    private void update(Context ctx) {
+        System.out.println("NOT MADE YET!");
+    }
+
+    // ________________________________________________________
+
+    public void checkOutdatedShiftRequests() {
+        System.out.println("NOT MADE YET!");
+        //TODO:
+        // If outdated, also delete all responses!
+    }
 }

@@ -24,7 +24,7 @@ public class ShiftRequest {
     @JoinColumn(name = "requester_id")
     private User requester;
 
-    @ManyToOne
+    @OneToOne
     private Shift shift;
 
     @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)

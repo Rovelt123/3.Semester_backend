@@ -20,13 +20,35 @@ Authorization: Bearer {{token}}
 
 #### ======== TAKE SHIFT ========
 
-POST {{url}}/shiftrequest/1/take
+POST {{url}}/shiftrequest/8/take
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
+
+
+#### ======== DECLINE SHIFT ========
+
+POST {{url}}/shiftrequest/8/decline
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
 #### ======== DELETE REQUEST ========
 
-DELETE {{url}}/shiftrequest/1
+DELETE {{url}}/shiftrequest/7
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
+
+
+#### ======== UPDATE REQUEST ========
+
+PUT {{url}}/shiftrequest/1
+Content-Type: application/json
+Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
+Authorization: Bearer {{token}}
+
+{
+  "status": "SOLVED"
+}
+
+### You can update the following: status, requester_id, shift_id
+### Yes, you can update multiple at a time!

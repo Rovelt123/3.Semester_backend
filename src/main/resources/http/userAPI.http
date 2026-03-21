@@ -140,3 +140,21 @@ Authorization: Bearer {{token}}
 DELETE {{url}}/user/force-delete/4/Rovelt
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER WITH RESPONSIBILITY
+### /users/responsibility/{responsibility}
+### =========================
+DELETE {{url}}/users/responsibility/Chauffør
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER WITH ROLE
+### /users/role/{role}
+### =========================
+DELETE {{url}}/users/role/USER
+Content-Type: application/json
+Authorization: Bearer {{token}}

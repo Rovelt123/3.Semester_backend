@@ -1,10 +1,18 @@
 package app.controllers.Generic;
 
 import app.Main;
+import app.daos.ResponseDAO;
+import app.daos.ShiftDAO;
+import app.daos.ShiftRequestDAO;
 import app.daos.UserDAO;
+import app.dtos.ShiftDTO;
 import app.dtos.UserDTO;
+import app.entities.Response;
+import app.entities.Shift;
+import app.entities.ShiftRequest;
 import app.entities.User;
 import app.enums.Notifications;
+import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.http.Context;
@@ -15,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 
+
 public abstract class BaseController<T, DTO> implements IController {
 
     protected Class<T> entityClass;
@@ -22,6 +31,9 @@ public abstract class BaseController<T, DTO> implements IController {
     protected abstract List<T> getAllEntities();
     protected abstract T getEntityById(int id);
     private final UserDAO userDAO = Main.setup.getUserDAO();
+    private final ResponseDAO responseDAO = Main.setup.getResponseDAO();
+    private final ShiftRequestDAO requestDAO = Main.setup.getShiftRequestDAO();
+    private final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
 
     // ________________________________________________________
 
@@ -102,20 +114,21 @@ public abstract class BaseController<T, DTO> implements IController {
         );
 
         return TryCatchService.tryEntity(
-                userDAO.getById(userDTO.getId()),
-                MessageService.buildMessage(
-                        Notifications.USER_NOT_FOUND_ID,
-                        String.valueOf(userDTO.getId())
-                )
+            userDAO.getById(userDTO.getId()),
+            MessageService.buildMessage(
+                Notifications.USER_NOT_FOUND_ID,
+                String.valueOf(userDTO.getId())
+            )
         );
     }
 
     // ________________________________________________________
+
     //TODO: Figure out if i wanna make them generic? Would it make sense? Mabye...
     protected int getPathId(Context ctx) {
         return TryCatchService.tryParseInt(
-                ctx.pathParam("id"),
-                Notifications.MUST_BE_INT.getDisplayName()
+            ctx.pathParam("id"),
+            Notifications.MUST_BE_INT.getDisplayName()
         );
     }
 
@@ -140,8 +153,58 @@ public abstract class BaseController<T, DTO> implements IController {
 
     protected UserDTO checkLoggedIn(Context ctx) {
         return TryCatchService.tryEntity(
-                ctx.attribute("user"),
-                Notifications.NOT_LOGGED_IN.getDisplayName()
+            ctx.attribute("user"),
+            Notifications.NOT_LOGGED_IN.getDisplayName()
         );
+    }
+
+    protected void transferShift(Context ctx) {
+        User user = getAuthenticatedUser(ctx);
+
+        int requestId = getPathId(ctx);
+
+        ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
+                MessageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Shift request",
+                        String.valueOf(requestId)
+                )
+        );
+
+        if (request.getStatus().equals(ShiftStatus.SOLVED)) {
+            ctx.status(500).json(Notifications.ALREADY_TAKEN.getDisplayName());
+            return;
+        }
+
+        Shift shift = TryCatchService.tryEntity(
+                request.getShift(),
+                MessageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Shift",
+                        String.valueOf(requestId)
+                )
+        );
+
+        Response response = TryCatchService.tryEntity(
+                responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
+                MessageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Response",
+                        String.valueOf(requestId)
+                )
+        );
+
+        response.setStatus(ShiftStatus.ACCEPTED);
+        request.solve();
+        shift.setOwner(user);
+        requestDAO.update(request);
+        responseDAO.update(response);
+        shiftDAO.update(shift);
+
+        MessageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
+        ctx.json(Map.of(
+                "message", "Shift taken successfully",
+                "shift", new ShiftDTO(shift)
+        ));
     }
 }

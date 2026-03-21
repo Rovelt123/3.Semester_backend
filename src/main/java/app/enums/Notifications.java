@@ -23,6 +23,9 @@ public enum Notifications {
     GET_BY_ID("You fetched %s with ID: %s"),
     NOT_FOUND_ID("%s not found with ID: %s"),
     NOT_FOUND_WITH_NAME("%s not found with name: %s"),
+    NOT_OWNED("You dont own %s with ID: %s"),
+    STRING_EMPTY("You must enter context, cannot be empty!"),
+    DELETED_WITH_ID("%s deleted with ID: %s"),
 
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
     OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
@@ -54,7 +57,7 @@ public enum Notifications {
     ENTER_NAME("You must enter a name"),
     RESPONSIBILITY_EXISTS("Responsibility with the name %s already exists!"),
 
-
+    ALREADY_TAKEN("Shift has already been taken!"),
     SHIFT_NOT_FOUND("Shift not found with ID: %s"),
     SHIFT_NOT_OWNED("You must own the shift!"),
     SHIFT_REQUEST_CREATE_FAILED("Creation of shift request failed!"),
@@ -67,6 +70,9 @@ public enum Notifications {
     RESPONSIBILITY_NOT_FOUND("Responsibility %s was not found!"),
     RESPONSIBILITY_ADDED_USER("Responsibiltiy %s was added to %s"),
     RESPONSIBILITY_REMOVED_USER("Responsibiltiy %s was removed from %s"),
+    RESPONSE_ACCEPTED("You accepted response with ID: %s"),
+    RESPONSE_REJECTED("You rejected response with ID: %s"),
+    CANCEL_RESPONSE("You took back your answer on response with ID: %s"),
 
     NOT_ALLOWED("You're not allowed to do this!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
