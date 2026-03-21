@@ -135,4 +135,13 @@ public abstract class BaseController<T, DTO> implements IController {
             Notifications.ENTER_NAME.getDisplayName()
         );
     }
+
+    // ________________________________________________________
+
+    protected UserDTO checkLoggedIn(Context ctx) {
+        return TryCatchService.tryEntity(
+                ctx.attribute("user"),
+                Notifications.NOT_LOGGED_IN.getDisplayName()
+        );
+    }
 }

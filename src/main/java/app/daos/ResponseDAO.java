@@ -12,10 +12,12 @@ public class ResponseDAO extends EntityManagerDAO<Response>{
     }
 
 
-    public Response getByUserId(int userId){
-        String jpql = "SELECT r FROM Response r WHERE r.user.id = :uid";
+    public Response getByUserAndShiftRequestId(int userId, int requestId) {
+        String jpql = "SELECT r FROM Response r WHERE r.user.id = :uid AND r.shiftRequest.id = :rid";
+
         return em.createQuery(jpql, Response.class)
                 .setParameter("uid", userId)
+                .setParameter("rid", requestId)
                 .getSingleResult();
     }
 

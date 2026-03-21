@@ -8,7 +8,10 @@ import app.dtos.MessageDTO;
 import app.dtos.UserDTO;
 import app.entities.Message;
 import app.entities.User;
+import app.enums.Notifications;
 import app.enums.Role;
+import app.services.MessageService;
+import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
@@ -39,8 +42,9 @@ public class MessageController extends BaseController<Message, MessageDTO> {
             put("/message/{id}", controller::updateMessage, Role.USER);
             delete("/message/{id}", controller::deleteMessage, Role.USER);
 
-            get("/messages", controller::getAll, Role.USER);
-            get("/conversation/{user_id}", controller::getConversation, Role.USER);
+            get("/messages", controller::getAll, Role.CHEF);
+            get("/conversation/{id}", controller::getConversation, Role.USER);
+            get("/conversation/admin/{u1}/{u2}", controller::adminGetConversation, Role.USER);
         };
     }
 
@@ -48,7 +52,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
     private void sendMessage(Context ctx){
 
-        UserDTO sender = ctx.attribute("user");
+        UserDTO sender = checkLoggedIn(ctx);
         User user = userDAO.getById(sender.getId());
 
         Map<String,String> body = ctx.bodyAsClass(Map.class);
@@ -69,7 +73,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
     private void updateMessage(Context ctx){
 
-        UserDTO user = ctx.attribute("user");
+        UserDTO user = checkLoggedIn(ctx);
 
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -93,13 +97,27 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
     private void deleteMessage(Context ctx){
 
-        UserDTO user = ctx.attribute("user");
+        User user = TryCatchService.tryEntity(
+                userDAO.getById(checkLoggedIn(ctx).getId()),
+                Notifications.NOT_FOUND_ID.getDisplayName()
+        );
 
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
-        Message message = messageDAO.getById(id);
+        Message message = TryCatchService.tryEntity(
+                messageDAO.getById(id),
+                MessageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Message",
+                        String.valueOf(id)
+                )
+        );
 
-        if(message.getSender().getId() != user.getId()){
+
+        boolean isOwner = message.getSender().getId() == user.getId();
+        boolean isChef = user.getRoles().contains(Role.CHEF);
+
+        if (!isOwner && !isChef) {
             ctx.status(403);
             return;
         }
@@ -113,12 +131,33 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
     private void getConversation(Context ctx){
 
-        UserDTO user = ctx.attribute("user");
+        UserDTO user = checkLoggedIn(ctx);
 
-        int other = Integer.parseInt(ctx.pathParam("user_id"));
+        int other = getPathId(ctx);
 
         List<MessageDTO> messages = messageDAO
                 .getConversation(user.getId(), other)
+                .stream()
+                .map(MessageDTO::new)
+                .toList();
+
+        ctx.json(messages);
+    }
+
+    // ________________________________________________________
+
+    private void adminGetConversation(Context ctx) {
+        int u1 = TryCatchService.tryParseInt(
+                ctx.pathParam("u1"),
+                Notifications.MUST_BE_INT.getDisplayName()
+        );
+        int u2 = TryCatchService.tryParseInt(
+                ctx.pathParam("u2"),
+                Notifications.MUST_BE_INT.getDisplayName()
+        );
+
+        List<MessageDTO> messages = messageDAO
+                .getConversation(u1, u2)
                 .stream()
                 .map(MessageDTO::new)
                 .toList();
@@ -139,4 +178,5 @@ public class MessageController extends BaseController<Message, MessageDTO> {
     protected Message getEntityById(int id) {
         return messageDAO.getById(id);
     }
+
 }

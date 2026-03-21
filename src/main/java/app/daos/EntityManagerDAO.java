@@ -84,6 +84,17 @@ public class EntityManagerDAO<T> implements IDAO<T> {
 
     // ________________________________________________________
 
+    public List<T> getByColumn(Object value, String column) {
+        return executeQuery(() -> {
+            String JPQL = "SELECT x FROM " + classSpecific.getSimpleName() + " x WHERE x." + column + " = :value";
+            return em.createQuery(JPQL, classSpecific)
+                    .setParameter("value", value)
+                    .getResultList();
+        });
+    }
+
+    // ________________________________________________________
+
     @Override
     public <R> R updateColumnById(Object id, String column, Object value) {
         return executeQuery(() -> {
@@ -179,13 +190,13 @@ public class EntityManagerDAO<T> implements IDAO<T> {
 
     private T findById(Object id) {
         if (id instanceof Long) {
-            return em.find(classSpecific, (Long) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof Integer) {
-            return em.find(classSpecific, (Integer) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof String) {
-            return em.find(classSpecific, (String) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof UUID) {
-            return em.find(classSpecific, (UUID) id);
+            return em.find(classSpecific, id);
         } else {
             throw new IllegalArgumentException("Unsupported ID type: " + id.getClass());
         }

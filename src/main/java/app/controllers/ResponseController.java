@@ -4,10 +4,15 @@ import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.ResponseDAO;
 import app.dtos.ResponseDTO;
+import app.entities.Message;
 import app.entities.Response;
+import app.enums.Notifications;
 import app.enums.Role;
+import app.services.MessageService;
+import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,23 +45,44 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
     //________________________________________________________
 
     private void getByUser(Context ctx){
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
-        Response response= responseDAO.getByUserId(id);
+        List<ResponseDTO> responses = responseDAO.getByColumn(id, "user.id")
+                .stream()
+                .map(ResponseDTO::new)
+                .collect(Collectors.toList());
 
-        ctx.json(new ResponseDTO(response));
+        if (responses.isEmpty()) {
+            String Message = MessageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    "Response with ID: " + id
+            );
+            ctx.status(200).json(Message);
+            return;
+        }
+
+        ctx.status(200).json(responses);
     }
 
     //________________________________________________________
 
     private void getByRequest(Context ctx){
 
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
         List<ResponseDTO> responses = responseDAO.getByShiftRequestId(id)
                 .stream()
                 .map(ResponseDTO::new)
                 .collect(Collectors.toList());
+
+        if (responses.isEmpty()) {
+            String Message = MessageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    "Response with ID: " + id
+            );
+            ctx.status(200).json(Message);
+            return;
+        }
 
         ctx.json(responses);
     }

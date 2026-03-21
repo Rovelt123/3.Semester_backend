@@ -6,7 +6,7 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSE BY ID
-GET {{url}}/response/7
+GET {{url}}/response/3
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
@@ -16,6 +16,6 @@ Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSES BY REQUEST
-GET {{url}}/responses/request/4
+GET {{url}}/responses/request/1
 Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

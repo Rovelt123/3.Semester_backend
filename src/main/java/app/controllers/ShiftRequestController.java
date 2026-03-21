@@ -154,7 +154,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         );
 
         Response response = TryCatchService.tryEntity(
-            responseDAO.getByUserId(user.getId()),
+            responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
             MessageService.buildMessage(
                     Notifications.NOT_FOUND_ID,
                     "Response",
