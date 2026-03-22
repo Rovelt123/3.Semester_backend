@@ -1,10 +1,7 @@
 package app.dtos;
 
-import app.Main;
 import app.entities.Shift;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;

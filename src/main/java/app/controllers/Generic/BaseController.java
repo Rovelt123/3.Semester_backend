@@ -51,7 +51,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         if (getAllEntities().isEmpty()) {
             String message = MessageService.buildMessage(Notifications.GET_ALL_EMPTY, entityClass.getSimpleName().toLowerCase(Locale.ROOT));
-            ctx.status(200).json(message);
+            respond(ctx, 200, message, null);
             return;
         }
 
@@ -66,12 +66,7 @@ public abstract class BaseController<T, DTO> implements IController {
                 entityClass.getSimpleName().toLowerCase(Locale.ROOT)
         );
 
-        MessageService.notify(message);
-
-        ctx.status(200).json(Map.of(
-                "Data", list,
-                "Message", message
-        ));
+        respond(ctx, 200, message, Map.of("data", list));
     }
 
     // ________________________________________________________
@@ -92,17 +87,12 @@ public abstract class BaseController<T, DTO> implements IController {
         DTO dto = mapper.map(entity);
 
         String message = MessageService.buildMessage(
-                Notifications.GET_BY_ID,
-                entityClass.getSimpleName().toLowerCase(Locale.ROOT),
-                String.valueOf(id)
+            Notifications.GET_BY_ID,
+            entityClass.getSimpleName().toLowerCase(Locale.ROOT),
+            String.valueOf(id)
         );
 
-        MessageService.notify(message);
-
-        ctx.status(200).json(Map.of(
-                "Data", dto,
-                "Message", message
-        ));
+        respond(ctx, 200, message, Map.of("data", dto));
     }
 
     // ________________________________________________________
@@ -166,34 +156,34 @@ public abstract class BaseController<T, DTO> implements IController {
         int requestId = getPathId(ctx);
 
         ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Shift request",
-                        String.valueOf(requestId)
-                )
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Shift request",
+                String.valueOf(requestId)
+            )
         );
 
         if (request.getStatus().equals(ShiftStatus.SOLVED)) {
-            ctx.status(500).json(Notifications.ALREADY_TAKEN.getDisplayName());
+            respond(ctx, 500, Notifications.ALREADY_TAKEN.getDisplayName(), null);
             return;
         }
 
         Shift shift = TryCatchService.tryEntity(
-                request.getShift(),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Shift",
-                        String.valueOf(requestId)
-                )
+            request.getShift(),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Shift",
+                String.valueOf(requestId)
+            )
         );
 
         Response response = TryCatchService.tryEntity(
-                responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Response",
-                        String.valueOf(requestId)
-                )
+            responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Response",
+                String.valueOf(requestId)
+            )
         );
 
         response.setStatus(ShiftStatus.ACCEPTED);
@@ -203,12 +193,12 @@ public abstract class BaseController<T, DTO> implements IController {
         responseDAO.update(response);
         shiftDAO.update(shift);
 
-        MessageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
-        ctx.json(Map.of(
-                "message", "Shift taken successfully",
-                "shift", new ShiftDTO(shift)
-        ));
+        String message = MessageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
+
+        respond(ctx, 200, message, Map.of("shift", new ShiftDTO(shift)));
     }
+
+    // ________________________________________________________
 
     protected void respond(Context ctx, int status, String message, Object data) {
         if (data != null) {

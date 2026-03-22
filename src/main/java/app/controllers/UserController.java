@@ -85,7 +85,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         respond(ctx, 200, message, Map.of(
             "token", token,
-            "user", new UserDTO(user)
+            "data", new UserDTO(user)
         ));
     }
 
@@ -125,11 +125,9 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String message = MessageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
 
-        ctx.status(201).json(Map.of(
-                "token", token,
-                "message", message,
-                "user", new UserDTO(user)
-
+        respond(ctx, 201, message, Map.of(
+            "token", token,
+            "data", new UserDTO(user)
         ));
     }
 
@@ -144,7 +142,7 @@ public class UserController extends BaseController<User, UserDTO> {
         String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
         if(!HashService.hashEquals(password, user.getPassword())){
-            ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
             return;
         }
 
@@ -152,8 +150,7 @@ public class UserController extends BaseController<User, UserDTO> {
         userDAO.update(user);
 
         String message = MessageService.buildMessage(Notifications.USERNAME_UPDATED, user.getUsername());
-
-        ctx.status(200).json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -169,19 +166,19 @@ public class UserController extends BaseController<User, UserDTO> {
         String newPassword_repeat = TryCatchService.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
 
         if(!HashService.hashEquals(oldPassword, user.getPassword())){
-            ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
             return;
         }
 
         if(!newPassword.equals(newPassword_repeat)){
-            ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
+            respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
             return;
         }
 
         user.setPassword(HashService.hashHelper(newPassword));
         userDAO.update(user);
 
-        ctx.status(200).json(Notifications.PASSWORD_UPDATED.getDisplayName());
+        respond(ctx, 200, Notifications.PASSWORD_UPDATED.getDisplayName(), null);
     }
 
     // ________________________________________________________
@@ -200,7 +197,7 @@ public class UserController extends BaseController<User, UserDTO> {
         String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
         if(!HashService.hashEquals(password, user.getPassword())){
-            ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
+            respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
             return;
         }
 
@@ -209,7 +206,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, username);
 
-        ctx.status(200).json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -224,22 +221,32 @@ public class UserController extends BaseController<User, UserDTO> {
 
         if (!target.equals(confirmUsername)) {
             String message = MessageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getFirstname(), confirmUsername);
-            ctx.status(400).json(message);
+            respond(ctx, 400, message, null);
             return;
         }
 
 
         String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, target.getFirstname());
         userDAO.delete(target);
-        ctx.status(200).json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
 
     private void getByUsername(Context ctx){
         String username = ctx.pathParam("username");
-        User user = TryCatchService.tryEntity(userDAO.getByUsername(username), MessageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username));
-        ctx.status(200).json(new UserDTO(user));
+        User user = TryCatchService.tryEntity(
+            userDAO.getByUsername(username),
+            MessageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username)
+        );
+
+        String message = MessageService.buildMessage(
+            Notifications.GET_BY_NAME,
+            "user",
+            username
+        );
+
+        respond(ctx, 200, message, Map.of("data", new UserDTO(user)));
     }
 
     // ________________________________________________________
@@ -267,7 +274,8 @@ public class UserController extends BaseController<User, UserDTO> {
         userDAO.update(user);
 
         String message = MessageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getFirstname());
-        ctx.status(200).json(message);
+
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -281,7 +289,8 @@ public class UserController extends BaseController<User, UserDTO> {
         userDAO.update(user);
 
         String message = MessageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getFirstname());
-        ctx.status(200).json(message);
+
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -298,7 +307,8 @@ public class UserController extends BaseController<User, UserDTO> {
         userDAO.update(user);
 
         String message = MessageService.buildMessage(Notifications.RESPONSIBILITY_ADDED_USER, responsibility.getName(), user.getFirstname());
-        ctx.status(200).json(message);
+
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -315,7 +325,8 @@ public class UserController extends BaseController<User, UserDTO> {
         userDAO.update(user);
 
         String message = MessageService.buildMessage(Notifications.RESPONSIBILITY_REMOVED_USER, responsibility.getName(), user.getFirstname());
-        ctx.status(200).json(message);
+
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -328,11 +339,6 @@ public class UserController extends BaseController<User, UserDTO> {
         String name = TryCatchService.tryString(
                 ctx.pathParam("responsibility"),
                 Notifications.FIELD_EMPTY.getDisplayName()
-        );
-
-        Responsibility responsibility = TryCatchService.tryEntity(
-                responsibilityDAO.getByName(name),
-                MessageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, name)
         );
 
         List<UserDTO> users = userDAO.getUsersByResponsibility(name)
@@ -348,7 +354,12 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        ctx.status(200).json(users);
+        String message = MessageService.buildMessage(
+          Notifications.GET_USERS_RESPONSIBILITY,
+          name
+        );
+
+        respond(ctx, 200, message, Map.of("data", users));
     }
     // ________________________________________________________
 
@@ -373,6 +384,11 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        ctx.status(200).json(users);
+        String message = MessageService.buildMessage(
+            Notifications.GET_USERS_ROLE,
+            String.valueOf(role)
+        );
+
+        respond(ctx, 200, message, Map.of("data", users));
     }
 }

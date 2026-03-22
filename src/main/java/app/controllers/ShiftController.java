@@ -103,15 +103,14 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         shiftDAO.create(shift);
 
         String message = MessageService.buildMessage(
-                Notifications.SHIFT_CREATED,
-                owner.getFirstname(),
-                date.toString(),
-                start.toString(),
-                end.toString()
+            Notifications.SHIFT_CREATED,
+            owner.getFirstname(),
+            date.toString(),
+            start.toString(),
+            end.toString()
         );
 
-        ctx.status(201).json(Map.of(
-            "message", message,
+        respond(ctx, 201, message, Map.of(
             "data", new ShiftDTO(shift)
         ));
     }
@@ -137,43 +136,39 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         if(body.containsKey("date"))
             shift.setDate(TryCatchService.tryParseLocalDate(
-                    body.get("date"),
-                    Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
-                )
-            );
+                body.get("date"),
+                Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
+            ));
 
         if(body.containsKey("start_time"))
             shift.setStartTime(TryCatchService.tryParseLocalTime(
-                    body.get("start_time"),
-                    Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
-                )
-            );
+                body.get("start_time"),
+                Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
+            ));
 
         if(body.containsKey("end_time"))
             shift.setEndTime(TryCatchService.tryParseLocalTime(
-                    body.get("end_time"),
-                    Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
-                )
-            );
+                body.get("end_time"),
+                Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
+            ));
 
         if(body.containsKey("title"))
             shift.setTitle(TryCatchService.tryString(
-                    body.get("title"),
-                    Notifications.MUST_ENTER_TITLE.getDisplayName()
-                )
-            );
+                body.get("title"),
+                Notifications.MUST_ENTER_TITLE.getDisplayName()
+            ));
 
         if(body.containsKey("owner")) {
             Integer userId = TryCatchService.tryParseInt(
-                    body.get("owner"),
-                    Notifications.MUST_BE_INT.getDisplayName()
+                body.get("owner"),
+                Notifications.MUST_BE_INT.getDisplayName()
             );
             User newOwner = TryCatchService.tryEntity(
-                    userDAO.getById(userId),
-                    MessageService.buildMessage(
-                        Notifications.USER_NOT_FOUND_ID,
-                        String.valueOf(userId)
-                    )
+                userDAO.getById(userId),
+                MessageService.buildMessage(
+                    Notifications.USER_NOT_FOUND_ID,
+                    String.valueOf(userId)
+                )
             );
             shift.setOwner(newOwner);
         }
@@ -190,8 +185,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(Map.of(
-            "message", message,
+        respond(ctx, 200, message, Map.of(
             "data", new ShiftDTO(shift)
         ));
     }
@@ -214,7 +208,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(Map.of("message", message));
+        respond(ctx, 200, message, null);
     }
 
     //________________________________________________________
@@ -224,13 +218,14 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         int userId = getPathId(ctx);
 
         List<ShiftDTO> shifts = shiftDAO.getShiftsByUserId(userId)
-                .stream()
-                .map(ShiftDTO::new)
-                .toList();
+            .stream()
+            .map(ShiftDTO::new)
+            .toList();
+
         if(shifts.isEmpty()) {
             ctx.status(200).json(MessageService.buildMessage(
-                    Notifications.NO_SHIFTS,
-                    String.valueOf(userId)
+                Notifications.NO_SHIFTS,
+                String.valueOf(userId)
             ));
             return;
         }
@@ -240,8 +235,8 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             "shift",
             String.valueOf(userId)
         );
-        ctx.status(200).json(Map.of(
-            "message", message,
+
+        respond(ctx, 200, message, Map.of(
             "data", shifts
         ));
     }
@@ -259,18 +254,29 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         );
 
         List<ShiftDTO> shifts = shiftDAO.getShiftsByDate(date)
-                .stream()
-                .map(ShiftDTO::new)
-                .toList();
+            .stream()
+            .map(ShiftDTO::new)
+            .toList();
+
         if(shifts.isEmpty()) {
-            ctx.status(200).json(MessageService.buildMessage(
+
+            String message = MessageService.buildMessage(
                 Notifications.GET_BY_DATE_EMPTY,
                 String.valueOf(date)
-            ));
+            );
+
+            respond(ctx, 200, message, null);
             return;
+
         }
 
-        ctx.status(200).json(shifts);
+        String message = MessageService.buildMessage(
+            Notifications.GET_SHIFTREQUEST_DATE,
+            String.valueOf(shifts.size()),
+            String.valueOf(date)
+        );
+
+        respond(ctx, 200, message, Map.of("data", shifts));
     }
 
     //________________________________________________________
@@ -296,11 +302,11 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         int userId = schedule.getUser_id();
 
         User user = TryCatchService.tryEntity(
-                userDAO.getById(userId),
-                MessageService.buildMessage(
-                        Notifications.USER_NOT_FOUND_ID,
-                        String.valueOf(schedule.getUser_id())
-                )
+            userDAO.getById(userId),
+            MessageService.buildMessage(
+                Notifications.USER_NOT_FOUND_ID,
+                String.valueOf(schedule.getUser_id())
+            )
         );
 
         int months = schedule.getMonths();
@@ -331,10 +337,10 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             //Error in lambda (Final or effectively final)
             LocalDate finalCurrent = current;
             Shift existingShift = shiftDAO.getAll().stream()
-                    .filter(s -> s.getOwner().getId() == user.getId())
-                    .filter(s -> s.getDate().equals(finalCurrent))
-                    .findFirst()
-                    .orElse(null);
+                .filter(s -> s.getOwner().getId() == user.getId())
+                .filter(s -> s.getDate().equals(finalCurrent))
+                .findFirst()
+                .orElse(null);
 
             if (!day.isOffDay() && !isHoliday) {
 
@@ -349,19 +355,24 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                 );
 
                 if (existingShift != null) {
+
                     existingShift.setTitle(day.getTitle());
                     existingShift.setStartTime(start);
                     existingShift.setEndTime(end);
                     shiftDAO.update(existingShift);
+
                 } else {
+
                     Shift shift = new Shift(
-                            day.getTitle(),
-                            user,
-                            current,
-                            start,
-                            end
+                        day.getTitle(),
+                        user,
+                        current,
+                        start,
+                        end
                     );
+
                     shiftDAO.create(shift);
+
                 }
 
             } else if (isHoliday) {
@@ -369,19 +380,24 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                 String title = "FRI: " + holidayService.getHoliday(current, holidays);
 
                 if (existingShift != null) {
+
                     existingShift.setTitle(title);
                     existingShift.setStartTime(null);
                     existingShift.setEndTime(null);
                     shiftDAO.update(existingShift);
+
                 } else {
+
                     Shift shift = new Shift(
-                            title,
-                            user,
-                            current,
-                            null,
-                            null
+                        title,
+                        user,
+                        current,
+                        null,
+                        null
                     );
+
                     shiftDAO.create(shift);
+
                 }
             }
 
@@ -400,7 +416,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             convertToTime(schedule.getSunday())
         );
 
-        ctx.status(201).json(message);
+        respond(ctx, 201, message, null);
     }
 
     //________________________________________________________

@@ -33,6 +33,8 @@ public enum Notifications {
     CREATED("%s was successfully created"),
     UPDATED("%s was successfully updated"),
 
+    GET_CONVERSATION("You fetched conversation between %s and %s"),
+
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
     OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
 
@@ -82,6 +84,7 @@ public enum Notifications {
 
     NOT_ALLOWED("You're not allowed to do this!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
+    GET_SHIFTREQUEST_DATE("You fetched %s shift requests by date: %s"),
 
     MUST_ENTER_TITLE("You must enter a title!"),
 
@@ -96,6 +99,9 @@ public enum Notifications {
     HOLIDAY_APPROVED("Holiday approved!"),
     HOLIDAY_REJECT("Holiday rejected!"),
     HOLIDAY_EMPTY_RESPONSIBILITY("No holidays found for responsibility: %s"),
+
+    GET_USERS_RESPONSIBILITY("You fetched all users with responsibility: %s"),
+    GET_USERS_ROLE("You fetched all users with role: %s"),
 
     BODY_EMPTY("Body is empty or invalid!"),
     APP_CLOSING("TEAM PLANNER SHUTTING DOWN..."),

@@ -59,17 +59,14 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         );
 
         Announcement a = new Announcement(
-                user,
-                body.get("title"),
-                body.get("content")
+            user,
+            body.get("title"),
+            body.get("content")
         );
 
         announcementDAO.create(a);
 
-        ctx.status(201).json(Map.of(
-                "message", Notifications.ANNOUNCEMENT_CREATED.getDisplayName(),
-                "data", new AnnouncementDTO(a)
-        ));
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_CREATED.getDisplayName(), Map.of("data", new AnnouncementDTO(a)));
     }
 
     //________________________________________________________
@@ -81,18 +78,15 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         Announcement a = announcementDAO.getById(id);
 
         Map<String,String> body = TryCatchService.tryBodyMap(
-                ctx,
-                Notifications.BODY_EMPTY.getDisplayName()
+            ctx,
+            Notifications.BODY_EMPTY.getDisplayName()
         );
 
         a.updateContent(body.get("content"));
 
         announcementDAO.update(a);
 
-        ctx.json(Map.of(
-            "message", Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(),
-            "data", new AnnouncementDTO(a)
-        ));
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(), Map.of("data", new AnnouncementDTO(a)));
     }
 
     //________________________________________________________
@@ -103,9 +97,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         announcementDAO.deleteById(id);
 
-        ctx.json(Map.of(
-            "message", Notifications.ANNOUNCEMENT_DELETED.getDisplayName()
-        ));
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_DELETED.getDisplayName(), null);
     }
 
     //________________________________________________________

@@ -54,10 +54,8 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
         responsibilityDAO.create(r);
 
         String message = MessageService.buildMessage(Notifications.CREATED, "Responsibility");
-        ctx.status(200).json(Map.of(
-            "message", message,
-            "data", new ResponsibilityDTO(r)
-        ));
+
+        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(r)));
     }
 
     //________________________________________________________
@@ -87,10 +85,8 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
         responsibilityDAO.update(responsibility);
 
         String message = MessageService.buildMessage(Notifications.UPDATED, "Responsibility");
-        ctx.status(200).json(Map.of(
-                "message", message,
-                "data", new ResponsibilityDTO(responsibility)
-        ));
+
+        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(responsibility)));
     }
 
     //________________________________________________________
@@ -114,7 +110,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             name
         );
 
-        ctx.status(200).json(Map.of("message", message));
+        respond(ctx, 200, message, null);
     }
 
     //________________________________________________________
@@ -137,10 +133,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             name
         );
 
-        ctx.status(200).json(Map.of(
-            "message", message,
-            "data", new ResponsibilityDTO(responsibility)
-        ));
+        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(responsibility)));
     }
 
     //________________________________________________________

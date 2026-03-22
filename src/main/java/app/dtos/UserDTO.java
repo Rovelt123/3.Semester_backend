@@ -1,13 +1,8 @@
 package app.dtos;
 
 import app.entities.User;
-import app.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

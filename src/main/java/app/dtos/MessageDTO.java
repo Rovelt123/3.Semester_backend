@@ -1,6 +1,5 @@
 package app.dtos;
 
-import app.Main;
 import app.entities.Message;
 import lombok.Getter;
 import lombok.Setter;

@@ -76,7 +76,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         );
 
         if (shift.getOwner().getId() != owner.getId() && !owner.getRoles().contains(Role.CHEF)) {
-            ctx.status(400).json(Notifications.SHIFT_NOT_OWNED.getDisplayName());
+            respond(ctx, 400, Notifications.SHIFT_NOT_OWNED.getDisplayName(), null);
             return;
         }
 
@@ -94,7 +94,12 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         requestDAO.create(request);
 
-        ctx.status(201).json(new ShiftRequestDTO(request));
+        String message = MessageService.buildMessage(
+            Notifications.CREATED,
+            "Shift request"
+        );
+
+        respond(ctx, 201, message, Map.of("data", new ShiftRequestDTO(request)));
     }
 
     // ________________________________________________________
@@ -115,18 +120,18 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
 
         if(request.getRequester().getId() != user.getId() && !user.getRoles().contains(Role.CHEF)){
-            ctx.status(403).json(Notifications.NOT_ALLOWED.getDisplayName());
+            respond(ctx, 403, Notifications.NOT_ALLOWED.getDisplayName(), null);
             return;
         }
 
         String message = MessageService.buildMessage(
-                Notifications.SHIFT_REQUEST_DELETED,
-                String.valueOf(request.getId())
+            Notifications.SHIFT_REQUEST_DELETED,
+            String.valueOf(request.getId())
         );
 
         requestDAO.delete(request);
 
-        ctx.json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
@@ -183,40 +188,40 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         int id = getPathId(ctx);
 
         ShiftRequest request = TryCatchService.tryEntity(
-                requestDAO.getById(id),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "ShiftRequest",
-                        String.valueOf(id)
-                )
+            requestDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "ShiftRequest",
+                String.valueOf(id)
+            )
         );
 
         Map<String,String> body = TryCatchService.tryBodyMap(
-                ctx,
-                Notifications.BODY_EMPTY.getDisplayName()
+            ctx,
+            Notifications.BODY_EMPTY.getDisplayName()
         );
 
         if(body.containsKey("status")){
             ShiftStatus status = TryCatchService.tryParseEnum(
-                    ShiftStatus.class,
-                    body.get("status"),
-                    Notifications.ENUM_NOT_FOUND.getDisplayName()
+                ShiftStatus.class,
+                body.get("status"),
+                Notifications.ENUM_NOT_FOUND.getDisplayName()
             );
             request.setStatus(status);
         }
 
         if(body.containsKey("owner")){
             int userId = TryCatchService.tryParseInt(
-                    body.get("owner"),
-                    Notifications.MUST_BE_INT.getDisplayName()
+                body.get("owner"),
+                Notifications.MUST_BE_INT.getDisplayName()
             );
 
             User newOwner = TryCatchService.tryEntity(
-                    userDAO.getById(userId),
-                    MessageService.buildMessage(
-                            Notifications.USER_NOT_FOUND_ID,
-                            String.valueOf(userId)
-                    )
+                userDAO.getById(userId),
+                MessageService.buildMessage(
+                    Notifications.USER_NOT_FOUND_ID,
+                    String.valueOf(userId)
+                )
             );
 
             request.setRequester(newOwner);
@@ -224,13 +229,13 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         if(body.containsKey("shift")){
             int shiftId = TryCatchService.tryParseInt(
-                    body.get("shift"),
-                    Notifications.MUST_BE_INT.getDisplayName()
+                body.get("shift"),
+                Notifications.MUST_BE_INT.getDisplayName()
             );
 
             Shift shift = TryCatchService.tryEntity(
-                    shiftDAO.getById(shiftId),
-                    Notifications.SHIFT_NOT_FOUND.getDisplayName()
+                shiftDAO.getById(shiftId),
+                Notifications.SHIFT_NOT_FOUND.getDisplayName()
             );
 
             request.setShift(shift);
@@ -238,7 +243,12 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         requestDAO.update(request);
 
-        ctx.status(200).json(new ShiftRequestDTO(request));
+        String message = MessageService.buildMessage(
+            Notifications.UPDATED,
+            "Shift request"
+        );
+
+        respond(ctx, 200, message, Map.of("data", new ShiftRequestDTO(request)));
     }
 
     // ________________________________________________________

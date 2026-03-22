@@ -1,7 +1,6 @@
 package app.dtos;
 
 import app.entities.Announcement;
-import app.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 

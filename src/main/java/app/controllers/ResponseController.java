@@ -63,15 +63,21 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                 .collect(Collectors.toList());
 
         if (responses.isEmpty()) {
-            String Message = MessageService.buildMessage(
+            String message = MessageService.buildMessage(
                     Notifications.GET_ALL_EMPTY,
                     "Response with ID: " + id
             );
-            ctx.status(200).json(Map.of("message", Message));
+            respond(ctx, 200, message, null);
             return;
         }
 
-        ctx.status(200).json(responses);
+        String message = MessageService.buildMessage(
+            Notifications.GET_BY_USER,
+            "responses",
+            String.valueOf(id)
+        );
+
+        respond(ctx, 200, message, Map.of("data", responses));
     }
 
     //________________________________________________________
@@ -81,16 +87,16 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         int id = getPathId(ctx);
 
         List<ResponseDTO> responses = responseDAO.getByShiftRequestId(id)
-                .stream()
-                .map(ResponseDTO::new)
-                .collect(Collectors.toList());
+            .stream()
+            .map(ResponseDTO::new)
+            .collect(Collectors.toList());
 
         if (responses.isEmpty()) {
-            String Message = MessageService.buildMessage(
-                    Notifications.GET_ALL_EMPTY,
-                    "Response with ID: " + id
+            String message = MessageService.buildMessage(
+                Notifications.GET_ALL_EMPTY,
+                "Response with ID: " + id
             );
-            ctx.status(200).json(Map.of("message", Message));
+            respond(ctx, 200, message, null);
             return;
         }
 
@@ -100,10 +106,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(Map.of(
-            "message", message,
-            "data", responses
-        ));
+        respond(ctx, 200, message, Map.of("data", responses));
     }
 
     //________________________________________________________
@@ -115,22 +118,22 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         int id = getPathId(ctx);
 
         Response response = TryCatchService.tryEntity(
-                responseDAO.getById(id),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Response",
-                        String.valueOf(id)
-                )
+            responseDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Response",
+                String.valueOf(id)
+            )
         );
 
         if (user.getId() != response.getUser().getId()) {
-            ctx.status(403).json(Map.of(
-                "message", MessageService.buildMessage(
-                    Notifications.NOT_OWNED,
-                    "Response",
-                    String.valueOf(id)
-                )
-            ));
+            String message = MessageService.buildMessage(
+                Notifications.NOT_OWNED,
+                "Response",
+                String.valueOf(id)
+            );
+
+            respond(ctx, 403, message, null);
             return;
         }
 
@@ -142,10 +145,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(Map.of(
-            "data", new ResponseDTO(response),
-            "message", message
-        ));
+        respond(ctx, 200, message, Map.of("message", message));
     }
 
     //________________________________________________________
@@ -166,13 +166,13 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         );
 
         if (user.getId() != response.getUser().getId()) {
-            ctx.status(403).json(
-                MessageService.buildMessage(
-                    Notifications.NOT_OWNED,
-                    "Response",
-                    String.valueOf(id)
-                )
+            String message = MessageService.buildMessage(
+                Notifications.NOT_OWNED,
+                "Response",
+                String.valueOf(id)
             );
+
+            respond(ctx, 403, message, null);
             return;
         }
 
@@ -184,10 +184,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(Map.of(
-            "data", new ResponseDTO(response),
-            "message", message
-        ));
+        respond(ctx, 200, message, Map.of("data", new ResponseDTO(response)));
     }
 
     //________________________________________________________

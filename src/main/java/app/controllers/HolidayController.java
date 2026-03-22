@@ -80,10 +80,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             "Message"
         );
 
-        ctx.status(201).json(Map.of(
-            "message", message,
-            "data", new HolidayDTO(holiday)
-        ));
+        respond(ctx, 201, message, Map.of("data", new HolidayDTO(holiday)));
     }
 
     //________________________________________________________
@@ -103,7 +100,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
         );
 
         if(holiday.getUser().getId() != user.getId()){
-            ctx.status(403).json(Notifications.NOT_ALLOWED);
+            respond(ctx, 403, Notifications.NOT_ALLOWED.getDisplayName(), null);
             return;
         }
 
@@ -122,10 +119,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
                 "Message"
         );
 
-        ctx.json(Map.of(
-            "message", message,
-            "data", new HolidayDTO(holiday)
-        ));
+        respond(ctx, 200, message, Map.of("data", new HolidayDTO(holiday)));
     }
 
     //________________________________________________________
@@ -146,10 +140,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.update(holiday);
 
-        ctx.json(Map.of(
-            "message", Notifications.HOLIDAY_APPROVED,
-            "data", new HolidayDTO(holiday)
-        ));
+        respond(ctx, 200, Notifications.HOLIDAY_APPROVED.getDisplayName(), Map.of("data", new HolidayDTO(holiday)));
     }
 
     //________________________________________________________
@@ -170,10 +161,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.update(holiday);
 
-        ctx.json(Map.of(
-            "message", Notifications.HOLIDAY_REJECT,
-            "data", new HolidayDTO(holiday)
-        ));
+        respond(ctx, 200, Notifications.HOLIDAY_REJECT.getDisplayName(), Map.of("data", new HolidayDTO(holiday)));
     }
 
     //________________________________________________________
@@ -205,14 +193,13 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             .toList();
 
 
-
         if(holidays.isEmpty()){
             String message = MessageService.buildMessage(
                     Notifications.HOLIDAY_EMPTY_RESPONSIBILITY,
                     name
             );
 
-            ctx.status(200).json(Map.of("message", message));
+            respond(ctx, 200, message, null);
             return;
         }
 
@@ -222,9 +209,6 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             "Holiday"
         );
 
-        ctx.status(200).json(Map.of(
-            "message", message,
-            "data", holidays
-        ));
+        respond(ctx, 200, message, Map.of("data", holidays));
     }
 }

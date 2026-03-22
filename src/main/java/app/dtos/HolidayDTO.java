@@ -1,10 +1,7 @@
 package app.dtos;
 
-import app.Main;
 import app.entities.Holiday;
-import app.entities.User;
 import app.enums.HolidayStatus;
-import app.enums.ShiftStatus;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,5 @@
 package app.dtos;
 
-import app.Main;
 import app.entities.Response;
 import app.enums.ShiftStatus;
 import lombok.Getter;
