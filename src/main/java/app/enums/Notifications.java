@@ -21,11 +21,17 @@ public enum Notifications {
     GET_ALL("You fetched %s %ss"),
     GET_ALL_EMPTY("No data was fetched because %s was empty!"),
     GET_BY_ID("You fetched %s with ID: %s"),
+    GET_BY_NAME("You fetched %s with name: %s"),
+    GET_BY_USER("You fetched %s by user ID: %s"),
     NOT_FOUND_ID("%s not found with ID: %s"),
     NOT_FOUND_WITH_NAME("%s not found with name: %s"),
     NOT_OWNED("You dont own %s with ID: %s"),
     STRING_EMPTY("You must enter context, cannot be empty!"),
     DELETED_WITH_ID("%s deleted with ID: %s"),
+    FIELD_EMPTY("Field must not be empty!"),
+    ENUM_NOT_FOUND("Enum not found!"),
+    CREATED("%s was successfully created"),
+    UPDATED("%s was successfully updated"),
 
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
     OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
@@ -82,6 +88,14 @@ public enum Notifications {
     ROLE_NOT_FOUND("Role %s was not found"),
     ROLE_ADDED_USER("Role %s was added to %s"),
     ROLE_REMOVED_USER("Role %s was removed from %s"),
+
+    ANNOUNCEMENT_CREATED("Announcement created"),
+    ANNOUNCEMENT_UPDATED("Announcement updated"),
+    ANNOUNCEMENT_DELETED("Announcement deleted"),
+
+    HOLIDAY_APPROVED("Holiday approved!"),
+    HOLIDAY_REJECT("Holiday rejected!"),
+    HOLIDAY_EMPTY_RESPONSIBILITY("No holidays found for responsibility: %s"),
 
     BODY_EMPTY("Body is empty or invalid!"),
     APP_CLOSING("TEAM PLANNER SHUTTING DOWN..."),

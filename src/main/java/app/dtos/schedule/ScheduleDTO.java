@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ScheduleDTO {
 
-    private String user_id;
+    private int user_id;
     private int months;
 
     private DayScheduleDTO monday;

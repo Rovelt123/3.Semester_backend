@@ -13,12 +13,14 @@ import app.entities.ShiftRequest;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
+import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -73,7 +75,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             Notifications.SHIFT_NOT_FOUND.getDisplayName()
         );
 
-        if (shift.getOwner().getId() != owner.getId() || owner.getRoles().contains(Role.CHEF)) {
+        if (shift.getOwner().getId() != owner.getId() && !owner.getRoles().contains(Role.CHEF)) {
             ctx.status(400).json(Notifications.SHIFT_NOT_OWNED.getDisplayName());
             return;
         }
@@ -112,7 +114,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         );
 
 
-        if(request.getRequester().getId() != user.getId() || user.getRoles().contains(Role.CHEF)){
+        if(request.getRequester().getId() != user.getId() && !user.getRoles().contains(Role.CHEF)){
             ctx.status(403).json(Notifications.NOT_ALLOWED.getDisplayName());
             return;
         }
@@ -177,7 +179,66 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
     // delete 30 days after shift ended? Just to make sure the database does not get spammed?
 
     private void update(Context ctx) {
-        System.out.println("NOT MADE YET!");
+
+        int id = getPathId(ctx);
+
+        ShiftRequest request = TryCatchService.tryEntity(
+                requestDAO.getById(id),
+                MessageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "ShiftRequest",
+                        String.valueOf(id)
+                )
+        );
+
+        Map<String,String> body = TryCatchService.tryBodyMap(
+                ctx,
+                Notifications.BODY_EMPTY.getDisplayName()
+        );
+
+        if(body.containsKey("status")){
+            ShiftStatus status = TryCatchService.tryParseEnum(
+                    ShiftStatus.class,
+                    body.get("status"),
+                    Notifications.ENUM_NOT_FOUND.getDisplayName()
+            );
+            request.setStatus(status);
+        }
+
+        if(body.containsKey("owner")){
+            int userId = TryCatchService.tryParseInt(
+                    body.get("owner"),
+                    Notifications.MUST_BE_INT.getDisplayName()
+            );
+
+            User newOwner = TryCatchService.tryEntity(
+                    userDAO.getById(userId),
+                    MessageService.buildMessage(
+                            Notifications.USER_NOT_FOUND_ID,
+                            String.valueOf(userId)
+                    )
+            );
+
+            request.setRequester(newOwner);
+        }
+
+        if(body.containsKey("shift")){
+            int shiftId = TryCatchService.tryParseInt(
+                    body.get("shift"),
+                    Notifications.MUST_BE_INT.getDisplayName()
+            );
+
+            Shift shift = TryCatchService.tryEntity(
+                    shiftDAO.getById(shiftId),
+                    Notifications.SHIFT_NOT_FOUND.getDisplayName()
+            );
+
+            request.setShift(shift);
+        }
+
+        requestDAO.update(request);
+
+        ctx.status(200).json(new ShiftRequestDTO(request));
     }
 
     // ________________________________________________________

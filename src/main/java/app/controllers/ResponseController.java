@@ -67,7 +67,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                     Notifications.GET_ALL_EMPTY,
                     "Response with ID: " + id
             );
-            ctx.status(200).json(Message);
+            ctx.status(200).json(Map.of("message", Message));
             return;
         }
 
@@ -90,11 +90,20 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                     Notifications.GET_ALL_EMPTY,
                     "Response with ID: " + id
             );
-            ctx.status(200).json(Message);
+            ctx.status(200).json(Map.of("message", Message));
             return;
         }
 
-        ctx.json(responses);
+        String message = MessageService.buildMessage(
+            Notifications.GET_BY_ID,
+            "response",
+            String.valueOf(id)
+        );
+
+        ctx.status(200).json(Map.of(
+            "message", message,
+            "data", responses
+        ));
     }
 
     //________________________________________________________
@@ -115,13 +124,13 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         );
 
         if (user.getId() != response.getUser().getId()) {
-            ctx.status(500).json(
-                    MessageService.buildMessage(
-                            Notifications.NOT_OWNED,
-                            "Response",
-                            String.valueOf(id)
-                    )
-            );
+            ctx.status(403).json(Map.of(
+                "message", MessageService.buildMessage(
+                    Notifications.NOT_OWNED,
+                    "Response",
+                    String.valueOf(id)
+                )
+            ));
             return;
         }
 
@@ -129,13 +138,13 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         responseDAO.update(response);
 
         String message = MessageService.buildMessage(
-                Notifications.RESPONSE_REJECTED,
-                String.valueOf(id)
+            Notifications.RESPONSE_REJECTED,
+            String.valueOf(id)
         );
 
         ctx.status(200).json(Map.of(
-                "response", new ResponseDTO(response),
-                "message", message
+            "data", new ResponseDTO(response),
+            "message", message
         ));
     }
 
@@ -148,21 +157,21 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         int id = getPathId(ctx);
 
         Response response = TryCatchService.tryEntity(
-                responseDAO.getById(id),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Response",
-                        String.valueOf(id)
-                )
+            responseDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Response",
+                String.valueOf(id)
+            )
         );
 
         if (user.getId() != response.getUser().getId()) {
-            ctx.status(500).json(
-                    MessageService.buildMessage(
-                            Notifications.NOT_OWNED,
-                            "Response",
-                            String.valueOf(id)
-                    )
+            ctx.status(403).json(
+                MessageService.buildMessage(
+                    Notifications.NOT_OWNED,
+                    "Response",
+                    String.valueOf(id)
+                )
             );
             return;
         }
@@ -171,13 +180,13 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         responseDAO.update(response);
 
         String message = MessageService.buildMessage(
-                Notifications.CANCEL_RESPONSE,
-                String.valueOf(id)
+            Notifications.CANCEL_RESPONSE,
+            String.valueOf(id)
         );
 
         ctx.status(200).json(Map.of(
-                "response", new ResponseDTO(response),
-                "message", message
+            "data", new ResponseDTO(response),
+            "message", message
         ));
     }
 

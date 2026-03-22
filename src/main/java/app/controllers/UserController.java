@@ -72,7 +72,7 @@ public class UserController extends BaseController<User, UserDTO> {
         );
 
         if (!HashService.hashEquals(body.get("password"), user.getPassword())) {
-            ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
             return;
         }
 
@@ -83,10 +83,9 @@ public class UserController extends BaseController<User, UserDTO> {
                 user.getFirstname()
         );
 
-        ctx.status(200).json(Map.of(
-                "token", token,
-                "message", message,
-                "user", new UserDTO(user)
+        respond(ctx, 200, message, Map.of(
+            "token", token,
+            "user", new UserDTO(user)
         ));
     }
 
@@ -223,7 +222,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String confirmUsername = TryCatchService.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
 
-        if (!userDAO.getById(targetId).getUsername().equals(confirmUsername)) {
+        if (!target.equals(confirmUsername)) {
             String message = MessageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getFirstname(), confirmUsername);
             ctx.status(400).json(message);
             return;
@@ -325,12 +324,55 @@ public class UserController extends BaseController<User, UserDTO> {
     // getUsersWithRole
 
     private void getUsersWithResponsibility(Context ctx) {
-        System.out.println("NOT MADE YET!");
-    }
 
+        String name = TryCatchService.tryString(
+                ctx.pathParam("responsibility"),
+                Notifications.FIELD_EMPTY.getDisplayName()
+        );
+
+        Responsibility responsibility = TryCatchService.tryEntity(
+                responsibilityDAO.getByName(name),
+                MessageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, name)
+        );
+
+        List<UserDTO> users = userDAO.getUsersByResponsibility(name)
+                .stream()
+                .map(UserDTO::new)
+                .toList();
+
+        if(users.isEmpty()){
+            ctx.status(200).json(MessageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    name
+            ));
+            return;
+        }
+
+        ctx.status(200).json(users);
+    }
     // ________________________________________________________
 
     private void getUsersWithRole(Context ctx) {
-        System.out.println("NOT MADE YET!");
+
+        Role role = TryCatchService.tryParseEnum(
+                Role.class,
+                ctx.pathParam("role"),
+                MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role"))
+        );
+
+        List<UserDTO> users = userDAO.getUsersByRole(role)
+                .stream()
+                .map(UserDTO::new)
+                .toList();
+
+        if(users.isEmpty()){
+            ctx.status(200).json(MessageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    role.getDisplayName()
+            ));
+            return;
+        }
+
+        ctx.status(200).json(users);
     }
 }

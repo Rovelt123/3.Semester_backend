@@ -13,6 +13,7 @@ import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -52,36 +53,44 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         responsibilityDAO.create(r);
 
-        ctx.status(201).json(r);
+        String message = MessageService.buildMessage(Notifications.CREATED, "Responsibility");
+        ctx.status(200).json(Map.of(
+            "message", message,
+            "data", new ResponsibilityDTO(r)
+        ));
     }
 
     //________________________________________________________
 
     private void updateResponsibility(Context ctx){
         String oldResponsibility = TryCatchService.tryString(
-                ctx.pathParam("old"),
-                Notifications.ENTER_NAME.getDisplayName()
+            ctx.pathParam("old"),
+            Notifications.ENTER_NAME.getDisplayName()
         );
 
         String newResponsibility = TryCatchService.tryString(
-                ctx.pathParam("new"),
-                Notifications.ENTER_NAME.getDisplayName()
+            ctx.pathParam("new"),
+            Notifications.ENTER_NAME.getDisplayName()
         );
 
         Responsibility responsibility = TryCatchService.tryEntity(
-                responsibilityDAO.getByName(oldResponsibility),
-                MessageService.buildMessage(
-                    Notifications.NOT_FOUND_WITH_NAME,
-                    "Responsibility",
-                    oldResponsibility
-                )
+            responsibilityDAO.getByName(oldResponsibility),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_WITH_NAME,
+                "Responsibility",
+                oldResponsibility
+            )
         );
 
         responsibility.setName(newResponsibility);
 
         responsibilityDAO.update(responsibility);
 
-        ctx.status(200).json(responsibility);
+        String message = MessageService.buildMessage(Notifications.UPDATED, "Responsibility");
+        ctx.status(200).json(Map.of(
+                "message", message,
+                "data", new ResponsibilityDTO(responsibility)
+        ));
     }
 
     //________________________________________________________
@@ -105,7 +114,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             name
         );
 
-        ctx.status(200).json(message);
+        ctx.status(200).json(Map.of("message", message));
     }
 
     //________________________________________________________
@@ -122,7 +131,16 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             )
         );
 
-        ctx.status(200).json(new ResponsibilityDTO(responsibility));
+        String message = MessageService.buildMessage(
+            Notifications.GET_BY_NAME,
+            "responsibility",
+            name
+        );
+
+        ctx.status(200).json(Map.of(
+            "message", message,
+            "data", new ResponsibilityDTO(responsibility)
+        ));
     }
 
     //________________________________________________________

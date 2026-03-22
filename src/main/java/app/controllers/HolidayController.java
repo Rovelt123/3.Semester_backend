@@ -8,8 +8,11 @@ import app.dtos.HolidayDTO;
 import app.dtos.UserDTO;
 import app.entities.Holiday;
 import app.entities.User;
+import app.enums.Notifications;
 import app.enums.Role;
 
+import app.services.MessageService;
+import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
@@ -43,6 +46,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             post("/holiday/{id}/reject", controller::rejectHoliday, Role.CHEF);
 
             get("/holidays", controller::getAll, Role.USER);
+            get("/holidays/responsibility/{name}", controller::getHolidayByResponsibilities, Role.USER);
         };
     }
 
@@ -50,80 +54,126 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
     private void requestHoliday(Context ctx){
 
-        UserDTO userDTO = ctx.attribute("user");
-        User user = userDAO.getById(userDTO.getId());
+        User user = getAuthenticatedUser(ctx);
 
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
+        Map<String,String> body = TryCatchService.tryBodyMap(
+                ctx,
+                Notifications.BODY_EMPTY.getDisplayName()
+        );
 
-        LocalDate start = LocalDate.parse(body.get("start"));
-        LocalDate end = LocalDate.parse(body.get("end"));
+        LocalDate start = TryCatchService.tryParseLocalDate(
+            body.get("start"),
+            Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
+        );
+
+        LocalDate end = TryCatchService.tryParseLocalDate(
+            body.get("end"),
+            Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
+        );
 
         Holiday holiday = new Holiday(user, start, end);
 
         holidayDAO.create(holiday);
 
-        ctx.status(201).json(new HolidayDTO(holiday));
+        String message = MessageService.buildMessage(
+            Notifications.CREATED,
+            "Message"
+        );
+
+        ctx.status(201).json(Map.of(
+            "message", message,
+            "data", new HolidayDTO(holiday)
+        ));
     }
 
     //________________________________________________________
 
     private void updateHoliday(Context ctx){
 
-        UserDTO userDTO = ctx.attribute("user");
-        User user = userDAO.getById(userDTO.getId());
+        User user = getAuthenticatedUser(ctx);
 
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
-        Holiday holiday = holidayDAO.getById(id);
+        Holiday holiday = TryCatchService.tryEntity(
+            holidayDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.GET_BY_ID,
+                String.valueOf(id)
+            )
+        );
 
         if(holiday.getUser().getId() != user.getId()){
-            ctx.status(403);
+            ctx.status(403).json(Notifications.NOT_ALLOWED);
             return;
         }
 
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
+        Map<String,String> body = TryCatchService.tryBodyMap(
+            ctx,
+            Notifications.BODY_EMPTY.getDisplayName()
+        );
 
         holiday.setStartDate(LocalDate.parse(body.get("start")));
         holiday.setEndDate(LocalDate.parse(body.get("end")));
 
         holidayDAO.update(holiday);
 
-        ctx.json(new HolidayDTO(holiday));
+        String message = MessageService.buildMessage(
+                Notifications.UPDATED,
+                "Message"
+        );
+
+        ctx.json(Map.of(
+            "message", message,
+            "data", new HolidayDTO(holiday)
+        ));
     }
 
     //________________________________________________________
 
     private void approveHoliday(Context ctx){
 
+        int id = getPathId(ctx);
 
-        UserDTO admin = ctx.attribute("user");
-
-        int id = Integer.parseInt(ctx.pathParam("id"));
-
-        Holiday holiday = holidayDAO.getById(id);
+        Holiday holiday = TryCatchService.tryEntity(
+            holidayDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                String.valueOf(id)
+            )
+        );
 
         holiday.approve();
 
         holidayDAO.update(holiday);
 
-        ctx.json(new HolidayDTO(holiday));
+        ctx.json(Map.of(
+            "message", Notifications.HOLIDAY_APPROVED,
+            "data", new HolidayDTO(holiday)
+        ));
     }
 
     //________________________________________________________
 
     private void rejectHoliday(Context ctx){
 
-        UserDTO admin = ctx.attribute("user");
+        int id = getPathId(ctx);
 
-        int id = Integer.parseInt(ctx.pathParam("id"));
-
-        Holiday holiday = holidayDAO.getById(id);
+        Holiday holiday = TryCatchService.tryEntity(
+            holidayDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                String.valueOf(id)
+            )
+        );
 
         holiday.reject();
 
         holidayDAO.update(holiday);
 
-        ctx.json(new HolidayDTO(holiday));
+        ctx.json(Map.of(
+            "message", Notifications.HOLIDAY_REJECT,
+            "data", new HolidayDTO(holiday)
+        ));
     }
 
     //________________________________________________________
@@ -138,5 +188,43 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
     @Override
     protected Holiday getEntityById(int id) {
         return holidayDAO.getById(id);
+    }
+
+    //________________________________________________________
+
+    private void getHolidayByResponsibilities(Context ctx){
+
+        String name = ctx.pathParam("name");
+
+        List<HolidayDTO> holidays = holidayDAO.getAll()
+            .stream()
+            .filter(h -> h.getUser().getResponsibilities()
+            .stream()
+            .anyMatch(r -> r.getName().equalsIgnoreCase(name)))
+            .map(HolidayDTO::new)
+            .toList();
+
+
+
+        if(holidays.isEmpty()){
+            String message = MessageService.buildMessage(
+                    Notifications.HOLIDAY_EMPTY_RESPONSIBILITY,
+                    name
+            );
+
+            ctx.status(200).json(Map.of("message", message));
+            return;
+        }
+
+        String message = MessageService.buildMessage(
+            Notifications.GET_ALL,
+            String.valueOf(holidays.size()),
+            "Holiday"
+        );
+
+        ctx.status(200).json(Map.of(
+            "message", message,
+            "data", holidays
+        ));
     }
 }

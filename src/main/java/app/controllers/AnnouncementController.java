@@ -8,7 +8,9 @@ import app.dtos.AnnouncementDTO;
 import app.dtos.UserDTO;
 import app.entities.Announcement;
 import app.entities.User;
+import app.enums.Notifications;
 import app.enums.Role;
+import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
@@ -49,15 +51,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
     private void createAnnouncement(Context ctx){
 
-        UserDTO userDTO = ctx.attribute("user");
-        User user = userDao.getById(userDTO.getId());
+        User user = getAuthenticatedUser(ctx);
 
-        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
-            ctx.status(403);
-            return;
-        }
-
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
+        Map<String,String> body = TryCatchService.tryBodyMap(
+            ctx,
+            Notifications.BODY_EMPTY.getDisplayName()
+        );
 
         Announcement a = new Announcement(
                 user,
@@ -67,51 +66,46 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         announcementDAO.create(a);
 
-        ctx.status(201).json(new AnnouncementDTO(a));
+        ctx.status(201).json(Map.of(
+                "message", Notifications.ANNOUNCEMENT_CREATED.getDisplayName(),
+                "data", new AnnouncementDTO(a)
+        ));
     }
 
     //________________________________________________________
 
     private void updateAnnouncement(Context ctx){
 
-        UserDTO userDTO = ctx.attribute("user");
-        User user = userDao.getById(userDTO.getId());
-
-        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
-            ctx.status(403);
-            return;
-        }
-
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
         Announcement a = announcementDAO.getById(id);
 
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
+        Map<String,String> body = TryCatchService.tryBodyMap(
+                ctx,
+                Notifications.BODY_EMPTY.getDisplayName()
+        );
 
         a.updateContent(body.get("content"));
 
         announcementDAO.update(a);
 
-        ctx.json(new AnnouncementDTO(a));
+        ctx.json(Map.of(
+            "message", Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(),
+            "data", new AnnouncementDTO(a)
+        ));
     }
 
     //________________________________________________________
 
     private void deleteAnnouncement(Context ctx){
 
-        UserDTO userDTO = ctx.attribute("user");
-        User user = userDao.getById(userDTO.getId());
-
-        if(user.getRoles().stream().anyMatch(role -> role.equals(Role.CHEF))){
-            ctx.status(403);
-            return;
-        }
-
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        int id = getPathId(ctx);
 
         announcementDAO.deleteById(id);
 
-        ctx.json("Announcement deleted");
+        ctx.json(Map.of(
+            "message", Notifications.ANNOUNCEMENT_DELETED.getDisplayName()
+        ));
     }
 
     //________________________________________________________

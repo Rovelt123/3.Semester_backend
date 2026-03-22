@@ -5,6 +5,8 @@ import app.controllers.Generic.BaseController;
 import app.daos.ShiftDAO;
 import app.daos.UserDAO;
 import app.dtos.ShiftDTO;
+import app.dtos.schedule.DayScheduleDTO;
+import app.dtos.schedule.ScheduleDTO;
 import app.entities.Shift;
 import app.entities.User;
 import app.enums.Notifications;
@@ -46,6 +48,8 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             get("/shift/{id}", controller::getByID, Role.USER);
             get("/shifts/date/{date}", controller::getShiftsByDate, Role.USER);
             get("/shifts/user/{id}", controller::getShiftsByUser, Role.USER);
+
+            post("/shift/schedule", controller::scheduleUser, Role.CHEF);
 
         };
     }
@@ -91,8 +95,9 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         Shift shift = new Shift(title, owner, date, start, end);
 
-        if (holidayService.isHoliday(date)) {
-            shift.setTitle("FRI: " + holidayService.getHoliday(date));
+        Map<LocalDate, String> holidays = holidayService.getHolidays(date.getYear());
+        if (holidayService.isHoliday(date, holidays)) {
+            shift.setTitle("FRI: " + holidayService.getHoliday(date, holidays));
         }
 
         shiftDAO.create(shift);
@@ -106,8 +111,8 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
         );
 
         ctx.status(201).json(Map.of(
-                "message", message,
-                "shift", new ShiftDTO(shift)
+            "message", message,
+            "data", new ShiftDTO(shift)
         ));
     }
 
@@ -173,20 +178,21 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             shift.setOwner(newOwner);
         }
 
-        if(holidayService.isHoliday(shift.getDate()))
-            shift.setTitle("FRI: " + holidayService.getHoliday(shift.getDate()));
+        Map<LocalDate, String> holidays = holidayService.getHolidays(shift.getDate().getYear());
+        if(holidayService.isHoliday(shift.getDate(), holidays))
+            shift.setTitle("FRI: " + holidayService.getHoliday(shift.getDate(), holidays));
 
 
         shiftDAO.update(shift);
 
         String message = MessageService.buildMessage(
-                Notifications.SHIFT_UPDATED,
-                String.valueOf(id)
+            Notifications.SHIFT_UPDATED,
+            String.valueOf(id)
         );
 
         ctx.status(200).json(Map.of(
-                "message", message,
-                "shift", new ShiftDTO(shift)
+            "message", message,
+            "data", new ShiftDTO(shift)
         ));
     }
 
@@ -208,7 +214,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             String.valueOf(id)
         );
 
-        ctx.status(200).json(message);
+        ctx.status(200).json(Map.of("message", message));
     }
 
     //________________________________________________________
@@ -229,7 +235,15 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             return;
         }
 
-        ctx.status(200).json(shifts);
+        String message = MessageService.buildMessage(
+            Notifications.GET_BY_USER,
+            "shift",
+            String.valueOf(userId)
+        );
+        ctx.status(200).json(Map.of(
+            "message", message,
+            "data", shifts
+        ));
     }
 
     //________________________________________________________
@@ -271,6 +285,128 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
     @Override
     protected Shift getEntityById(int id) {
         return shiftDAO.getById(id);
+    }
+
+    //________________________________________________________
+
+    private void scheduleUser(Context ctx) {
+
+        ScheduleDTO schedule = ctx.bodyAsClass(ScheduleDTO.class);
+
+        int userId = schedule.getUser_id();
+
+        User user = TryCatchService.tryEntity(
+                userDAO.getById(userId),
+                MessageService.buildMessage(
+                        Notifications.USER_NOT_FOUND_ID,
+                        String.valueOf(schedule.getUser_id())
+                )
+        );
+
+        int months = schedule.getMonths();
+
+        LocalDate now = LocalDate.now();
+
+        LocalDate startDate = now.minusDays(now.getDayOfWeek().getValue() - 1);
+        LocalDate endDate = startDate.plusMonths(months);
+
+        Map<LocalDate, String> holidays = holidayService.getHolidays(startDate.getYear());
+
+        LocalDate current = startDate;
+
+        while (!current.isAfter(endDate)) {
+
+            DayScheduleDTO day = switch (current.getDayOfWeek()) {
+                case MONDAY -> schedule.getMonday();
+                case TUESDAY -> schedule.getTuesday();
+                case WEDNESDAY -> schedule.getWednesday();
+                case THURSDAY -> schedule.getThursday();
+                case FRIDAY -> schedule.getFriday();
+                case SATURDAY -> schedule.getSaturday();
+                case SUNDAY -> schedule.getSunday();
+            };
+
+            boolean isHoliday = holidayService.isHoliday(current, holidays);
+
+            //Error in lambda (Final or effectively final)
+            LocalDate finalCurrent = current;
+            Shift existingShift = shiftDAO.getAll().stream()
+                    .filter(s -> s.getOwner().getId() == user.getId())
+                    .filter(s -> s.getDate().equals(finalCurrent))
+                    .findFirst()
+                    .orElse(null);
+
+            if (!day.isOffDay() && !isHoliday) {
+
+                LocalTime start = TryCatchService.tryParseLocalTime(
+                        day.getStart_time(),
+                        Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
+                );
+
+                LocalTime end = TryCatchService.tryParseLocalTime(
+                        day.getEnd_time(),
+                        Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
+                );
+
+                if (existingShift != null) {
+                    existingShift.setTitle(day.getTitle());
+                    existingShift.setStartTime(start);
+                    existingShift.setEndTime(end);
+                    shiftDAO.update(existingShift);
+                } else {
+                    Shift shift = new Shift(
+                            day.getTitle(),
+                            user,
+                            current,
+                            start,
+                            end
+                    );
+                    shiftDAO.create(shift);
+                }
+
+            } else if (isHoliday) {
+
+                String title = "FRI: " + holidayService.getHoliday(current, holidays);
+
+                if (existingShift != null) {
+                    existingShift.setTitle(title);
+                    existingShift.setStartTime(null);
+                    existingShift.setEndTime(null);
+                    shiftDAO.update(existingShift);
+                } else {
+                    Shift shift = new Shift(
+                            title,
+                            user,
+                            current,
+                            null,
+                            null
+                    );
+                    shiftDAO.create(shift);
+                }
+            }
+
+            current = current.plusDays(1);
+        }
+
+        String message = MessageService.buildMessage(
+            Notifications.SCHEDULE_CREATED,
+            user.getUsername(),
+            convertToTime(schedule.getMonday()),
+            convertToTime(schedule.getTuesday()),
+            convertToTime(schedule.getWednesday()),
+            convertToTime(schedule.getThursday()),
+            convertToTime(schedule.getFriday()),
+            convertToTime(schedule.getSaturday()),
+            convertToTime(schedule.getSunday())
+        );
+
+        ctx.status(201).json(message);
+    }
+
+    //________________________________________________________
+
+    private String convertToTime(DayScheduleDTO scheduleDTO) {
+        return scheduleDTO.getStart_time() + " - " + scheduleDTO.getEnd_time();
     }
 
 }

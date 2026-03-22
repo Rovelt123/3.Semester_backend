@@ -158,6 +158,8 @@ public abstract class BaseController<T, DTO> implements IController {
         );
     }
 
+    // ________________________________________________________
+
     protected void transferShift(Context ctx) {
         User user = getAuthenticatedUser(ctx);
 
@@ -206,5 +208,18 @@ public abstract class BaseController<T, DTO> implements IController {
                 "message", "Shift taken successfully",
                 "shift", new ShiftDTO(shift)
         ));
+    }
+
+    protected void respond(Context ctx, int status, String message, Object data) {
+        if (data != null) {
+            ctx.status(status).json(Map.of(
+                    "message", message,
+                    "data", data
+            ));
+        } else {
+            ctx.status(status).json(Map.of(
+                    "message", message
+            ));
+        }
     }
 }

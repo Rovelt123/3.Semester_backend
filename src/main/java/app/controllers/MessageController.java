@@ -51,16 +51,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
     // ________________________________________________________
 
     private void sendMessage(Context ctx){
-
-        UserDTO sender = checkLoggedIn(ctx);
-        User user = TryCatchService.tryEntity(
-            userDAO.getById(sender.getId()),
-            MessageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "User",
-                String.valueOf(sender.getId())
-            )
-        );
+        User user = getAuthenticatedUser(ctx);
 
         Map<String,String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
@@ -83,7 +74,11 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
         messageDAO.create(new Message(user, receiver, content));
 
-        ctx.status(201).json(new MessageDTO(message));
+        String m = MessageService.buildMessage(Notifications.CREATED, "Message");
+        ctx.status(201).json(Map.of(
+            "message", m,
+            "data", new MessageDTO(message)
+        ));
     }
 
     // ________________________________________________________
@@ -122,31 +117,32 @@ public class MessageController extends BaseController<Message, MessageDTO> {
 
         messageDAO.update(message);
 
-        ctx.json(new MessageDTO(message));
+        String m = MessageService.buildMessage(Notifications.UPDATED, "Message");
+        ctx.status(200).json(Map.of(
+            "message", m,
+            "data", new MessageDTO(message)
+        ));
     }
 
     // ________________________________________________________
 
     private void deleteMessage(Context ctx){
 
-        User user = TryCatchService.tryEntity(
-                userDAO.getById(checkLoggedIn(ctx).getId()),
-                Notifications.NOT_FOUND_ID.getDisplayName()
-        );
+        User user = getAuthenticatedUser(ctx);
 
         int id = getPathId(ctx);
 
         Message message = TryCatchService.tryEntity(
-                messageDAO.getById(id),
-                MessageService.buildMessage(
-                        Notifications.NOT_FOUND_ID,
-                        "Message",
-                        String.valueOf(id)
-                )
+            messageDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Message",
+                String.valueOf(id)
+            )
         );
 
-        if (message.getSender().getId() != user.getId() || !user.getRoles().contains(Role.CHEF)) {
-            ctx.status(403);
+        if (message.getSender().getId() != user.getId() && !user.getRoles().contains(Role.CHEF)) {
+            ctx.status(403).json(Map.of("message", Notifications.NOT_ALLOWED.getDisplayName()));
             return;
         }
 
@@ -158,7 +154,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
                 String.valueOf(id)
         );
 
-        ctx.json(messageOutput);
+        ctx.status(200).json(Map.of("message", messageOutput));
     }
 
     // ________________________________________________________
@@ -175,7 +171,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
                 .map(MessageDTO::new)
                 .toList();
 
-        ctx.json(messages);
+        ctx.status(200).json(Map.of("message", messages));
     }
 
     // ________________________________________________________
@@ -196,7 +192,7 @@ public class MessageController extends BaseController<Message, MessageDTO> {
                 .map(MessageDTO::new)
                 .toList();
 
-        ctx.json(messages);
+        ctx.status(200).json(Map.of("message", messages));
     }
 
     // ________________________________________________________
