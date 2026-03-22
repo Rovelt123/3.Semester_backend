@@ -23,7 +23,6 @@ class ThreadServiceTest {
 
         threadService.runAsync(() ->{
             ran[0] = true;
-            System.out.println("hejsa");
         });
 
         Thread.sleep(100);

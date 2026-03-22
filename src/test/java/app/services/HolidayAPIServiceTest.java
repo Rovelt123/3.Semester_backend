@@ -3,34 +3,24 @@ package app.services;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HolidayAPIServiceTest {
 
-    @Test
-    void loadHolidays() {
-        HolidayAPIService service = new HolidayAPIService();
-        service.loadHolidays(2026);
-
-        assertTrue(service.isHoliday(LocalDate.of(2026, 12, 25)));
-    }
+    HolidayAPIService service = new HolidayAPIService();
+    private Map<LocalDate, String> holidays = service.getHolidays(2026);
 
     @Test
     void getHoliday() {
-        HolidayAPIService service = new HolidayAPIService();
-        service.loadHolidays(2026);
-
-        String name = service.getHoliday(LocalDate.of(2026, 12, 25));
+        String name = service.getHoliday(LocalDate.of(2026, 12, 25), holidays);
 
         assertNotNull(name);
     }
 
     @Test
     void isHoliday() {
-        HolidayAPIService service = new HolidayAPIService();
-        service.loadHolidays(2026);
-
-        assertTrue(service.isHoliday(LocalDate.of(2026, 12, 25)));
+        assertTrue(service.isHoliday(LocalDate.of(2026, 12, 25), holidays));
     }
 }

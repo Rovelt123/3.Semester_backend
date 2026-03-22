@@ -28,37 +28,21 @@ public class UserDAO extends EntityManagerDAO<User>{
         }
     }
 
-    public void addResponsibilityToUser(User user, Responsibility responsibility) {
-        em.getTransaction().begin();
-        if (!user.getResponsibilities().contains(responsibility)) {
-            user.getResponsibilities().add(responsibility);
-            em.merge(user);
-        }
-        em.getTransaction().commit();
-    }
-
-    public void removeResponsibilityFromUser(User user, Responsibility responsibility) {
-        em.getTransaction().begin();
-        user.getResponsibilities().remove(responsibility);
-        em.merge(user);
-        em.getTransaction().commit();
-    }
-
     public List<User> getUsersByRole(Role role) {
         String jpql = "SELECT u FROM User u JOIN u.roles r WHERE r = :role";
         return executeQuery(() ->
-                em.createQuery(jpql, User.class)
-                        .setParameter("role", role)
-                        .getResultList()
+            em.createQuery(jpql, User.class)
+            .setParameter("role", role)
+            .getResultList()
         );
     }
 
     public List<User> getUsersByResponsibility(String name) {
         String jpql = "SELECT u FROM User u JOIN u.responsibilities r WHERE LOWER(r.name) = LOWER(:name)";
         return executeQuery(() ->
-                em.createQuery(jpql, User.class)
-                        .setParameter("name", name)
-                        .getResultList()
+            em.createQuery(jpql, User.class)
+            .setParameter("name", name)
+            .getResultList()
         );
     }
 

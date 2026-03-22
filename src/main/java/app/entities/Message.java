@@ -27,7 +27,7 @@ public class Message {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    protected Message() {}
+    public Message() {}
 
     // ________________________________________________________
 
