@@ -11,13 +11,6 @@ import static io.javalin.apibuilder.ApiBuilder.get;
 public class Routing {
 
     public static EndpointGroup registerRoutes() {
-        /*AnnouncementController.registerRoutes(app);
-        HolidayController.registerRoutes(app);
-        MessageController.registerRoutes(app);
-        ResponseController.registerRoutes(app);
-        1ResponsibilityController.registerRoutes(app);
-        1ShiftController.registerRoutes(app);
-        1ShiftRequestController.registerRoutes(app);*/
         return () -> {
             UserController.registerRoutes().addEndpoints();
             ShiftController.registerRoutes().addEndpoints();
@@ -28,6 +21,5 @@ public class Routing {
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
         };
-
     }
 }

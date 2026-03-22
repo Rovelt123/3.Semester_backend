@@ -32,18 +32,26 @@ public class ShiftRequest {
 
     public ShiftRequest() {}
 
+    // ________________________________________________________
+
     public ShiftRequest(User user, Shift shift) {
         this.requester = user;
         this.shift = shift;
     }
 
+    // ________________________________________________________
+
     public void solve() {
         status = ShiftStatus.SOLVED;
     }
 
+    // ________________________________________________________
+
     public void addResponse(Response response) {
         responses.add(response);
     }
+
+    // ________________________________________________________
 
     public void removeResponse(Response response) {
         responses.remove(response);

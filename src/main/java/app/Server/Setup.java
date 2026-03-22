@@ -70,8 +70,6 @@ public class Setup {
 
     }
 
-
-
     // ________________________________________________________
 
     public void endSession() {

@@ -30,7 +30,11 @@ public class SecurityService implements ISecurityService {
     private static SecurityService instance;
     private static Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
+    // ________________________________________________________
+
     public SecurityService() { }
+
+    // ________________________________________________________
 
     public static SecurityService getInstance() { // Singleton because we don't want multiple instances of the same class
         if (instance == null) {
@@ -38,6 +42,8 @@ public class SecurityService implements ISecurityService {
         }
         return instance;
     }
+
+    // ________________________________________________________
 
     @Override
     public Handler authenticate() throws UnauthorizedResponse {
@@ -72,6 +78,8 @@ public class SecurityService implements ISecurityService {
         };
     }
 
+    // ________________________________________________________
+
     @Override
     // Check if the user's roles contain any of the allowed roles
     public boolean authorize(User user, Set<RouteRole> allowedRoles) {
@@ -87,6 +95,8 @@ public class SecurityService implements ISecurityService {
 
         return user.getRoles().stream().anyMatch(allowedRoles::contains);
     }
+
+    // ________________________________________________________
 
     @Override
     public String createToken(UserDTO user) {
@@ -111,6 +121,8 @@ public class SecurityService implements ISecurityService {
         }
     }
 
+    // ________________________________________________________
+
     @Override
     public UserDTO verifyToken(String token) {
         try {
@@ -125,6 +137,7 @@ public class SecurityService implements ISecurityService {
         }
     }
 
+    // ________________________________________________________
 
     // Health check for the API. Used in deployment
     public void healthCheck(@NotNull Context ctx) {

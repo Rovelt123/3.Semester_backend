@@ -12,6 +12,7 @@ public class MessageDAO  extends EntityManagerDAO<Message>{
         super(em, Message.class);
     }
 
+    // ________________________________________________________
 
     public List<Message> getConversation(int user1, int user2){
 
@@ -30,6 +31,8 @@ public class MessageDAO  extends EntityManagerDAO<Message>{
         .setParameter("u2", user2)
         .getResultList();
     }
+
+    // ________________________________________________________
 
     public List<Message> getMessagesForUser(int userId){
 

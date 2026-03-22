@@ -8,6 +8,8 @@ public class HashService {
         return (BCrypt.checkpw(hash, enteredHash));
     }
 
+    // ________________________________________________________
+
     public static String hashHelper(String hash){
         return BCrypt.hashpw(hash, BCrypt.gensalt());
     }

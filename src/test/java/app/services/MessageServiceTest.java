@@ -13,11 +13,15 @@ class MessageServiceTest {
         assertEquals("This is with 1 arg!", message);
     }
 
+    // ________________________________________________________
+
     @Test
     void buildMessageTwoArgs() {
         String message = MessageService.buildMessage(Notifications.TEST_NOTIFICATION_2, "1", "Hello");
         assertEquals("This is with 1 args! This is the other Hello arg!", message);
     }
+
+    // ________________________________________________________
 
     @Test
     void sendNotifications() {

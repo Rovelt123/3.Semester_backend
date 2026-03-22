@@ -11,6 +11,7 @@ public class ResponseDAO extends EntityManagerDAO<Response>{
         super(em, Response.class);
     }
 
+    // ________________________________________________________
 
     public Response getByUserAndShiftRequestId(int userId, int requestId) {
         String jpql = "SELECT r FROM Response r WHERE r.user.id = :uid AND r.shiftRequest.id = :rid";
@@ -20,6 +21,8 @@ public class ResponseDAO extends EntityManagerDAO<Response>{
                 .setParameter("rid", requestId)
                 .getSingleResult();
     }
+
+    // ________________________________________________________
 
     public List<Response> getByShiftRequestId(int requestId){
 

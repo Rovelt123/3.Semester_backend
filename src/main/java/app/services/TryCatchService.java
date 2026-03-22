@@ -18,12 +18,16 @@ public class TryCatchService {
         }
     }
 
+    // ________________________________________________________
+
     public static String tryString(String value, String message) {
         if (value == null || value.isEmpty()) {
             throw new ApiException(400, message);
         }
         return value;
     }
+
+    // ________________________________________________________
 
     public static <T> T tryEntity(T entity, String message) {
         if (entity == null) {
@@ -33,6 +37,8 @@ public class TryCatchService {
         return entity;
     }
 
+    // ________________________________________________________
+
     public static boolean tryParseBoolean(String value, String message) {
         try {
             return Boolean.parseBoolean(value);
@@ -40,6 +46,8 @@ public class TryCatchService {
             throw new ApiException(400, message);
         }
     }
+
+    // ________________________________________________________
 
     public static <T extends Enum<T>> T tryParseEnum(Class<T> enumClass, String value, String message) {
         try {
@@ -49,12 +57,16 @@ public class TryCatchService {
         }
     }
 
+    // ________________________________________________________
+
     public static <T> List<T> tryList(List<T> list, String message) {
         if (list == null || list.isEmpty()) {
             throw new ApiException(400, message);
         }
         return list;
     }
+
+    // ________________________________________________________
 
     public static double tryParseDouble(String value, String message) {
         try {
@@ -64,6 +76,8 @@ public class TryCatchService {
         }
     }
 
+    // ________________________________________________________
+
     public static LocalDate tryParseLocalDate(String value, String message) {
         try {
             return LocalDate.parse(value);
@@ -71,6 +85,8 @@ public class TryCatchService {
             throw new ApiException(400, message);
         }
     }
+
+    // ________________________________________________________
 
     public static LocalTime tryParseLocalTime(String value, String message) {
         try {
@@ -80,6 +96,8 @@ public class TryCatchService {
         }
     }
 
+    // ________________________________________________________
+
     public static <T> T tryBody(Context ctx, Class<T> clazz, String message) {
         try {
             return ctx.bodyAsClass(clazz);
@@ -87,6 +105,8 @@ public class TryCatchService {
             throw new ApiException(400, message);
         }
     }
+
+    // ________________________________________________________
 
     public static Map<String, String> tryBodyMap(Context ctx, String message) {
         try {

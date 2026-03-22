@@ -361,6 +361,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         respond(ctx, 200, message, Map.of("data", users));
     }
+    
     // ________________________________________________________
 
     private void getUsersWithRole(Context ctx) {

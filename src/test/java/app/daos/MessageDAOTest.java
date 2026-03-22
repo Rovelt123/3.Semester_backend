@@ -34,7 +34,7 @@ class MessageDAOTest extends SetupTest {
         assertEquals(2, conversation.size());
     }
 
-    // --------------------------------------------
+    // ________________________________________________________
 
     @Test
     void getMessagesForUser() {

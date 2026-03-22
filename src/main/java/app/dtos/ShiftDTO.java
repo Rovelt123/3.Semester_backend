@@ -10,11 +10,14 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class ShiftDTO {
+
     private int id;
     private String title;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    // ________________________________________________________
 
     public ShiftDTO(Shift shift) {
         this.id = shift.getId();

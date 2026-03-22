@@ -19,6 +19,8 @@ class ResponsibilityDAOTest extends SetupTest {
         assertFalse(all.isEmpty());
     }
 
+    // ________________________________________________________
+
     @Test
     void getByName() {
         responsibilityDAO.initializeResponsibilities();

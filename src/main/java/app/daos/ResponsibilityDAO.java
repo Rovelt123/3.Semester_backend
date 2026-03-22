@@ -10,6 +10,8 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
         super(em, Responsibility.class);
     }
 
+    // ________________________________________________________
+
     public void initializeResponsibilities() {
         for (Responsibilities r : Responsibilities.values()) {
             boolean exists = em.createQuery("SELECT 1 FROM Responsibility r WHERE r.name = :name")
@@ -24,6 +26,7 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
         }
     }
 
+    // ________________________________________________________
 
     public Responsibility getByName(String name) {
         return em.createQuery("SELECT r FROM Responsibility r WHERE r.name = :name", Responsibility.class)

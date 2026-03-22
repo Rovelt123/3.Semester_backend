@@ -26,6 +26,8 @@ class ShiftDAOTest extends SetupTest {
         assertEquals(1, shifts.size());
     }
 
+    // ________________________________________________________
+
     @Test
     void getShiftsByDate() {
         User user = userDAO.create(testUser);

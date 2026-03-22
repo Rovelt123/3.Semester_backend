@@ -11,10 +11,15 @@ public class NotAuthorizedException extends Exception {
         super(message);
         this.statusCode = statusCode;
     }
+
+    // ________________________________________________________
+
     public NotAuthorizedException(int statusCode, String message, Throwable cause) {
         super(message, cause);
         this.statusCode = statusCode;
     }
+
+    // ________________________________________________________
 
     public int getStatusCode() {
         return statusCode;

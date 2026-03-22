@@ -12,10 +12,14 @@ class ThreadServiceTest {
 
     private ThreadService threadService = new ThreadService(4);
 
+    // ________________________________________________________
+
     @AfterEach
     void tearDown() {
         threadService.shutdown();
     }
+
+    // ________________________________________________________
 
     @Test
     void runAsync() throws InterruptedException {
@@ -30,6 +34,8 @@ class ThreadServiceTest {
         assertTrue(ran[0], "Runnable should have executed");
     }
 
+    // ________________________________________________________
+
     @Test
     void callAsyncInt() throws Exception {
         Future<Integer> future = threadService.callAsync(() ->{
@@ -41,6 +47,8 @@ class ThreadServiceTest {
         int result = future.get();
         assertEquals(6, result);
     }
+
+    // ________________________________________________________
 
     @Test
     void callAsyncString() throws Exception {
@@ -54,6 +62,8 @@ class ThreadServiceTest {
         assertEquals("Denne test virker!", result);
     }
 
+    // ________________________________________________________
+
     @Test
     void callAsyncCompletable() throws Exception {
         CompletableFuture<String> future = threadService.callAsyncCompletable(() -> "Async Result");
@@ -62,10 +72,14 @@ class ThreadServiceTest {
         assertEquals("Async Result", result);
     }
 
+    // ________________________________________________________
+
     @Test
     void shutdown() {
         assertDoesNotThrow(() -> threadService.shutdown());
     }
+
+    // ________________________________________________________
 
     @Test
     void runAsyncException() throws InterruptedException {
@@ -80,6 +94,8 @@ class ThreadServiceTest {
 
         assertTrue(ran[0]);
     }
+
+    // ________________________________________________________
 
     @Test
     void callAsyncException() {

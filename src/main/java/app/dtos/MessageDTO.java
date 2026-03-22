@@ -9,9 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class MessageDTO {
+
     private int id;
     private String context;
     private LocalDateTime sentAt;
+
+    // ________________________________________________________
 
     public MessageDTO(Message message) {
         this.id = message.getId();

@@ -17,7 +17,6 @@ public class Response {
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.NO_RESPONSE;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -30,6 +29,8 @@ public class Response {
         this.user = user;
         this.shiftRequest = request;
     }
+
+    // ________________________________________________________
 
     public Response() {
 

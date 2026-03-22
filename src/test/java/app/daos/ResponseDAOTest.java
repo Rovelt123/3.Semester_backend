@@ -27,6 +27,8 @@ class ResponseDAOTest extends SetupTest {
         assertEquals(1, results.size());
     }
 
+    // ________________________________________________________
+
     @Test
     void getByUserAndShiftRequestId() {
         User user = userDAO.create(testUser);

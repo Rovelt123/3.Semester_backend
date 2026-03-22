@@ -14,6 +14,8 @@ public class UserDAO extends EntityManagerDAO<User>{
         super(em, User.class);
     }
 
+    // ________________________________________________________
+
     public User getByUsername(String username) {
         String jpql = "SELECT u FROM User u WHERE u.username = :username";
 
@@ -28,6 +30,8 @@ public class UserDAO extends EntityManagerDAO<User>{
         }
     }
 
+    // ________________________________________________________
+
     public List<User> getUsersByRole(Role role) {
         String jpql = "SELECT u FROM User u JOIN u.roles r WHERE r = :role";
         return executeQuery(() ->
@@ -36,6 +40,8 @@ public class UserDAO extends EntityManagerDAO<User>{
             .getResultList()
         );
     }
+
+    // ________________________________________________________
 
     public List<User> getUsersByResponsibility(String name) {
         String jpql = "SELECT u FROM User u JOIN u.responsibilities r WHERE LOWER(r.name) = LOWER(:name)";

@@ -21,6 +21,7 @@ class UserDAOTest extends SetupTest {
         assertNotNull(found);
     }
 
+    // ________________________________________________________
 
     @Test
     void getUsersByRole() {
@@ -30,6 +31,8 @@ class UserDAOTest extends SetupTest {
 
         assertFalse(users.isEmpty());
     }
+
+    // ________________________________________________________
 
     @Test
     void getUsersByResponsibility() {

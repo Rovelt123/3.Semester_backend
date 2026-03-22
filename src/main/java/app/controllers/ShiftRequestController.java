@@ -58,7 +58,6 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         };
     }
 
-
     // ________________________________________________________
 
     private void createRequest(Context ctx) {

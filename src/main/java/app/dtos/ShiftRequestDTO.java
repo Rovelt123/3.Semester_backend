@@ -8,9 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ShiftRequestDTO {
+
     private int id;
     private ShiftStatus status;
     private ShiftDTO shift;
+
+    // ________________________________________________________
 
     public ShiftRequestDTO(ShiftRequest shiftRequest) {
         this.id = shiftRequest.getId();

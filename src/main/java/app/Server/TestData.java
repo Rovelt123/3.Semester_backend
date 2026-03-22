@@ -13,16 +13,18 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public class TestData {
+    private static final ShiftDAO shiftDao = Main.setup.getShiftDAO();
+    private static final UserDAO userDAO = Main.setup.getUserDAO();
+    private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
+    private static final ShiftRequestDAO shiftRequestDAO = Main.setup.getShiftRequestDAO();
+    private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
+    private static final MessageDAO messageDAO = Main.setup.getMessageDAO();
+    private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
+    private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
+
+    // ________________________________________________________
 
     public static void generate() {
-        ShiftDAO shiftDao = Main.setup.getShiftDAO();
-        UserDAO userDAO = Main.setup.getUserDAO();
-        ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
-        ShiftRequestDAO shiftRequestDAO = Main.setup.getShiftRequestDAO();
-        AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
-        MessageDAO messageDAO = Main.setup.getMessageDAO();
-        HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
-        ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
         if (userDAO.getById(1) != null) {
             return;

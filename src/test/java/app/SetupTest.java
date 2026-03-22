@@ -16,6 +16,9 @@ public abstract class SetupTest {
 
     protected static EntityManagerFactory emf;
     protected EntityManager em;
+
+    // ________________________________________________________
+
     protected UserDAO userDAO;
     protected MessageDAO messageDAO;
     protected ResponsibilityDAO responsibilityDAO;
@@ -23,16 +26,23 @@ public abstract class SetupTest {
     protected ResponseDAO responseDAO;
     protected ShiftRequestDAO shiftRequestDAO;
 
+    // ________________________________________________________
+
     protected User testUser;
+
+    // ________________________________________________________
 
     @BeforeAll
     static void setupAll() { emf = TestHibernateConfig.getTestEmf(); }
 
+    // ________________________________________________________
 
     @AfterAll
     static void closeAll() {
         emf.close();
     }
+
+    // ________________________________________________________
 
     @BeforeEach
     void setup() {
@@ -54,6 +64,8 @@ public abstract class SetupTest {
             "1234"
         );
     }
+
+    // ________________________________________________________
 
     @AfterEach
     void cleanUp() {

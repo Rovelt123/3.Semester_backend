@@ -22,6 +22,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertNotEquals(0, created.getId());
     }
 
+    // ________________________________________________________
+
     @Test
     void update() {
         userDAO.create(testUser);
@@ -33,6 +35,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertEquals("Updated", updated.getFirstname());
     }
 
+    // ________________________________________________________
+
     @Test
     void delete() {
         userDAO.create(testUser);
@@ -42,6 +46,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertNotNull(deleted);
         assertNull(userDAO.getById(deleted.getId()));
     }
+
+    // ________________________________________________________
 
     @Test
     void deleteById() {
@@ -53,6 +59,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertNull(userDAO.getById(testUser.getId()));
     }
 
+    // ________________________________________________________
+
     @Test
     void getById() {
         userDAO.create(testUser);
@@ -63,6 +71,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertEquals("john123", found.getUsername());
     }
 
+    // ________________________________________________________
+
     @Test
     void getColumnById() {
         userDAO.create(testUser);
@@ -72,6 +82,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertEquals("john123", username);
     }
 
+    // ________________________________________________________
+
     @Test
     void getByColumn() {
         userDAO.create(testUser);
@@ -80,6 +92,8 @@ class EntityManagerDAOTest extends SetupTest {
 
         assertEquals(1, users.size());
     }
+
+    // ________________________________________________________
 
     @Test
     void updateColumnById() {
@@ -95,6 +109,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertEquals("NewName", updated.getFirstname());
     }
 
+    // ________________________________________________________
+
     @Test
     void existByColumn() {
         userDAO.create(testUser);
@@ -103,6 +119,8 @@ class EntityManagerDAOTest extends SetupTest {
 
         assertTrue(exists);
     }
+
+    // ________________________________________________________
 
     @Test
     void findEntityByColumn() {
@@ -114,6 +132,8 @@ class EntityManagerDAOTest extends SetupTest {
         assertEquals("john123", found.getUsername());
     }
 
+    // ________________________________________________________
+
     @Test
     void getAll() {
         userDAO.create(testUser);
@@ -122,6 +142,8 @@ class EntityManagerDAOTest extends SetupTest {
 
         assertFalse(users.isEmpty());
     }
+
+    // ________________________________________________________
 
     @Test
     void deleteAll() {
