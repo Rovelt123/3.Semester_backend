@@ -2,22 +2,18 @@
 
 ### GET ALL SHIFTS
 GET {{url}}/shifts
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET SHIFT BY ID
 GET {{url}}/shift/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET SHIFTS BY DATE
 GET {{url}}/shifts/date/2026-03-13
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET SHIFTS BY USER
 GET {{url}}/shifts/user/2
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -25,7 +21,6 @@ Authorization: Bearer {{token}}
 
 POST {{url}}/shift
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -41,7 +36,6 @@ Authorization: Bearer {{token}}
 
 PUT {{url}}/shift/3
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -56,5 +50,4 @@ Authorization: Bearer {{token}}
 #### ======== DELETE SHIFT ========
 
 DELETE {{url}}/shift/3
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

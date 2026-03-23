@@ -2,12 +2,10 @@
 
 ### GET ALL MESSAGES
 GET {{url}}/messages
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET CONVERSATION
 GET {{url}}/conversation/2
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -15,7 +13,6 @@ Authorization: Bearer {{token}}
 
 POST {{url}}/message/2
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -27,7 +24,6 @@ Authorization: Bearer {{token}}
 
 PUT {{url}}/message/2
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -38,5 +34,4 @@ Authorization: Bearer {{token}}
 #### ======== DELETE MESSAGE ========
 
 DELETE {{url}}/message/2
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

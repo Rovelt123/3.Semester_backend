@@ -2,37 +2,30 @@
 
 ### GET ALL RESPONSES
 GET {{url}}/responses
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSE BY ID
 GET {{url}}/response/3
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSES BY SHIFT REQUEST
 GET {{url}}/responses/user/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSES BY REQUEST
 GET {{url}}/responses/request/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### ACCEPT BY ID
 PUT {{url}}/response/1/accept
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### REJECT BY ID
 PUT {{url}}/response/1/reject
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### NO RESPONSE BY ID
 PUT {{url}}/response/1/no-response
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 #### ======== UPDATE RESPONSE ========
@@ -41,7 +34,6 @@ Authorization: Bearer {{token}}
 ### ==================================
 PUT {{url}}/response/1
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -50,5 +42,4 @@ Authorization: Bearer {{token}}
 
 #### ======== DELETE RESPONSE ========
 DELETE {{url}}/response/1
-Content-Type: application/json
 Authorization: Bearer {{token}}

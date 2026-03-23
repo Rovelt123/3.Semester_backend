@@ -2,17 +2,14 @@
 
 ### GET ALL RESPONSIBILITIES
 GET {{url}}/responsibilities
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSIBILITY BY ID
 GET {{url}}/responsibility/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET RESPONSIBILITY BY NAME
 GET {{url}}/responsibility/name/Chauffør
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -20,7 +17,6 @@ Authorization: Bearer {{token}}
 
 POST {{url}}/responsibility/Bar
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -28,8 +24,6 @@ Authorization: Bearer {{token}}
 #### ======== UPDATE ========
 
 PUT {{url}}/responsibility/Bar/update/Chauffør2
-Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -37,5 +31,4 @@ Authorization: Bearer {{token}}
 #### ======== DELETE ========
 
 DELETE {{url}}/responsibility/Bar
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

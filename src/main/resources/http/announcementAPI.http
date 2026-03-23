@@ -2,12 +2,10 @@
 
 ### GET ALL ANNOUNCEMENTS
 GET {{url}}/announcements
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 ### GET ANNOUNCEMENT BY ID
 GET {{url}}/announcement/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -15,7 +13,6 @@ Authorization: Bearer {{token}}
 
 POST {{url}}/announcement
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -28,7 +25,6 @@ Authorization: Bearer {{token}}
 
 PUT {{url}}/announcement/1
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -39,5 +35,4 @@ Authorization: Bearer {{token}}
 #### ======== DELETE ========
 
 DELETE {{url}}/announcement/1
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}

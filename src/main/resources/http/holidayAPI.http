@@ -2,7 +2,6 @@
 
 ### GET ALL HOLIDAYS
 GET {{url}}/holidays
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
@@ -10,7 +9,6 @@ Authorization: Bearer {{token}}
 
 POST {{url}}/holiday
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -23,7 +21,6 @@ Authorization: Bearer {{token}}
 
 PUT {{url}}/holiday/1
 Content-Type: application/json
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 {
@@ -35,12 +32,10 @@ Authorization: Bearer {{token}}
 #### ======== APPROVE HOLIDAY (CHEF) ========
 
 POST {{url}}/holiday/1/approve
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
 
 
 #### ======== REJECT HOLIDAY (CHEF) ========
 
 POST {{url}}/holiday/1/reject
-Cookie: JSESSIONID=node0wq02f5tbj4m4ddbuj6axh29r0.node0
 Authorization: Bearer {{token}}
