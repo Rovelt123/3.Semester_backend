@@ -38,6 +38,8 @@ public enum Notifications {
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
     OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
 
+    GET_RESPONSIBILITY_NAME("%s is not a valid responsibility!"),
+
     LOGGED_IN("Welcome back %s!"),
     LOGGED_OUT("See you later!"),
     NOT_LOGGED_IN("Not logged in..."),

@@ -45,7 +45,7 @@ Authorization: Bearer {{token}}
 ### GET USER BY USERNAME
 ### /user/by-username/{username}
 ### =========================
-GET {{url}}/user/by-username/Rovelt123w
+GET {{url}}/user/by-username/admin
 Authorization: Bearer {{token}}
 
 
@@ -141,7 +141,7 @@ Authorization: Bearer {{token}}
 ### GET USER WITH RESPONSIBILITY
 ### /users/responsibility/{responsibility}
 ### =========================
-DELETE {{url}}/users/responsibility/Chauffør
+GET {{url}}/users/responsibility/Chauwffør
 Authorization: Bearer {{token}}
 
 
@@ -149,5 +149,5 @@ Authorization: Bearer {{token}}
 ### GET USER WITH ROLE
 ### /users/role/{role}
 ### =========================
-DELETE {{url}}/users/role/USER
+GET {{url}}/users/role/CHEF
 Authorization: Bearer {{token}}

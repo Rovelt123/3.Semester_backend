@@ -341,6 +341,14 @@ public class UserController extends BaseController<User, UserDTO> {
                 Notifications.FIELD_EMPTY.getDisplayName()
         );
 
+        TryCatchService.tryEntity(
+            responsibilityDAO.getByName(name),
+            MessageService.buildMessage(
+                Notifications.GET_RESPONSIBILITY_NAME,
+                name
+            )
+        );
+
         List<UserDTO> users = userDAO.getUsersByResponsibility(name)
                 .stream()
                 .map(UserDTO::new)
