@@ -8,9 +8,6 @@ public class MessageService {
     This is made for future purposes - Notify system
     This is supposed to be a generic notify system with different color codes ind the future.
 
-    TODO:
-    Might not use this, because it is a stateless REST API, so it should not handle notifications? Gotta figure it out.
-
      */
 
     public static String buildMessage(Notifications notifications, String... args) {

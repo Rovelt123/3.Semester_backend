@@ -50,8 +50,6 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             get("/shiftrequests", controller::getAll, Role.USER);
             get("/shiftrequest/{id}", controller::getByID, Role.USER);
 
-            post("/shiftrequest/{id}/take", controller::transferShift, Role.USER);
-
             put("/shiftrequest/{id}", controller::update);
 
 
@@ -174,12 +172,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
     // ________________________________________________________
     //TODO:
-    // Create shiftRequests by admin for users?? (Made in original create but added role checker (ROLE.CHEF))???
-    // Delete shiftRequests by admin for users?? (Made in original create but added role checker (ROLE.CHEF))???
-    // Update shiftRequest?
-    // Set status by admin (Made in update???)
     // Set owner by admin (If I decide to do this, I MUST DELETE ACTIVE RESPONSES AND ADD TO THE OLD OWNER OF SHIFT REQUEST!) (Made in update???)
-    // set shift by admin (Made in update???)
     // delete 30 days after shift ended? Just to make sure the database does not get spammed?
 
     private void update(Context ctx) {

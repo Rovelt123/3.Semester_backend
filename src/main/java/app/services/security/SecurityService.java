@@ -1,6 +1,5 @@
 package app.services.security;
 
-import app.Main;
 import app.dtos.UserDTO;
 import app.entities.User;
 import app.enums.Role;
@@ -19,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Purpose: To handle security in the API
@@ -89,7 +87,7 @@ public class SecurityService implements ISecurityService {
 
         Set<Role> roles = user.getRoles();
 
-        if (roles.stream().anyMatch(role -> role.equals(Role.CHEF))) {
+        if (roles.contains(Role.CHEF)) {
             return true;
         }
 

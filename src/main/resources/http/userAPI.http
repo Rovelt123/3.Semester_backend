@@ -10,7 +10,6 @@ Content-Type: application/json
 }
 
 
-
 ### =========================
 ### REGISTER USER
 ### =========================
@@ -56,7 +55,6 @@ PUT {{url}}/user/username
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-
 {
   "new_username": "Rovelt123",
   "password": "Rovelt"
@@ -70,7 +68,6 @@ PUT {{url}}/user/password
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-
 {
   "old_password": "",
   "new_password": "",
@@ -78,15 +75,12 @@ Authorization: Bearer {{token}}
 }
 
 
-
 ### =========================
 ### ADD ROLE
 ### /user/{id}/roles/{role}
 ### =========================
-
 PUT {{url}}/user/2/roles/CHEF
 Authorization: Bearer {{token}}
-
 
 
 ### =========================
@@ -97,12 +91,10 @@ DELETE {{url}}/user/2/roles/CHEF
 Authorization: Bearer {{token}}
 
 
-
 ### =========================
 ### ADD RESPONSIBILITY
 ### /user/{id}/responsibility/{responsibility}
 ### =========================
-
 PUT {{url}}/user/8/responsibility/Chauffør
 Authorization: Bearer {{token}}
 
@@ -114,7 +106,6 @@ Authorization: Bearer {{token}}
 ### =========================
 DELETE {{url}}/user/8/responsibility/Chauffør
 Authorization: Bearer {{token}}
-
 
 
 ### =========================
@@ -151,3 +142,24 @@ Authorization: Bearer {{token}}
 ### =========================
 GET {{url}}/users/role/CHEF
 Authorization: Bearer {{token}}
+
+
+### =========================
+#### UPDATE USER
+### /user/{id}
+### You can update the following: firstname, lastname, password, username
+### For password you must enter: password, new_password and new_password_repeat
+### Yes, you can update multiple at a time!
+### =========================
+PUT {{url}}/user/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "Rovelt",
+  "firstname": "Rovelt123",
+  "lastname": "Rovelt123",
+  "password": "Rovelt",
+  "new_password": "Rovelt123",
+  "new_password_repeat": "Rovelt123"
+}

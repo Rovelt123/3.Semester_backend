@@ -27,8 +27,8 @@ public class Shift {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    @OneToOne(mappedBy = "shift", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ShiftRequest shiftRequest;
+    @OneToMany(mappedBy = "shift", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShiftRequest> shiftRequests = new ArrayList<>();
 
     public Shift(String title, User owner, LocalDate date, LocalTime now, LocalTime localTime) {
         this.title = title;

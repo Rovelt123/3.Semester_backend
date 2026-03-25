@@ -63,6 +63,7 @@ public enum Notifications {
     USER_NOT_FOUND_ID("User not found with ID: %s!"),
     USER_NOT_FOUND_USERNAME("User not found with username: %s!"),
     USERNAME_CONFIRM_MISMATCH("Username confirmation does not match!"),
+    USER_UPDATED("User updated with ID: %s"),
     DELETE_USER_MISMATCH("Wrong username entered. \nYou entered: %s, expected: %s"),
     ENTER_NAME("You must enter a name"),
     RESPONSIBILITY_EXISTS("Responsibility with the name %s already exists!"),

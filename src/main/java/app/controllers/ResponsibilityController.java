@@ -39,7 +39,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             delete("/responsibility/{name}", controller::deleteResponsibility, Role.CHEF);
 
             get("/responsibilities", controller::getAll, Role.USER);
-            get("/responsibility/{id}", controller::getByID, Role.USER);
+            get("/responsibility/id/{id}", controller::getByID, Role.USER);
             get("/responsibility/name/{name}", controller::getByName, Role.USER);
         };
     }

@@ -20,11 +20,11 @@ public class ShiftRequest {
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.WAITING;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "requester_id")
     private User requester;
 
-    @OneToOne
+    @ManyToOne
     private Shift shift;
 
     @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)

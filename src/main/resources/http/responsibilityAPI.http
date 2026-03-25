@@ -1,34 +1,45 @@
-#### ======== GET DATA ========
-
+### =========================
 ### GET ALL RESPONSIBILITIES
+### =========================
 GET {{url}}/responsibilities
 Authorization: Bearer {{token}}
 
+### =========================
 ### GET RESPONSIBILITY BY ID
-GET {{url}}/responsibility/1
+### /responsibility/id/{name}
+### =========================
+GET {{url}}/responsibility/id/1
 Authorization: Bearer {{token}}
 
+### =========================
 ### GET RESPONSIBILITY BY NAME
+### /responsibility/name/{name}
+### =========================
 GET {{url}}/responsibility/name/Chauffør
 Authorization: Bearer {{token}}
 
 
-#### ======== CREATE ========
-
+### =========================
+### CREATE RESPONSIBILITY
+### /responsibility/{name}
+### =========================
 POST {{url}}/responsibility/Bar
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-
-#### ======== UPDATE ========
-
+### =========================
+### UPDATE RESPONSIBILTIY
+### /responsibility/{name}/update/{new_name}
+### =========================
 PUT {{url}}/responsibility/Bar/update/Chauffør2
 Authorization: Bearer {{token}}
 
 
 
-#### ======== DELETE ========
-
+### =========================
+### DELETE RESPONSIBILITY
+### /responsibility/{responsibility}
+### =========================
 DELETE {{url}}/responsibility/Bar
 Authorization: Bearer {{token}}

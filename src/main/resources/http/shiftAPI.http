@@ -1,24 +1,39 @@
-#### ======== GET DATA ========
 
+### =========================
 ### GET ALL SHIFTS
+### =========================
 GET {{url}}/shifts
 Authorization: Bearer {{token}}
 
+
+### =========================
 ### GET SHIFT BY ID
+### /shift/{id}
+### =========================
 GET {{url}}/shift/1
 Authorization: Bearer {{token}}
 
+
+### =========================
 ### GET SHIFTS BY DATE
+### /shifts/date/yyyy-mm-dd
+### =========================
 GET {{url}}/shifts/date/2026-03-13
 Authorization: Bearer {{token}}
 
+
+### =========================
 ### GET SHIFTS BY USER
+### /shifts/user/{id}
+### =========================
 GET {{url}}/shifts/user/2
 Authorization: Bearer {{token}}
 
 
-#### ======== CREATE SHIFT (CHEF) ========
-
+### =========================
+### CREATE SHIFT (CHEF)
+### Must enter: user_id, title, date(yyyy-mm-dd), startetime(24h time), end_time(24h time)
+### =========================
 POST {{url}}/shift
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -32,8 +47,11 @@ Authorization: Bearer {{token}}
 }
 
 
-#### ======== UPDATE SHIFT ========
-
+### =========================
+### UPDATE SHIFT (CHEF)
+### You can update the following: date, start_time, end_time, owner, title
+### Yes, you can update multiple at a time!
+### =========================
 PUT {{url}}/shift/3
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -43,11 +61,63 @@ Authorization: Bearer {{token}}
   "end_time": "20:00"
 }
 
-### You can update the following: date, start_time, end_time, owner, title
-### Yes, you can update multiple at a time!
 
-
-#### ======== DELETE SHIFT ========
-
+### =========================
+### DELETE SHIFT (CHEF)
+### /shifts/{id}
+### =========================
 DELETE {{url}}/shift/3
 Authorization: Bearer {{token}}
+
+
+### =========================
+### CREATE SCHEDULE (CHEF)
+### Must enter user_id and how far in months you want to scedule for
+### Must also enter all days in the week (Monday, tuesday, wednesday, thursday, friday, saturday and sunday) in following format:
+### "<day_name>": {"title": <title>, "start_time": <24h time>, "end_time": <24h time>, "offDay": <true/false>}
+### =========================
+POST {{url}}/shift/schedule
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "user_id": 3,
+  "months": 1,
+
+  "monday": {
+    "title": "Arbejde",
+    "start_time": "08:00",
+    "end_time": "16:00",
+    "offDay": false
+  },
+  "tuesday": {
+    "title": "Arbejde",
+    "start_time": "08:00",
+    "end_time": "16:00",
+    "offDay": false
+  },
+  "wednesday": {
+    "title": "Fri",
+    "start_time": null,
+    "end_time": null,
+    "offDay": true
+  },
+  "thursday": {
+    "title": "Arbejde",
+    "start_time": "08:00",
+    "end_time": "16:00",
+    "offDay": false
+  },
+  "friday": {
+    "title": "Arbejde",
+    "start_time": "08:00",
+    "end_time": "16:00",
+    "offDay": false
+  },
+  "saturday": {
+    "offDay": true
+  },
+  "sunday": {
+    "offDay": true
+  }
+}
