@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.Main;
+/*import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.MessageDAO;
 import app.daos.UserDAO;
@@ -219,4 +219,4 @@ public class MessageController extends BaseController<Message, MessageDTO> {
         return messageDAO.getById(id);
     }
 
-}
+}*/

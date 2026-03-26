@@ -38,7 +38,7 @@ class UserDAOTest extends SetupTest {
     void getUsersByResponsibility() {
         User user = userDAO.create(testUser);
 
-        Responsibility r = responsibilityDAO.create(new Responsibility("Cleaning"));
+        Responsibility r = responsibilityDAO.create(Responsibility.builder().name("Cleaning").build());
 
         user.addResponsibility(r);
 

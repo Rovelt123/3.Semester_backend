@@ -21,7 +21,10 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
                     .isPresent();
 
             if (!exists) {
-                em.persist(new Responsibility(r.getDisplayName()));
+                this.create(Responsibility.builder()
+                        .name(r.getDisplayName())
+                        .build()
+                );
             }
         }
     }

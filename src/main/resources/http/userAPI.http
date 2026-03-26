@@ -5,8 +5,8 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "Rovelt",
+  "password": "Rovelt"
 }
 
 
@@ -56,8 +56,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "new_username": "Rovelt123",
-  "password": "Rovelt"
+  "new_username": "admin",
+  "password": "admin"
 }
 
 
@@ -69,9 +69,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "old_password": "",
-  "new_password": "",
-  "new_password_repeat": ""
+  "old_password": "Rovelt",
+  "new_password": "admin",
+  "new_password_repeat": "admin"
 }
 
 
@@ -95,7 +95,7 @@ Authorization: Bearer {{token}}
 ### ADD RESPONSIBILITY
 ### /user/{id}/responsibility/{responsibility}
 ### =========================
-PUT {{url}}/user/8/responsibility/Chauffør
+PUT {{url}}/user/3/responsibility/Chauffør
 Authorization: Bearer {{token}}
 
 
@@ -104,7 +104,7 @@ Authorization: Bearer {{token}}
 ### REMOVE RESPONSIBILITY
 ### /user/{id}/responsibility/{responsibility}
 ### =========================
-DELETE {{url}}/user/8/responsibility/Chauffør
+DELETE {{url}}/user/2/responsibility/Chauffør
 Authorization: Bearer {{token}}
 
 
@@ -116,7 +116,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "password": "w"
+  "password": "Rovelt"
 }
 
 
@@ -124,7 +124,7 @@ Authorization: Bearer {{token}}
 ### FORCE DELETE USER (CHEF)
 ### /user/force-delete/{id}/{username}
 ### =========================
-DELETE {{url}}/user/force-delete/4/Rovelt
+DELETE {{url}}/user/force-delete/6/Rovelt
 Authorization: Bearer {{token}}
 
 
@@ -132,7 +132,7 @@ Authorization: Bearer {{token}}
 ### GET USER WITH RESPONSIBILITY
 ### /users/responsibility/{responsibility}
 ### =========================
-GET {{url}}/users/responsibility/Chauwffør
+GET {{url}}/users/responsibility/Chauffør
 Authorization: Bearer {{token}}
 
 
@@ -140,7 +140,7 @@ Authorization: Bearer {{token}}
 ### GET USER WITH ROLE
 ### /users/role/{role}
 ### =========================
-GET {{url}}/users/role/CHEF
+GET {{url}}/users/role/USER
 Authorization: Bearer {{token}}
 
 

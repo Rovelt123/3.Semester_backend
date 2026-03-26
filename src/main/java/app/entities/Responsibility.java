@@ -1,11 +1,16 @@
 package app.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter @Setter
+@Getter
+@Setter
+@Table(name = "responsibilities")
 public class Responsibility {
 
     @Id
@@ -15,11 +20,4 @@ public class Responsibility {
     @Column(unique = true)
     private String name;
 
-    public Responsibility() {}
-
-    // ________________________________________________________
-
-    public Responsibility(String name) {
-        this.name = name;
-    }
 }

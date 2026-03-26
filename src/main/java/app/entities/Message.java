@@ -1,15 +1,17 @@
 package app.entities;
 
-import app.Main;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
+/*@Entity
 @Getter
 @Setter
+@Table(name = "messages")
+@NoArgsConstructor
 public class Message {
 
     @Id
@@ -27,8 +29,6 @@ public class Message {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    public Message() {}
-
     // ________________________________________________________
 
     public Message(User sender, User receiver, String content) {
@@ -37,4 +37,4 @@ public class Message {
         this.content = content;
         this.sentAt = LocalDateTime.now();
     }
-}
+}*/

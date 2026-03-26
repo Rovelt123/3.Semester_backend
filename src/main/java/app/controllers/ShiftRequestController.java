@@ -44,15 +44,13 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         ShiftRequestController controller = new ShiftRequestController();
 
         return () ->{
-            post("/shiftrequest/{id}", controller::createRequest, Role.USER);
-            delete("/shiftrequest/{id}", controller::deleteRequest, Role.USER);
+            post("/shift_request/{id}", controller::createRequest, Role.USER);
+            delete("/shift_request/{id}", controller::deleteRequest, Role.USER);
 
-            get("/shiftrequests", controller::getAll, Role.USER);
-            get("/shiftrequest/{id}", controller::getByID, Role.USER);
+            get("/shift_requests", controller::getAll, Role.USER);
+            get("/shift_request/{id}", controller::getByID, Role.USER);
 
-            put("/shiftrequest/{id}", controller::update);
-
-
+            put("/shift_request/{id}", controller::update);
         };
     }
 
@@ -77,13 +75,16 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             return;
         }
 
-        ShiftRequest request = TryCatchService.tryEntity(new ShiftRequest(owner, shift), Notifications.SHIFT_REQUEST_CREATE_FAILED.getDisplayName());
+        ShiftRequest request = TryCatchService.tryEntity(ShiftRequest.builder().requester(owner).shift(shift).build(), Notifications.SHIFT_REQUEST_CREATE_FAILED.getDisplayName());
 
         userDAO.getAll().stream()
                 .filter(u -> u.getId() != owner.getId()).forEach(u -> request.getResponses()
                     .add(
                         TryCatchService.tryEntity(
-                            new Response(u, request),
+                            Response.builder()
+                                .user(u)
+                                .shiftRequest(request)
+                                .build(),
                             MessageService.buildMessage(Notifications.RESPONSE_CREATION_FAILED, u.getUsername())
                         )
                     )
@@ -157,7 +158,10 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             if (!alreadyExists) {
 
                 Response response = TryCatchService.tryEntity(
-                        new Response(user, s),
+                        Response.builder()
+                                .user(user)
+                                .shiftRequest(s)
+                                .build(),
                         MessageService.buildMessage(
                                 Notifications.RESPONSE_CREATION_FAILED,
                                 user.getUsername()

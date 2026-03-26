@@ -27,7 +27,7 @@ class MessageServiceTest {
     void sendNotifications() {
         String message = MessageService.buildMessage(Notifications.MUST_BE_INT, "HELLO");
         MessageService.sendError(message);
-        MessageService.succes(message);
+        MessageService.success(message);
         MessageService.notify(message);
         MessageService.warn(message);
     }

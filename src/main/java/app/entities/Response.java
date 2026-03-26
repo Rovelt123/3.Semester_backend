@@ -2,12 +2,16 @@ package app.entities;
 
 import app.enums.ShiftStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "responses")
 public class Response {
 
     @Id
@@ -24,15 +28,4 @@ public class Response {
     @ManyToOne
     @JoinColumn(name = "shift_request")
     private ShiftRequest shiftRequest;
-
-    public Response(User user, ShiftRequest request) {
-        this.user = user;
-        this.shiftRequest = request;
-    }
-
-    // ________________________________________________________
-
-    public Response() {
-
-    }
 }

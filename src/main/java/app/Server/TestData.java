@@ -9,6 +9,7 @@ import app.enums.ShiftStatus;
 import app.services.HashService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class TestData {
     private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
     private static final ShiftRequestDAO shiftRequestDAO = Main.setup.getShiftRequestDAO();
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
-    private static final MessageDAO messageDAO = Main.setup.getMessageDAO();
+    //private static final MessageDAO messageDAO = Main.setup.getMessageDAO();
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
@@ -34,11 +35,45 @@ public class TestData {
         // USERS
         // ========================================================
 
-        User admin = new User("Admin User", "lastname", Set.of(Role.CHEF, Role.USER), "admin", HashService.hashHelper("admin"));
-        User worker = new User("Worker User", "lastname", Set.of(Role.USER), "user", HashService.hashHelper("user"));
-        User worker2 = new User("Worker User1", "lastname", Set.of(Role.USER), "user1", HashService.hashHelper("user1"));
-        User worker3 = new User("Worker User2", "lastname", Set.of(Role.USER), "user2", HashService.hashHelper("user2"));
-        User worker4 = new User("Worker User3", "lastname", Set.of(Role.USER), "user3", HashService.hashHelper("user3"));
+        User admin = User.builder()
+                .firstname("Admin User")
+                .lastname("lastname")
+                .roles(Set.of(Role.CHEF, Role.USER))
+                .username("admin")
+                .password(HashService.hashHelper("admin"))
+                .build();
+
+        User worker = User.builder()
+                .firstname("Worker User")
+                .lastname("lastname")
+                .roles(Set.of(Role.USER))
+                .username("user")
+                .password(HashService.hashHelper("user"))
+                .build();
+
+        User worker2 = User.builder()
+                .firstname("Worker User1")
+                .lastname("lastname")
+                .roles(Set.of(Role.USER))
+                .username("user1")
+                .password(HashService.hashHelper("user1"))
+                .build();
+
+        User worker3 = User.builder()
+                .firstname("Worker User2")
+                .lastname("lastname")
+                .roles(Set.of(Role.USER))
+                .username("user2")
+                .password(HashService.hashHelper("user2"))
+                .build();
+
+        User worker4 = User.builder()
+                .firstname("Worker User3")
+                .lastname("lastname")
+                .roles(Set.of(Role.USER))
+                .username("user3")
+                .password(HashService.hashHelper("user3"))
+                .build();
 
         userDAO.create(admin);
         userDAO.create(worker);
@@ -52,7 +87,9 @@ public class TestData {
 
         for (Responsibilities r : Responsibilities.values()) {
 
-            Responsibility entity = new Responsibility(r.getDisplayName());
+            Responsibility entity = Responsibility.builder()
+                    .name(r.getDisplayName())
+                    .build();
 
             responsibilityDAO.create(entity);
         }
@@ -69,15 +106,22 @@ public class TestData {
         // SHIFTS
         // ========================================================
 
-        Shift shift1 = new Shift("Morning Shift", worker,
-                LocalDate.now(),
-                LocalTime.of(8,0),
-                LocalTime.of(16,0));
+        Shift shift1 = Shift.builder()
+            .title("Morning shift")
+            .owner(worker)
+            .date(LocalDate.now())
+            .startTime(LocalTime.of(8,0))
+            .endTime(LocalTime.of(16,0))
+            .build();
 
-        Shift shift2 = new Shift("Evening Shift", worker,
-                LocalDate.now().plusDays(1),
-                LocalTime.of(14,0),
-                LocalTime.of(22,0));
+
+        Shift shift2 = Shift.builder()
+            .title("Evening Shift")
+            .owner(worker2)
+            .date(LocalDate.now().plusDays(1))
+            .startTime(LocalTime.of(14,0))
+            .endTime(LocalTime.of(22,0))
+            .build();
 
         shiftDao.create(shift1);
         shiftDao.create(shift2);
@@ -86,7 +130,10 @@ public class TestData {
         // SHIFT REQUESTS (swap / request)
         // ========================================================
 
-        ShiftRequest request = new ShiftRequest(worker, shift1);
+        ShiftRequest request = ShiftRequest.builder()
+            .requester(worker)
+            .shift(shift1)
+            .build();
 
         shiftRequestDAO.create(request);
         for (User user : userDAO.getAll()) {
@@ -94,7 +141,10 @@ public class TestData {
             // Man skal ikke kunne acceptere sin egen vagt
             if (user.getId() != worker.getId()) {
 
-                Response response = new Response(user, request);
+                Response response = Response.builder()
+                        .user(user)
+                        .shiftRequest(request)
+                        .build();
                 response.setStatus(ShiftStatus.NO_RESPONSE);
 
                 responseDAO.create(response);
@@ -105,9 +155,11 @@ public class TestData {
         // HOLIDAYS
         // ========================================================
 
-        Holiday holiday = new Holiday(worker,
-                LocalDate.now().plusDays(7),
-                LocalDate.now().plusDays(10));
+        Holiday holiday = Holiday.builder()
+            .user(worker)
+            .startDate(LocalDate.now().plusDays(7))
+            .endDate(LocalDate.now().plusDays(10))
+            .build();
 
         holiday.approve();
         holidayDAO.create(holiday);
@@ -116,9 +168,12 @@ public class TestData {
         // ANNOUNCEMENTS
         // ========================================================
 
-        Announcement announcement = new Announcement(admin,
-                "Welcome",
-                "System is ready for testing");
+        Announcement announcement = Announcement.builder()
+            .author(admin)
+            .title("Welcome")
+            .content("System is ready for testing!")
+            .lastUpdated(LocalDateTime.now())
+            .build();
 
         announcementDAO.create(announcement);
 
@@ -126,10 +181,12 @@ public class TestData {
         // MESSAGES
         // ========================================================
 
-        Message message = new Message(worker, admin,
+        /*Message message =
+
+                new Message(worker, admin,
                 "Hello manager, I would like to swap shift");
 
-        messageDAO.create(message);
+        messageDAO.create(message);*/
 
     }
 }

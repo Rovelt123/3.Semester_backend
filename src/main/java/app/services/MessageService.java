@@ -22,8 +22,8 @@ public class MessageService {
 
     // ________________________________________________________
 
-    public static void succes(String message) {
-        System.out.println("SUCESS: " + message);
+    public static void success(String message) {
+        System.out.println("SUCCESS: " + message);
     }
 
     // ________________________________________________________

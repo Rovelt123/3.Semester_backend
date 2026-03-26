@@ -3,9 +3,7 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.AnnouncementDAO;
-import app.daos.UserDAO;
 import app.dtos.AnnouncementDTO;
-import app.dtos.UserDTO;
 import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Notifications;
@@ -14,6 +12,7 @@ import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class AnnouncementController extends BaseController<Announcement, AnnouncementDTO> {
 
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
-    private static final UserDAO userDao = Main.setup.getUserDAO();
 
     //________________________________________________________
 
@@ -58,11 +56,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
-        Announcement a = new Announcement(
-            user,
-            body.get("title"),
-            body.get("content")
-        );
+        Announcement a = Announcement.builder()
+            .author(user)
+            .title(body.get("title"))
+            .content(body.get("content"))
+            .lastUpdated(LocalDateTime.now())
+            .build();
 
         announcementDAO.create(a);
 

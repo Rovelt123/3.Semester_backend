@@ -22,8 +22,8 @@ public class UserDAO extends EntityManagerDAO<User>{
         try {
             return executeQuery(() ->
                     em.createQuery(jpql, User.class)
-                            .setParameter("username", username)
-                            .getSingleResult()
+                    .setParameter("username", username)
+                    .getSingleResult()
             );
         } catch (NoResultException e) {
             return null;

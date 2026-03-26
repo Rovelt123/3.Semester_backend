@@ -3,9 +3,7 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.HolidayDAO;
-import app.daos.UserDAO;
 import app.dtos.HolidayDTO;
-import app.dtos.UserDTO;
 import app.entities.Holiday;
 import app.entities.User;
 import app.enums.Notifications;
@@ -25,7 +23,6 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
-    private static final UserDAO userDAO = Main.setup.getUserDAO();
 
     //________________________________________________________
 
@@ -71,7 +68,11 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
         );
 
-        Holiday holiday = new Holiday(user, start, end);
+        Holiday holiday = Holiday.builder()
+            .user(user)
+            .startDate(start)
+            .endDate(end)
+            .build();
 
         holidayDAO.create(holiday);
 

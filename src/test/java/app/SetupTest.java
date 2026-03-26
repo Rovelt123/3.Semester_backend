@@ -6,6 +6,7 @@ import app.entities.User;
 import app.enums.Role;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import lombok.Builder;
 import org.junit.jupiter.api.*;
 
 import java.util.Set;
@@ -29,6 +30,7 @@ public abstract class SetupTest {
     // ________________________________________________________
 
     protected User testUser;
+    protected User testUser2;
 
     // ________________________________________________________
 
@@ -56,13 +58,22 @@ public abstract class SetupTest {
         responseDAO = new ResponseDAO(em);
         shiftRequestDAO = new ShiftRequestDAO(em);
 
-        testUser = new User(
-            "John",
-            "Doe",
-            Set.of(Role.USER),
-            "john123",
-            "1234"
-        );
+
+        testUser = User.builder()
+                .firstname("John")
+                .lastname("Doe")
+                .roles(Set.of(Role.USER))
+                .username("Testuser")
+                .password("123")
+                .build();
+
+        testUser2 = User.builder()
+                .firstname("Gert")
+                .lastname("Hansen")
+                .roles(Set.of(Role.USER))
+                .username("Testuser2")
+                .password("123")
+                .build();
     }
 
     // ________________________________________________________

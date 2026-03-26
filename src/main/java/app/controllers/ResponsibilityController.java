@@ -49,7 +49,9 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
     private void createResponsibility(Context ctx){
         String name = getPathName(ctx);
 
-        Responsibility r = new Responsibility(name);
+        Responsibility r = Responsibility.builder()
+            .name(name)
+            .build();
 
         responsibilityDAO.create(r);
 

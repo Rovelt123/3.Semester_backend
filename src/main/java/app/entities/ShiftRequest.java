@@ -2,15 +2,18 @@ package app.entities;
 
 import app.enums.ShiftStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "shift_requests")
 public class ShiftRequest {
 
     @Id
@@ -27,17 +30,9 @@ public class ShiftRequest {
     @ManyToOne
     private Shift shift;
 
+    @Builder.Default
     @OneToMany(mappedBy = "shiftRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Response> responses = new ArrayList<>();
-
-    public ShiftRequest() {}
-
-    // ________________________________________________________
-
-    public ShiftRequest(User user, Shift shift) {
-        this.requester = user;
-        this.shift = shift;
-    }
 
     // ________________________________________________________
 

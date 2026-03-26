@@ -212,4 +212,35 @@ public abstract class BaseController<T, DTO> implements IController {
             ));
         }
     }
+
+    //
+
+    protected Response verifyOwnershipResponse(Context ctx) {
+
+        User user = getAuthenticatedUser(ctx);
+
+        int id = getPathId(ctx);
+
+        Response response = TryCatchService.tryEntity(
+            responseDAO.getById(id),
+            MessageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Response",
+                String.valueOf(id)
+            )
+        );
+
+        if (user.getId() != response.getUser().getId()) {
+            String message = MessageService.buildMessage(
+                    Notifications.NOT_OWNED,
+                    "Response",
+                    String.valueOf(id)
+            );
+
+            respond(ctx, 403, message, null);
+            return null;
+        }
+
+        return response;
+    }
 }

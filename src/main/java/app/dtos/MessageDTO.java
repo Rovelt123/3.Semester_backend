@@ -1,12 +1,12 @@
 package app.dtos;
 
-import app.entities.Message;
+//import app.entities.Message;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
+/*@Getter
 @Setter
 public class MessageDTO {
 
@@ -21,4 +21,4 @@ public class MessageDTO {
         this.context = message.getContent();
         this.sentAt = message.getSentAt();
     }
-}
+}*/

@@ -173,7 +173,8 @@ public class EntityManagerDAO<T> implements IDAO<T> {
             if (startedTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new ApiException(500, e.getMessage());
+            //throw new ApiException(500, e.getMessage());
+            return null;
         }
     }
 

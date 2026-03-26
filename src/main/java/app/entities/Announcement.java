@@ -1,14 +1,18 @@
 package app.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "announcements")
 public class Announcement {
 
     @Id
@@ -21,16 +25,6 @@ public class Announcement {
 
     @ManyToOne
     private User author;
-
-    protected Announcement() {}
-
-    // ________________________________________________________
-
-    public Announcement(User author, String title, String content) {
-        this.author = author;
-        this.title = title;
-        this.content = content;
-    }
 
     // ________________________________________________________
 

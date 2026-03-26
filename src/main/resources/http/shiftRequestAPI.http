@@ -1,28 +1,28 @@
 ### =========================
 ### GET ALL SHIFT REQUESTS
 ### =========================
-GET {{url}}/shiftrequests
+GET {{url}}/shift_requests
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### GET SHIFT REQUEST BY ID
 ### =========================
-GET {{url}}/shiftrequest/1
+GET {{url}}/shift_request/1
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### CREATE SHIFT REQUEST
 ### =========================
-POST {{url}}/shiftrequest/1
+POST {{url}}/shift_request/1
 Authorization: Bearer {{token}}
 
 
 ### =========================
 ### DELETE SHIFT REQUEST
 ### =========================
-DELETE {{url}}/shiftrequest/7
+DELETE {{url}}/shift_request/7
 Authorization: Bearer {{token}}
 
 ### =========================
@@ -30,7 +30,7 @@ Authorization: Bearer {{token}}
 ### You can update the following: status, requester_id, shift_id
 ### Yes, you can update multiple at a time!
 ### =========================
-PUT {{url}}/shiftrequest/1
+PUT {{url}}/shift_request/1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

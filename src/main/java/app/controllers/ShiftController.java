@@ -93,7 +93,13 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             )
         );
 
-        Shift shift = new Shift(title, owner, date, start, end);
+        Shift shift = Shift.builder()
+            .title(title)
+            .owner(owner)
+            .date(date)
+            .startTime(start)
+            .endTime(end)
+            .build();
 
         Map<LocalDate, String> holidays = holidayService.getHolidays(date.getYear());
         if (holidayService.isHoliday(date, holidays)) {
@@ -363,13 +369,13 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
                 } else {
 
-                    Shift shift = new Shift(
-                        day.getTitle(),
-                        user,
-                        current,
-                        start,
-                        end
-                    );
+                    Shift shift = Shift.builder()
+                        .title(day.getTitle())
+                        .owner(user)
+                        .date(current)
+                        .startTime(start)
+                        .endTime(end)
+                        .build();
 
                     shiftDAO.create(shift);
 
@@ -388,13 +394,11 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
                 } else {
 
-                    Shift shift = new Shift(
-                        title,
-                        user,
-                        current,
-                        null,
-                        null
-                    );
+                    Shift shift = Shift.builder()
+                        .title(title)
+                        .owner(user)
+                        .date(current)
+                        .build();
 
                     shiftDAO.create(shift);
 

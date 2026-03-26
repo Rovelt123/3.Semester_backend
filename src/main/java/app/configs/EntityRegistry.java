@@ -10,7 +10,7 @@ final class EntityRegistry {
     static void registerEntities(Configuration configuration) {
         configuration.addAnnotatedClass(Announcement.class);
         configuration.addAnnotatedClass(Holiday.class);
-        configuration.addAnnotatedClass(Message.class);
+        //configuration.addAnnotatedClass(Message.class);
         configuration.addAnnotatedClass(Responsibility.class);
         configuration.addAnnotatedClass(Shift.class);
         configuration.addAnnotatedClass(ShiftRequest.class);

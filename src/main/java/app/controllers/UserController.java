@@ -59,10 +59,10 @@ public class UserController extends BaseController<User, UserDTO> {
 
             // Admin endpoints
             delete("/user/force-delete/{id}/{confirm_name}", controller::forceDeleteUser, Role.CHEF);
-            delete("/user/{id}/roles/{role}", controller::removeRole , Role.CHEF);
-            put("/user/{id}/roles/{role}", controller::addRole , Role.CHEF);
-            put("/user/{id}/responsibility/{responsibility}", controller::addResponsibility , Role.CHEF);
-            delete("/user/{id}/responsibility/{responsibility}", controller::removeResponsibility , Role.CHEF);
+            delete("/user/{user_id}/roles/{role}", controller::removeRole , Role.CHEF);
+            put("/user/{user_id}/roles/{role}", controller::addRole , Role.CHEF);
+            put("/user/{user_id}/responsibility/{responsibility}", controller::addResponsibility , Role.CHEF);
+            delete("/user/{user_id}/responsibility/{responsibility}", controller::removeResponsibility , Role.CHEF);
         };
     }
 
@@ -118,7 +118,13 @@ public class UserController extends BaseController<User, UserDTO> {
         }
 
         User user = TryCatchService.tryEntity(
-            userDAO.create(new User(firstname, lastname, Set.of(role), username, HashService.hashHelper(password))),
+            userDAO.create(User.builder()
+                .firstname(firstname)
+                .lastname(lastname)
+                .roles(Set.of(role))
+                .username(username)
+                .password(HashService.hashHelper(password))
+                .build()),
             MessageService.buildMessage(Notifications.USERNAME_EXISTS, username)
         );
 
@@ -313,8 +319,8 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String confirmUsername = TryCatchService.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
 
-        if (!target.equals(confirmUsername)) {
-            String message = MessageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getFirstname(), confirmUsername);
+        if (!target.getUsername().equals(confirmUsername)) {
+            String message = MessageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getUsername(), confirmUsername);
             respond(ctx, 400, message, null);
             return;
         }

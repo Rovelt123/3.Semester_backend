@@ -4,22 +4,16 @@ import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.ResponseDAO;
 import app.dtos.ResponseDTO;
-import app.dtos.UserDTO;
-import app.entities.Message;
 import app.entities.Response;
-import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
 import app.services.MessageService;
-import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -60,7 +54,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         List<ResponseDTO> responses = responseDAO.getByColumn(id, "user.id")
                 .stream()
                 .map(ResponseDTO::new)
-                .collect(Collectors.toList());
+                .toList();
 
         if (responses.isEmpty()) {
             String message = MessageService.buildMessage(
@@ -89,7 +83,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         List<ResponseDTO> responses = responseDAO.getByShiftRequestId(id)
             .stream()
             .map(ResponseDTO::new)
-            .collect(Collectors.toList());
+            .toList();
 
         if (responses.isEmpty()) {
             String message = MessageService.buildMessage(
@@ -113,27 +107,9 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
     private void reject(Context ctx){
 
-        User user = getAuthenticatedUser(ctx);
+        Response response = verifyOwnershipResponse(ctx);
 
-        int id = getPathId(ctx);
-
-        Response response = TryCatchService.tryEntity(
-            responseDAO.getById(id),
-            MessageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Response",
-                String.valueOf(id)
-            )
-        );
-
-        if (user.getId() != response.getUser().getId()) {
-            String message = MessageService.buildMessage(
-                Notifications.NOT_OWNED,
-                "Response",
-                String.valueOf(id)
-            );
-
-            respond(ctx, 403, message, null);
+        if (response == null) {
             return;
         }
 
@@ -142,7 +118,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
         String message = MessageService.buildMessage(
             Notifications.RESPONSE_REJECTED,
-            String.valueOf(id)
+            String.valueOf(response.getId())
         );
 
         respond(ctx, 200, message, Map.of("message", message));
@@ -152,27 +128,9 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
     private void noResponse(Context ctx){
 
-        User user = getAuthenticatedUser(ctx);
+        Response response = verifyOwnershipResponse(ctx);
 
-        int id = getPathId(ctx);
-
-        Response response = TryCatchService.tryEntity(
-            responseDAO.getById(id),
-            MessageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Response",
-                String.valueOf(id)
-            )
-        );
-
-        if (user.getId() != response.getUser().getId()) {
-            String message = MessageService.buildMessage(
-                Notifications.NOT_OWNED,
-                "Response",
-                String.valueOf(id)
-            );
-
-            respond(ctx, 403, message, null);
+        if (response == null) {
             return;
         }
 
@@ -181,7 +139,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
         String message = MessageService.buildMessage(
             Notifications.CANCEL_RESPONSE,
-            String.valueOf(id)
+            String.valueOf(response.getId())
         );
 
         respond(ctx, 200, message, Map.of("data", new ResponseDTO(response)));

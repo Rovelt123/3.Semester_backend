@@ -1,12 +1,12 @@
 package app.daos;
 
-import app.entities.Message;
+//import app.entities.Message;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
 
-public class MessageDAO  extends EntityManagerDAO<Message>{
+/*public class MessageDAO  extends EntityManagerDAO<Message>{
 
     public MessageDAO(EntityManager em) {
         super(em, Message.class);
@@ -49,5 +49,5 @@ public class MessageDAO  extends EntityManagerDAO<Message>{
         .getResultList();
     }
 
-}
+}*/
 
