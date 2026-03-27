@@ -4,6 +4,7 @@ import app.exceptions.ApiException;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class TryCatchService {
     // ________________________________________________________
 
     public static String tryString(String value, String message) {
-        if (value == null || value.isEmpty()) {
+        if (value == null || value.isBlank()) {
             throw new ApiException(400, message);
         }
         return value;
@@ -81,6 +82,16 @@ public class TryCatchService {
     public static LocalDate tryParseLocalDate(String value, String message) {
         try {
             return LocalDate.parse(value);
+        } catch (Exception e) {
+            throw new ApiException(400, message);
+        }
+    }
+
+    // ________________________________________________________
+
+    public static LocalDateTime tryParseLocalDateTime(String value, String message) {
+        try {
+            return LocalDateTime.parse(value);
         } catch (Exception e) {
             throw new ApiException(400, message);
         }

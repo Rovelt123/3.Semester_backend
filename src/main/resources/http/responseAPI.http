@@ -1,32 +1,57 @@
-#### ======== GET DATA ========
-
+### =========================
 ### GET ALL RESPONSES
+### =========================
 GET {{url}}/responses
 Authorization: Bearer {{token}}
 
+
+### =========================
 ### GET RESPONSE BY ID
-GET {{url}}/response/3
+### /responsibility/{id}
+### =========================
+GET {{url}}/response/20
 Authorization: Bearer {{token}}
 
+
+### =========================
+### GET RESPONSES BY USER
+### /responses/user/{user_id}
+### =========================
+GET {{url}}/responses/user/2
+Authorization: Bearer {{token}}
+
+
+### =========================
 ### GET RESPONSES BY SHIFT REQUEST
-GET {{url}}/responses/user/1
+### /responses/request/{shift_request}
+### =========================
+GET {{url}}/responses/request/5
 Authorization: Bearer {{token}}
 
-### GET RESPONSES BY REQUEST
-GET {{url}}/responses/request/1
+
+### =========================
+### ACCEPT RESPONSE
+### /response/{id}/accept
+### =========================
+PUT {{url}}/response/17/accept
 Authorization: Bearer {{token}}
 
-### ACCEPT BY ID
-PUT {{url}}/response/1/accept
-Authorization: Bearer {{token}}
 
+### =========================
 ### REJECT BY ID
-PUT {{url}}/response/1/reject
+### /response/{id}/reject
+### =========================
+PUT {{url}}/response/17/reject
 Authorization: Bearer {{token}}
 
-### NO RESPONSE BY ID
+
+### =========================
+### SET NO RESPONSE
+### /response/{id}/no-response
+### =========================
 PUT {{url}}/response/1/no-response
 Authorization: Bearer {{token}}
+
 
 #### ======== UPDATE RESPONSE ========
 ### You can update the following: status, shift_request, user_id
@@ -40,6 +65,11 @@ Authorization: Bearer {{token}}
   "status": "NO_RESPONSE"
 }
 
+
+### =========================
+### DELETE RESPONSE
+### /response/{id}
+### =========================
 #### ======== DELETE RESPONSE ========
 DELETE {{url}}/response/1
 Authorization: Bearer {{token}}

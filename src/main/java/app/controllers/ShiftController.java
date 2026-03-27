@@ -58,7 +58,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void createShift(Context ctx) {
         Map<String,String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
-        int userId = getPathId(ctx);
+        int userId = TryCatchService.tryParseInt(body.get("user_id"), Notifications.MUST_BE_INT.getDisplayName());
         String title = TryCatchService.tryString(body.get("title"), Notifications.MUST_ENTER_TITLE.getDisplayName());
 
         LocalDate date = TryCatchService.tryParseLocalDate(

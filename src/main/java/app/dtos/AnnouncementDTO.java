@@ -14,7 +14,6 @@ public class AnnouncementDTO {
     private String title;
     private String context;
     private LocalDateTime lastUpdated;
-    private int userID;
 
     // ________________________________________________________
 

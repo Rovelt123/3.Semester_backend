@@ -3,12 +3,15 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.HolidayDAO;
+import app.daos.UserDAO;
 import app.dtos.HolidayDTO;
 import app.entities.Holiday;
 import app.entities.User;
+import app.enums.HolidayStatus;
 import app.enums.Notifications;
 import app.enums.Role;
 
+import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
@@ -23,6 +26,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
+    private static final UserDAO userDAO = Main.setup.getUserDAO();
 
     //________________________________________________________
 
@@ -43,6 +47,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             post("/holiday/{id}/reject", controller::rejectHoliday, Role.CHEF);
 
             get("/holidays", controller::getAll, Role.USER);
+            get("/holiday/{id}", controller::getByID, Role.USER);
             get("/holidays/responsibility/{name}", controller::getHolidayByResponsibilities, Role.USER);
         };
     }
@@ -96,11 +101,12 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             holidayDAO.getById(id),
             MessageService.buildMessage(
                 Notifications.GET_BY_ID,
+                "holiday",
                 String.valueOf(id)
             )
         );
 
-        if(holiday.getUser().getId() != user.getId()){
+        if(holiday.getUser().getId() != user.getId() && !user.getRoles().contains(Role.CHEF)){
             respond(ctx, 403, Notifications.NOT_ALLOWED.getDisplayName(), null);
             return;
         }
@@ -110,14 +116,50 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
-        holiday.setStartDate(LocalDate.parse(body.get("start")));
-        holiday.setEndDate(LocalDate.parse(body.get("end")));
+        if (body.containsKey("start"))
+            holiday.setStartDate(TryCatchService.tryParseLocalDate(
+                    body.get("start"),
+                    Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
+            ));
+
+        if (body.containsKey("end"))
+            holiday.setEndDate(TryCatchService.tryParseLocalDate(
+                    body.get("end"),
+                    Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
+            ));
+
+        if (body.containsKey("owner") && user.getRoles().contains(Role.CHEF)) {
+            int userID = TryCatchService.tryParseInt(
+                body.get("owner"),
+                Notifications.MUST_BE_INT.getDisplayName()
+            );
+
+            holiday.setUser(TryCatchService.tryEntity(
+                userDAO.getById(userID),
+                MessageService.buildMessage(
+                    Notifications.NOT_FOUND_ID,
+                    "User",
+                    body.get("owner")
+                )
+            ));
+        }
+
+
+        if (body.containsKey("status") && user.getRoles().contains(Role.CHEF)) {
+            HolidayStatus status = TryCatchService.tryParseEnum(
+                HolidayStatus.class,
+                body.get("status"),
+                Notifications.ENUM_NOT_FOUND.getDisplayName()
+            );
+
+            holiday.setStatus(status);
+        }
 
         holidayDAO.update(holiday);
 
         String message = MessageService.buildMessage(
-                Notifications.UPDATED,
-                "Message"
+            Notifications.UPDATED,
+            "Holiday"
         );
 
         respond(ctx, 200, message, Map.of("data", new HolidayDTO(holiday)));
@@ -133,6 +175,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             holidayDAO.getById(id),
             MessageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
+                "holiday",
                 String.valueOf(id)
             )
         );
@@ -154,6 +197,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             holidayDAO.getById(id),
             MessageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
+                    "holiday",
                 String.valueOf(id)
             )
         );

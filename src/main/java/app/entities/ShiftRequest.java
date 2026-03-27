@@ -20,6 +20,8 @@ public class ShiftRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.WAITING;
 

@@ -5,8 +5,8 @@ POST {{url}}/users/auth/login
 Content-Type: application/json
 
 {
-  "username": "Rovelt",
-  "password": "Rovelt"
+  "username": "admin",
+  "password": "admin"
 }
 
 

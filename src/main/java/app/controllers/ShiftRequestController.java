@@ -122,6 +122,11 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             return;
         }
 
+        List<Response> responses = responseDAO.getByShiftRequestId(request.getId());
+
+        responses.forEach(responseDAO::delete);
+
+
         String message = MessageService.buildMessage(
             Notifications.SHIFT_REQUEST_DELETED,
             String.valueOf(request.getId())
@@ -231,7 +236,10 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
             Shift shift = TryCatchService.tryEntity(
                 shiftDAO.getById(shiftId),
-                Notifications.SHIFT_NOT_FOUND.getDisplayName()
+                MessageService.buildMessage(
+                    Notifications.SHIFT_NOT_FOUND,
+                    String.valueOf(shiftId)
+                )
             );
 
             request.setShift(shift);

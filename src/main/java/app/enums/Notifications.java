@@ -7,10 +7,11 @@ public enum Notifications {
     TEST_NOTIFICATION_1("This is with %s arg!"),
     TEST_NOTIFICATION_2("This is with %s args! This is the other %s arg!"),
     MUST_BE_INT("Input must be a number! You entered: %s"),
-    SHIFT_CREATED("Shift created for: %s \nDate: %s \nTime:%s - %s"),
+    SHIFT_CREATED("Shift created for: %s Date: %s Time:%s - %s"),
     SHIFT_DELETED("Shift with ID: %s got deleted"),
     SHIFT_UPDATED("Shift with ID: %s got updated!"),
     CLASS_IS_NULL("Class %s is null!"),
+    MUST_BE_DATETIME_FORMAT("Wrong date time format. Must be yyyy-MM-dd HH:mm:ss! You entered: %s"),
     MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
     MUST_BE_TIME_FORMAT("Wrong time format. Must be 00:00! You entered: %s "),
     SCHEDULE_CREATED("You've created a schedule for: %s \n" +
@@ -90,6 +91,8 @@ public enum Notifications {
     GET_SHIFTREQUEST_DATE("You fetched %s shift requests by date: %s"),
 
     MUST_ENTER_TITLE("You must enter a title!"),
+    MUST_ENTER_CONTENT("You must enter the context!"),
+    MUST_ENTER_USERID("You must enter a user ID!"),
 
     ROLE_NOT_FOUND("Role %s was not found"),
     ROLE_ADDED_USER("Role %s was added to %s"),
@@ -98,6 +101,10 @@ public enum Notifications {
     ANNOUNCEMENT_CREATED("Announcement created"),
     ANNOUNCEMENT_UPDATED("Announcement updated"),
     ANNOUNCEMENT_DELETED("Announcement deleted"),
+    ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR("Announcement not found with author: %s"),
+    ANNOUNCEMENT_FOUND_WITH_AUTHOR("You fetched an announcement with author: %s"),
+    ANNOUNCEMENTS_FOUND_WITH_AUTHOR("You fetched %s announcements with author: %s"),
+
 
     HOLIDAY_APPROVED("Holiday approved!"),
     HOLIDAY_REJECT("Holiday rejected!"),

@@ -1,12 +1,30 @@
-#### ======== GET DATA ========
-
+### =========================
 ### GET ALL HOLIDAYS
+### =========================
 GET {{url}}/holidays
 Authorization: Bearer {{token}}
 
 
-#### ======== REQUEST HOLIDAY ========
+### =========================
+### GET BY ID
+### /holiday/{id}
+### =========================
+GET {{url}}/holiday/1
+Authorization: Bearer {{token}}
 
+
+### =========================
+### GET ALL BY RESPONSIBILITY
+### /holidays/responsibility/{responsibility}
+### =========================
+GET {{url}}/holidays/responsibility/Chauffør
+Authorization: Bearer {{token}}
+
+
+### =========================
+### REQUEST HOLIDAY
+### MUST ENTER start & end (yyyy-mm-dd)
+### =========================
 POST {{url}}/holiday
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -17,25 +35,34 @@ Authorization: Bearer {{token}}
 }
 
 
-#### ======== UPDATE HOLIDAY ========
-
-PUT {{url}}/holiday/1
+### =========================
+### UPDATE HOLIDAY
+### /holiday/{id}
+### You can update the following: owner (ID), start & end (yyyy-mm-dd), status (ENUM HolidayStatus)
+### =========================
+PUT {{url}}/holiday/2
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
+  "owner": "4",
   "start": "2026-07-02",
-  "end": "2026-07-12"
+  "end": "2026-07-12",
+  "status": "APPROVED"
 }
 
 
-#### ======== APPROVE HOLIDAY (CHEF) ========
-
+### =========================
+### APPROVE HOLIDAY (CHEF)
+### /holiday/{id}/approve
+### =========================
 POST {{url}}/holiday/1/approve
 Authorization: Bearer {{token}}
 
 
-#### ======== REJECT HOLIDAY (CHEF) ========
-
+### =========================
+### REJECT HOLIDAY (CHEF)
+### /holiday/{id}/reject
+### =========================
 POST {{url}}/holiday/1/reject
 Authorization: Bearer {{token}}

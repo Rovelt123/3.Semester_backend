@@ -25,6 +25,8 @@ public class Holiday {
     private LocalDate startDate;
     private LocalDate endDate;
 
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private HolidayStatus status = HolidayStatus.PENDING;
 

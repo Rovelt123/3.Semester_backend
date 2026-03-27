@@ -3,11 +3,13 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.AnnouncementDAO;
+import app.daos.UserDAO;
 import app.dtos.AnnouncementDTO;
 import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
+import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
@@ -21,6 +23,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class AnnouncementController extends BaseController<Announcement, AnnouncementDTO> {
 
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
+    private static final UserDAO userDAO = Main.setup.getUserDAO();
 
     //________________________________________________________
 
@@ -41,6 +44,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
             get("/announcements", controller::getAll, Role.USER);
             get("/announcement/{id}", controller::getByID, Role.USER);
+            get("/announcement/author/{author}", controller::getAnnouncementByAuthor, Role.USER);
         };
 
     }
@@ -70,22 +74,63 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
     //________________________________________________________
 
-    private void updateAnnouncement(Context ctx){
+    private void updateAnnouncement(Context ctx) {
 
         int id = getPathId(ctx);
 
-        Announcement a = announcementDAO.getById(id);
+        Announcement announcement = announcementDAO.getById(id);
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String, String> body = TryCatchService.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
-        a.updateContent(body.get("content"));
+        //ALWAYS UPDATE LAST UPDATED TO NOW (BUT CAN BE CHANGED ALSO!)
+        announcement.setLastUpdated(LocalDateTime.now());
 
-        announcementDAO.update(a);
+        if (body.containsKey("content")) {
+            String content = TryCatchService.tryString(
+                body.get("content"),
+                Notifications.MUST_ENTER_CONTENT.getDisplayName()
+            );
 
-        respond(ctx, 200, Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(), Map.of("data", new AnnouncementDTO(a)));
+            announcement.updateContent(content);
+        }
+
+        if (body.containsKey("title")) {
+            String title = TryCatchService.tryString(
+                body.get("title"),
+                Notifications.MUST_ENTER_TITLE.getDisplayName()
+            );
+            announcement.setTitle(title);
+        }
+
+        if (body.containsKey("owner")) {
+            User user = TryCatchService.tryEntity(
+                userDAO.getById(body.get("owner")),
+                MessageService.buildMessage(
+                    Notifications.USER_NOT_FOUND_ID,
+                    body.get("owner")
+                )
+            );
+            announcement.setAuthor(user);
+        }
+
+        //OVERRIDES LAST UPDATED, IF YOU WANT TO OVERRIDE IT WITH A SPECIFIC DATE
+        if (body.containsKey("lastupdated")) {
+            LocalDateTime date = TryCatchService.tryParseLocalDateTime(
+                body.get("lastupdated"),
+                MessageService.buildMessage(
+                    Notifications.MUST_BE_DATETIME_FORMAT,
+                    body.get("lastupdated")
+                )
+            );
+            announcement.setLastUpdated(date);
+        }
+
+        announcementDAO.update(announcement);
+
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(), Map.of("data", new AnnouncementDTO(announcement)));
     }
 
     //________________________________________________________
@@ -97,6 +142,43 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         announcementDAO.deleteById(id);
 
         respond(ctx, 200, Notifications.ANNOUNCEMENT_DELETED.getDisplayName(), null);
+    }
+
+    //________________________________________________________
+
+    private void getAnnouncementByAuthor(Context ctx) {
+
+        String author = TryCatchService.tryString(
+                ctx.pathParam("author"),
+                Notifications.MUST_ENTER_USERID.getDisplayName()
+        );
+
+        List<AnnouncementDTO> announcements = TryCatchService.tryList(
+                announcementDAO.getByColumn(author, "author.id"),
+                MessageService.buildMessage(
+                        Notifications.ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR,
+                        author
+                )
+        ).stream()
+        .map(AnnouncementDTO::new)
+        .toList();
+
+        String message = "";
+        if (announcements.size() == 1) {
+            message = MessageService.buildMessage(
+                    Notifications.ANNOUNCEMENT_FOUND_WITH_AUTHOR,
+                    author
+            );
+        } else if  (announcements.size() > 1) {
+            message = MessageService.buildMessage(
+                    Notifications.ANNOUNCEMENTS_FOUND_WITH_AUTHOR,
+                    String.valueOf(announcements.size()),
+                    author
+            );
+
+        }
+
+        respond(ctx, 200, message, Map.of("data", announcements));
     }
 
     //________________________________________________________

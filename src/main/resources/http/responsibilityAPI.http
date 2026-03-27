@@ -8,14 +8,14 @@ Authorization: Bearer {{token}}
 ### GET RESPONSIBILITY BY ID
 ### /responsibility/id/{name}
 ### =========================
-GET {{url}}/responsibility/id/1
+GET {{url}}/responsibility/id/123
 Authorization: Bearer {{token}}
 
 ### =========================
 ### GET RESPONSIBILITY BY NAME
 ### /responsibility/name/{name}
 ### =========================
-GET {{url}}/responsibility/name/Chauffør
+GET {{url}}/responsibility/name/Rovelt
 Authorization: Bearer {{token}}
 
 
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 ### CREATE RESPONSIBILITY
 ### /responsibility/{name}
 ### =========================
-POST {{url}}/responsibility/Bar
+POST {{url}}/responsibility/Rovelt
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -32,7 +32,7 @@ Authorization: Bearer {{token}}
 ### UPDATE RESPONSIBILTIY
 ### /responsibility/{name}/update/{new_name}
 ### =========================
-PUT {{url}}/responsibility/Bar/update/Chauffør2
+PUT {{url}}/responsibility/Rovelt/update/Rovelt123
 Authorization: Bearer {{token}}
 
 
@@ -41,5 +41,5 @@ Authorization: Bearer {{token}}
 ### DELETE RESPONSIBILITY
 ### /responsibility/{responsibility}
 ### =========================
-DELETE {{url}}/responsibility/Bar
+DELETE {{url}}/responsibility/Rovelt123
 Authorization: Bearer {{token}}
