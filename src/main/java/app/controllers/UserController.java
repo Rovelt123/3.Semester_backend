@@ -5,10 +5,8 @@ import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.ResponsibilityDAO;
 import app.daos.UserDAO;
-import app.dtos.ShiftDTO;
 import app.dtos.UserDTO;
 import app.entities.Responsibility;
-import app.entities.Shift;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
@@ -21,7 +19,6 @@ import io.javalin.http.Context;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +29,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private static final UserDAO userDAO = Main.setup.getUserDAO();
     private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
     private static final SecurityService securityService = new SecurityService();
+    private final MessageService messageService = Main.setup.getMessageService();
 
 
     public UserController() {
@@ -82,7 +80,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String token = securityService.createToken(new UserDTO(user));
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
                 Notifications.LOGGED_IN,
                 user.getFirstname()
         );
@@ -112,7 +110,7 @@ public class UserController extends BaseController<User, UserDTO> {
         Role role = Role.USER;
 
         if (userDAO.existByColumn(username, "username")) {
-            String message = MessageService.buildMessage(Notifications.USERNAME_EXISTS, username);
+            String message = messageService.buildMessage(Notifications.USERNAME_EXISTS, username);
             ctx.status(400).json(message);
             return;
         }
@@ -125,7 +123,7 @@ public class UserController extends BaseController<User, UserDTO> {
                 .username(username)
                 .password(HashService.hashHelper(password))
                 .build()),
-            MessageService.buildMessage(Notifications.USERNAME_EXISTS, username)
+            messageService.buildMessage(Notifications.USERNAME_EXISTS, username)
         );
 
         //Make sure to make responses for new users - Otherwise new users can't take older shift requests!
@@ -133,7 +131,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         String token = securityService.createToken(new UserDTO(user));
 
-        String message = MessageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
+        String message = messageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
 
         respond(ctx, 201, message, Map.of(
             "token", token,
@@ -159,7 +157,7 @@ public class UserController extends BaseController<User, UserDTO> {
         user.setUsername(newUsername);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.USERNAME_UPDATED, user.getUsername());
+        String message = messageService.buildMessage(Notifications.USERNAME_UPDATED, user.getUsername());
         respond(ctx, 200, message, null);
     }
 
@@ -206,7 +204,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         User user = TryCatchService.tryEntity(
             userDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "User",
                 String.valueOf(id)
@@ -233,7 +231,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         if (body.containsKey("username")) {
             if (userDAO.existByColumn(body.get("username"), "username")) {
-                String message = MessageService.buildMessage(Notifications.USERNAME_EXISTS, body.get("username"));
+                String message = messageService.buildMessage(Notifications.USERNAME_EXISTS, body.get("username"));
                 respond(ctx, 400, message, null);
                 return;
             }
@@ -271,7 +269,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
                 Notifications.USER_UPDATED,
                 String.valueOf(id)
         );
@@ -290,7 +288,7 @@ public class UserController extends BaseController<User, UserDTO> {
         UserDTO userDTO = TryCatchService.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
         User user = TryCatchService.tryEntity(
                 userDAO.getById(userDTO.getId()),
-                MessageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
+                messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
         );
 
 
@@ -304,7 +302,7 @@ public class UserController extends BaseController<User, UserDTO> {
         String username =  user.getUsername();
         userDAO.deleteById(user.getId());
 
-        String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, username);
+        String message = messageService.buildMessage(Notifications.DELETE_USER_SUCESS, username);
 
         respond(ctx, 200, message, null);
     }
@@ -314,19 +312,19 @@ public class UserController extends BaseController<User, UserDTO> {
     private void forceDeleteUser(Context ctx) {
         int targetId = getPathId(ctx);
 
-        User target = TryCatchService.tryEntity(userDAO.getById(targetId), MessageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId)));
+        User target = TryCatchService.tryEntity(userDAO.getById(targetId), messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId)));
 
 
         String confirmUsername = TryCatchService.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
 
         if (!target.getUsername().equals(confirmUsername)) {
-            String message = MessageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getUsername(), confirmUsername);
+            String message = messageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getUsername(), confirmUsername);
             respond(ctx, 400, message, null);
             return;
         }
 
 
-        String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, target.getFirstname());
+        String message = messageService.buildMessage(Notifications.DELETE_USER_SUCESS, target.getFirstname());
         userDAO.delete(target);
         respond(ctx, 200, message, null);
     }
@@ -337,10 +335,10 @@ public class UserController extends BaseController<User, UserDTO> {
         String username = ctx.pathParam("username");
         User user = TryCatchService.tryEntity(
             userDAO.getByUsername(username),
-            MessageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username)
+                messageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username)
         );
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_BY_NAME,
             "user",
             username
@@ -368,12 +366,12 @@ public class UserController extends BaseController<User, UserDTO> {
     private void addRole(Context ctx) {
         User user = getUserByID(ctx);
 
-        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
         user.addRole(role);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getFirstname());
+        String message = messageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getFirstname());
 
         respond(ctx, 200, message, null);
     }
@@ -383,12 +381,12 @@ public class UserController extends BaseController<User, UserDTO> {
     private void removeRole(Context ctx) {
         User user = getUserByID(ctx);
 
-        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
         user.removeRole(role);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getFirstname());
+        String message = messageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getFirstname());
 
         respond(ctx, 200, message, null);
     }
@@ -400,13 +398,13 @@ public class UserController extends BaseController<User, UserDTO> {
 
         Responsibility responsibility = TryCatchService.tryEntity(
             responsibilityDAO.getByName(ctx.pathParam("responsibility")),
-            MessageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+            messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
         user.addResponsibility(responsibility);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.RESPONSIBILITY_ADDED_USER, responsibility.getName(), user.getFirstname());
+        String message = messageService.buildMessage(Notifications.RESPONSIBILITY_ADDED_USER, responsibility.getName(), user.getFirstname());
 
         respond(ctx, 200, message, null);
     }
@@ -418,13 +416,13 @@ public class UserController extends BaseController<User, UserDTO> {
 
         Responsibility responsibility = TryCatchService.tryEntity(
                 responsibilityDAO.getByName(ctx.pathParam("responsibility")),
-                MessageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
         user.removeResponsibility(responsibility);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.RESPONSIBILITY_REMOVED_USER, responsibility.getName(), user.getFirstname());
+        String message = messageService.buildMessage(Notifications.RESPONSIBILITY_REMOVED_USER, responsibility.getName(), user.getFirstname());
 
         respond(ctx, 200, message, null);
     }
@@ -440,7 +438,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         TryCatchService.tryEntity(
             responsibilityDAO.getByName(name),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.GET_RESPONSIBILITY_NAME,
                 name
             )
@@ -452,14 +450,14 @@ public class UserController extends BaseController<User, UserDTO> {
             .toList();
 
         if(users.isEmpty()){
-            ctx.status(200).json(MessageService.buildMessage(
+            ctx.status(200).json(messageService.buildMessage(
                     Notifications.GET_ALL_EMPTY,
                     name
             ));
             return;
         }
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
           Notifications.GET_USERS_RESPONSIBILITY,
           name
         );
@@ -474,7 +472,7 @@ public class UserController extends BaseController<User, UserDTO> {
         Role role = TryCatchService.tryParseEnum(
                 Role.class,
                 ctx.pathParam("role"),
-                MessageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role"))
+                messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role"))
         );
 
         List<UserDTO> users = userDAO.getUsersByRole(role)
@@ -483,14 +481,14 @@ public class UserController extends BaseController<User, UserDTO> {
                 .toList();
 
         if(users.isEmpty()){
-            ctx.status(200).json(MessageService.buildMessage(
+            ctx.status(200).json(messageService.buildMessage(
                     Notifications.GET_ALL_EMPTY,
                     role.getDisplayName()
             ));
             return;
         }
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_USERS_ROLE,
             String.valueOf(role)
         );

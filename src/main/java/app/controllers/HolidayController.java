@@ -11,7 +11,6 @@ import app.enums.HolidayStatus;
 import app.enums.Notifications;
 import app.enums.Role;
 
-import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
@@ -27,6 +26,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
     private static final UserDAO userDAO = Main.setup.getUserDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     //________________________________________________________
 
@@ -81,7 +81,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.create(holiday);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.CREATED,
             "Message"
         );
@@ -99,7 +99,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         Holiday holiday = TryCatchService.tryEntity(
             holidayDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.GET_BY_ID,
                 "holiday",
                 String.valueOf(id)
@@ -136,7 +136,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
             holiday.setUser(TryCatchService.tryEntity(
                 userDAO.getById(userID),
-                MessageService.buildMessage(
+                messageService.buildMessage(
                     Notifications.NOT_FOUND_ID,
                     "User",
                     body.get("owner")
@@ -157,7 +157,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.update(holiday);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.UPDATED,
             "Holiday"
         );
@@ -173,7 +173,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         Holiday holiday = TryCatchService.tryEntity(
             holidayDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "holiday",
                 String.valueOf(id)
@@ -195,7 +195,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         Holiday holiday = TryCatchService.tryEntity(
             holidayDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                     "holiday",
                 String.valueOf(id)
@@ -239,7 +239,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
 
         if(holidays.isEmpty()){
-            String message = MessageService.buildMessage(
+            String message = messageService.buildMessage(
                     Notifications.HOLIDAY_EMPTY_RESPONSIBILITY,
                     name
             );
@@ -248,7 +248,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             return;
         }
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_ALL,
             String.valueOf(holidays.size()),
             "Holiday"

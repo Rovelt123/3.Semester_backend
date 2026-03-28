@@ -20,6 +20,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class ResponsibilityController extends BaseController<Responsibility, ResponsibilityDTO> {
 
     private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     //________________________________________________________
 
@@ -55,7 +56,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         responsibilityDAO.create(r);
 
-        String message = MessageService.buildMessage(Notifications.CREATED, "Responsibility");
+        String message = messageService.buildMessage(Notifications.CREATED, "Responsibility");
 
         respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(r)));
     }
@@ -75,7 +76,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         Responsibility responsibility = TryCatchService.tryEntity(
             responsibilityDAO.getByName(oldResponsibility),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_WITH_NAME,
                 "Responsibility",
                 oldResponsibility
@@ -86,7 +87,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         responsibilityDAO.update(responsibility);
 
-        String message = MessageService.buildMessage(Notifications.UPDATED, "Responsibility");
+        String message = messageService.buildMessage(Notifications.UPDATED, "Responsibility");
 
         respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(responsibility)));
     }
@@ -98,7 +99,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         Responsibility responsibility = TryCatchService.tryEntity(
             responsibilityDAO.getByName(name),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.RESPONSIBILITY_NOT_FOUND,
                 name
             )
@@ -107,7 +108,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         responsibilityDAO.deleteById(responsibility.getId());
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.RESPONSIBILITY_DELETED,
             name
         );
@@ -123,13 +124,13 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         Responsibility responsibility = TryCatchService.tryEntity(
             responsibilityDAO.getByName(name),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.RESPONSIBILITY_NOT_FOUND,
                 name
             )
         );
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_BY_NAME,
             "responsibility",
             name

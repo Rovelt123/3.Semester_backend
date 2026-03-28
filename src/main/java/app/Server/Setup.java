@@ -4,6 +4,7 @@ import app.daos.*;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.services.MessageService;
+import app.services.ThreadService;
 import app.services.security.AccessService;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
@@ -16,6 +17,8 @@ public class Setup {
     private final EntityManager em;
     private final Javalin app;
     private final AccessService accessService;
+    private final ThreadService threadService;
+    private final MessageService messageService;
 
     // ________________________________________________________
 
@@ -33,6 +36,8 @@ public class Setup {
     public Setup(EntityManager em, int port) {
         this.em = em;
         this.accessService = new AccessService();
+        this.threadService = new ThreadService(1);
+        this.messageService = new MessageService();
 
         this.app = Javalin.create(Setup::configuration)
         .beforeMatched(accessService::accessHandler)
@@ -56,6 +61,7 @@ public class Setup {
             ctx.status(500).result(e.getMessage());
         });
 
+        // DAOS
         userDAO = new UserDAO(em);
         respDAO = new ResponsibilityDAO(em);
         holidayDAO = new HolidayDAO(em);
@@ -64,6 +70,7 @@ public class Setup {
         shiftRequestDAO = new ShiftRequestDAO(em);
         shiftDAO = new ShiftDAO(em);
         responseDAO = new ResponseDAO(em);
+
 
         app.unsafeConfig().router.apiBuilder(Routing.registerRoutes());
         TestData.generate();

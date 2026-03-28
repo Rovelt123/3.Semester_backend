@@ -10,31 +10,31 @@ public class MessageService {
 
      */
 
-    public static String buildMessage(Notifications notifications, String... args) {
+    public String buildMessage(Notifications notifications, String... args) {
         return String.format(notifications.getDisplayName(), args);
     }
 
     // ________________________________________________________
 
-    public static void sendError(String message){
+    public void sendError(String message){
         System.out.println("ERROR: " + message);
     }
 
     // ________________________________________________________
 
-    public static void success(String message) {
+    public void success(String message) {
         System.out.println("SUCCESS: " + message);
     }
 
     // ________________________________________________________
 
-    public static void notify(String message) {
+    public void notify(String message) {
         System.out.println(message);
     }
 
     // ________________________________________________________
 
-    public static void warn(String message) {
+    public void warn(String message) {
         System.out.println("WARNING: " +message);
     }
 }

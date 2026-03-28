@@ -34,6 +34,7 @@ public abstract class BaseController<T, DTO> implements IController {
     private final ResponseDAO responseDAO = Main.setup.getResponseDAO();
     private final ShiftRequestDAO requestDAO = Main.setup.getShiftRequestDAO();
     private final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     // ________________________________________________________
 
@@ -50,17 +51,15 @@ public abstract class BaseController<T, DTO> implements IController {
         List<DTO> list = new ArrayList<>();
 
         if (getAllEntities().isEmpty()) {
-            String message = MessageService.buildMessage(Notifications.GET_ALL_EMPTY, entityClass.getSimpleName().toLowerCase(Locale.ROOT));
+            String message = messageService.buildMessage(Notifications.GET_ALL_EMPTY, entityClass.getSimpleName().toLowerCase(Locale.ROOT));
             respond(ctx, 200, message, null);
             return;
         }
 
-        getAllEntities().forEach(entity -> {
-            list.add(mapper.map(entity));
-        });
+        getAllEntities().forEach(entity -> list.add(mapper.map(entity)));
 
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
                 Notifications.GET_ALL,
                 String.valueOf(list.size()),
                 entityClass.getSimpleName().toLowerCase(Locale.ROOT)
@@ -73,11 +72,11 @@ public abstract class BaseController<T, DTO> implements IController {
 
     @Override
     public void getByID(Context ctx) {
-        int id = TryCatchService.tryParseInt(ctx.pathParam("id"), MessageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
+        int id = TryCatchService.tryParseInt(ctx.pathParam("id"), messageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
 
         T entity = TryCatchService.tryEntity(
             getEntityById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 entityClass.getSimpleName().substring(0,1).toUpperCase() + entityClass.getSimpleName().substring(1).toLowerCase(),
                 String.valueOf(id)
@@ -86,7 +85,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         DTO dto = mapper.map(entity);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_BY_ID,
             entityClass.getSimpleName().toLowerCase(Locale.ROOT),
             String.valueOf(id)
@@ -105,7 +104,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         return TryCatchService.tryEntity(
             userDAO.getById(userDTO.getId()),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.USER_NOT_FOUND_ID,
                 String.valueOf(userDTO.getId())
             )
@@ -114,7 +113,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
     // ________________________________________________________
 
-    //TODO: Figure out if i wanna make them generic? Would it make sense? Mabye...
+    //TODO: Figure out if i wanna make them generic? Would it make sense to change "id" to id param instead? Maybe...
     protected int getPathId(Context ctx) {
         return TryCatchService.tryParseInt(
             ctx.pathParam("id"),
@@ -141,22 +140,13 @@ public abstract class BaseController<T, DTO> implements IController {
 
     // ________________________________________________________
 
-    protected UserDTO checkLoggedIn(Context ctx) {
-        return TryCatchService.tryEntity(
-            ctx.attribute("user"),
-            Notifications.NOT_LOGGED_IN.getDisplayName()
-        );
-    }
-
-    // ________________________________________________________
-
     protected void transferShift(Context ctx) {
         User user = getAuthenticatedUser(ctx);
 
         int requestId = getPathId(ctx);
 
         ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "Shift request",
                 String.valueOf(requestId)
@@ -170,7 +160,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         Shift shift = TryCatchService.tryEntity(
             request.getShift(),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "Shift",
                 String.valueOf(requestId)
@@ -179,7 +169,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         Response response = TryCatchService.tryEntity(
             responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "Response",
                 String.valueOf(requestId)
@@ -193,7 +183,7 @@ public abstract class BaseController<T, DTO> implements IController {
         responseDAO.update(response);
         shiftDAO.update(shift);
 
-        String message = MessageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
+        String message = messageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
 
         respond(ctx, 200, message, Map.of("shift", new ShiftDTO(shift)));
     }
@@ -223,7 +213,7 @@ public abstract class BaseController<T, DTO> implements IController {
 
         Response response = TryCatchService.tryEntity(
             responseDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "Response",
                 String.valueOf(id)
@@ -231,7 +221,7 @@ public abstract class BaseController<T, DTO> implements IController {
         );
 
         if (user.getId() != response.getUser().getId()) {
-            String message = MessageService.buildMessage(
+            String message = messageService.buildMessage(
                     Notifications.NOT_OWNED,
                     "Response",
                     String.valueOf(id)

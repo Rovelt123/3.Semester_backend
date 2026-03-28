@@ -5,6 +5,7 @@ import app.controllers.Generic.BaseController;
 import app.daos.ResponseDAO;
 import app.dtos.ResponseDTO;
 import app.entities.Response;
+import app.entities.ShiftRequest;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
@@ -20,6 +21,7 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 public class ResponseController extends BaseController<Response, ResponseDTO> {
 
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     //________________________________________________________
 
@@ -57,7 +59,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                 .toList();
 
         if (responses.isEmpty()) {
-            String message = MessageService.buildMessage(
+            String message = messageService.buildMessage(
                     Notifications.GET_ALL_EMPTY,
                     "Response with ID: " + id
             );
@@ -65,7 +67,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             return;
         }
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_BY_USER,
             "responses",
             String.valueOf(id)
@@ -86,7 +88,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             .toList();
 
         if (responses.isEmpty()) {
-            String message = MessageService.buildMessage(
+            String message = messageService.buildMessage(
                 Notifications.GET_ALL_EMPTY,
                 "Response with ID: " + id
             );
@@ -94,7 +96,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             return;
         }
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.GET_BY_ID,
             "response",
             String.valueOf(id)
@@ -116,7 +118,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         response.setStatus(ShiftStatus.REJECTED);
         responseDAO.update(response);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.RESPONSE_REJECTED,
             String.valueOf(response.getId())
         );
@@ -137,7 +139,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         response.setStatus(ShiftStatus.NO_RESPONSE);
         responseDAO.update(response);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.CANCEL_RESPONSE,
             String.valueOf(response.getId())
         );
@@ -169,6 +171,16 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
     private void updateResponse(Context ctx) {
         System.out.println("Not made yet!");
+    }
+
+    //________________________________________________________
+
+    public static void deleteOutdatedResponses(ShiftRequest shiftRequest) {
+        List<Response> responses = responseDAO.getAll();
+
+        responses.stream()
+            .filter(response -> response.getShiftRequest().getId() == shiftRequest.getId())
+            .forEach(responseDAO::delete);
     }
 
 

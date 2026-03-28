@@ -24,6 +24,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
     private static final UserDAO userDAO = Main.setup.getUserDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     //________________________________________________________
 
@@ -108,7 +109,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         if (body.containsKey("owner")) {
             User user = TryCatchService.tryEntity(
                 userDAO.getById(body.get("owner")),
-                MessageService.buildMessage(
+                messageService.buildMessage(
                     Notifications.USER_NOT_FOUND_ID,
                     body.get("owner")
                 )
@@ -120,7 +121,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         if (body.containsKey("lastupdated")) {
             LocalDateTime date = TryCatchService.tryParseLocalDateTime(
                 body.get("lastupdated"),
-                MessageService.buildMessage(
+                messageService.buildMessage(
                     Notifications.MUST_BE_DATETIME_FORMAT,
                     body.get("lastupdated")
                 )
@@ -155,7 +156,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         List<AnnouncementDTO> announcements = TryCatchService.tryList(
                 announcementDAO.getByColumn(author, "author.id"),
-                MessageService.buildMessage(
+                    messageService.buildMessage(
                         Notifications.ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR,
                         author
                 )
@@ -165,12 +166,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         String message = "";
         if (announcements.size() == 1) {
-            message = MessageService.buildMessage(
+            message = messageService.buildMessage(
                     Notifications.ANNOUNCEMENT_FOUND_WITH_AUTHOR,
                     author
             );
         } else if  (announcements.size() > 1) {
-            message = MessageService.buildMessage(
+            message = messageService.buildMessage(
                     Notifications.ANNOUNCEMENTS_FOUND_WITH_AUTHOR,
                     String.valueOf(announcements.size()),
                     author

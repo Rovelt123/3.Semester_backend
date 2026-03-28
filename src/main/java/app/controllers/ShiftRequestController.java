@@ -15,13 +15,16 @@ import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
 import app.services.MessageService;
+import app.services.ThreadService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static app.controllers.ResponseController.deleteOutdatedResponses;
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRequestDTO> {
@@ -30,6 +33,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
     private static final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
     private static final UserDAO userDAO = Main.setup.getUserDAO();
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
+    private final MessageService messageService = Main.setup.getMessageService();
 
     // ________________________________________________________
 
@@ -51,6 +55,8 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             get("/shift_request/{id}", controller::getByID, Role.USER);
 
             put("/shift_request/{id}", controller::update);
+
+            delete("/shift_request/clean", controller::checkOutdatedShiftRequests, Role.CHEF);
         };
     }
 
@@ -85,14 +91,14 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
                                 .user(u)
                                 .shiftRequest(request)
                                 .build(),
-                            MessageService.buildMessage(Notifications.RESPONSE_CREATION_FAILED, u.getUsername())
+                            messageService.buildMessage(Notifications.RESPONSE_CREATION_FAILED, u.getUsername())
                         )
                     )
                 );
 
         requestDAO.create(request);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.CREATED,
             "Shift request"
         );
@@ -109,7 +115,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         ShiftRequest request =  TryCatchService.tryEntity(
             requestDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.OBJECT_WITH_ID_NOT_FOUND,
                 ShiftRequest.class.getSimpleName(),
                 String.valueOf(id)
@@ -127,7 +133,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         responses.forEach(responseDAO::delete);
 
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.SHIFT_REQUEST_DELETED,
             String.valueOf(request.getId())
         );
@@ -155,6 +161,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
     // Ensures that new users can take shifts older than their creation of user... #BUGFIX
     public static void checkActiveShiftRequests(User user) {
+        MessageService m = new MessageService();
         requestDAO.getAll().forEach(s -> {
 
             boolean alreadyExists = s.getResponses().stream()
@@ -167,7 +174,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
                                 .user(user)
                                 .shiftRequest(s)
                                 .build(),
-                        MessageService.buildMessage(
+                        m.buildMessage(
                                 Notifications.RESPONSE_CREATION_FAILED,
                                 user.getUsername()
                         )
@@ -190,7 +197,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         ShiftRequest request = TryCatchService.tryEntity(
             requestDAO.getById(id),
-            MessageService.buildMessage(
+            messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
                 "ShiftRequest",
                 String.valueOf(id)
@@ -219,7 +226,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
             User newOwner = TryCatchService.tryEntity(
                 userDAO.getById(userId),
-                MessageService.buildMessage(
+                messageService.buildMessage(
                     Notifications.USER_NOT_FOUND_ID,
                     String.valueOf(userId)
                 )
@@ -236,7 +243,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
             Shift shift = TryCatchService.tryEntity(
                 shiftDAO.getById(shiftId),
-                MessageService.buildMessage(
+                messageService.buildMessage(
                     Notifications.SHIFT_NOT_FOUND,
                     String.valueOf(shiftId)
                 )
@@ -247,7 +254,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         requestDAO.update(request);
 
-        String message = MessageService.buildMessage(
+        String message = messageService.buildMessage(
             Notifications.UPDATED,
             "Shift request"
         );
@@ -257,9 +264,35 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
     // ________________________________________________________
 
-    public void checkOutdatedShiftRequests() {
-        System.out.println("NOT MADE YET!");
-        //TODO:
-        // If outdated, also delete all responses!
+    public void checkOutdatedShiftRequests(Context ctx) {
+        ThreadService threadService = new ThreadService(1);
+
+        threadService.runAsync(ShiftRequestController::cleanOutdatedShiftRequests);
+
+        respond(ctx, 200, "Outdated shift requests cleaned", null);
+    }
+
+    // ________________________________________________________
+
+    //Static so the system also can run it by itself
+    public static void cleanOutdatedShiftRequests() {
+        List<ShiftRequest> requests = requestDAO.getAll();
+
+        LocalDate now = LocalDate.now();
+
+        requests.stream()
+            .filter(r -> {
+                LocalDate shiftDate = r.getShift().getDate();
+
+                boolean olderThan30Days = shiftDate.plusDays(30).isBefore(now);
+                boolean isPastShift = shiftDate.isBefore(now);
+
+                return (r.getStatus() == ShiftStatus.SOLVED && olderThan30Days)
+                    || (r.getStatus() == ShiftStatus.WAITING && isPastShift);
+            })
+            .forEach(r -> {
+                deleteOutdatedResponses(r);
+                requestDAO.delete(r);
+            });
     }
 }
