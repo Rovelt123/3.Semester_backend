@@ -80,9 +80,9 @@ public class Setup {
     // ________________________________________________________
 
     public void endSession() {
-        MessageService.notify(Notifications.APP_CLOSING.getDisplayName());
+        this.messageService.notify(Notifications.APP_CLOSING.getDisplayName());
         em.close();
         if (app != null) app.stop();
-        MessageService.notify(Notifications.APP_CLOSED.getDisplayName());
+        this.messageService.notify(Notifications.APP_CLOSED.getDisplayName());
     }
 }

@@ -13,6 +13,7 @@ import app.enums.Notifications;
 import app.enums.Role;
 import app.services.HolidayAPIService;
 import app.services.MessageService;
+import app.services.ThreadService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
@@ -30,6 +31,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
     private static final UserDAO userDAO = Main.setup.getUserDAO();
     private static final HolidayAPIService holidayService = new HolidayAPIService();
     private final MessageService messageService = Main.setup.getMessageService();
+    private final ThreadService threadService = Main.setup.getThreadService();
 
     public ShiftController() {
         super(Shift.class, ShiftDTO::new);
@@ -312,14 +314,34 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             userDAO.getById(userId),
             messageService.buildMessage(
                 Notifications.USER_NOT_FOUND_ID,
-                String.valueOf(schedule.getUser_id())
+                String.valueOf(userId)
             )
         );
+
+        threadService.runAsync(() -> runScheduleJob(user, schedule));
+
+        String message = messageService.buildMessage(
+            Notifications.SCHEDULE_CREATED,
+            user.getUsername(),
+            convertToTime(schedule.getMonday()),
+            convertToTime(schedule.getTuesday()),
+            convertToTime(schedule.getWednesday()),
+            convertToTime(schedule.getThursday()),
+            convertToTime(schedule.getFriday()),
+            convertToTime(schedule.getSaturday()),
+            convertToTime(schedule.getSunday())
+        );
+
+        respond(ctx, 201, message, null);
+    }
+
+    //________________________________________________________
+
+    private void runScheduleJob(User user, ScheduleDTO schedule) {
 
         int months = schedule.getMonths();
 
         LocalDate now = LocalDate.now();
-
         LocalDate startDate = now.minusDays(now.getDayOfWeek().getValue() - 1);
         LocalDate endDate = startDate.plusMonths(months);
 
@@ -341,13 +363,13 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
             boolean isHoliday = holidayService.isHoliday(current, holidays);
 
-            //Error in lambda (Final or effectively final)
             LocalDate finalCurrent = current;
+
             Shift existingShift = shiftDAO.getAll().stream()
-                .filter(s -> s.getOwner().getId() == user.getId())
-                .filter(s -> s.getDate().equals(finalCurrent))
-                .findFirst()
-                .orElse(null);
+                    .filter(s -> s.getOwner().getId() == user.getId())
+                    .filter(s -> s.getDate().equals(finalCurrent))
+                    .findFirst()
+                    .orElse(null);
 
             if (!day.isOffDay() && !isHoliday) {
 
@@ -362,24 +384,18 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                 );
 
                 if (existingShift != null) {
-
                     existingShift.setTitle(day.getTitle());
                     existingShift.setStartTime(start);
                     existingShift.setEndTime(end);
                     shiftDAO.update(existingShift);
-
                 } else {
-
-                    Shift shift = Shift.builder()
-                        .title(day.getTitle())
-                        .owner(user)
-                        .date(current)
-                        .startTime(start)
-                        .endTime(end)
-                        .build();
-
-                    shiftDAO.create(shift);
-
+                    shiftDAO.create(Shift.builder()
+                            .title(day.getTitle())
+                            .owner(user)
+                            .date(current)
+                            .startTime(start)
+                            .endTime(end)
+                            .build());
                 }
 
             } else if (isHoliday) {
@@ -387,41 +403,21 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                 String title = "FRI: " + holidayService.getHoliday(current, holidays);
 
                 if (existingShift != null) {
-
                     existingShift.setTitle(title);
                     existingShift.setStartTime(null);
                     existingShift.setEndTime(null);
                     shiftDAO.update(existingShift);
-
                 } else {
-
-                    Shift shift = Shift.builder()
-                        .title(title)
-                        .owner(user)
-                        .date(current)
-                        .build();
-
-                    shiftDAO.create(shift);
-
+                    shiftDAO.create(Shift.builder()
+                            .title(title)
+                            .owner(user)
+                            .date(current)
+                            .build());
                 }
             }
 
             current = current.plusDays(1);
         }
-
-        String message = messageService.buildMessage(
-            Notifications.SCHEDULE_CREATED,
-            user.getUsername(),
-            convertToTime(schedule.getMonday()),
-            convertToTime(schedule.getTuesday()),
-            convertToTime(schedule.getWednesday()),
-            convertToTime(schedule.getThursday()),
-            convertToTime(schedule.getFriday()),
-            convertToTime(schedule.getSaturday()),
-            convertToTime(schedule.getSunday())
-        );
-
-        respond(ctx, 201, message, null);
     }
 
     //________________________________________________________

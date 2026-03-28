@@ -12,6 +12,7 @@ import app.enums.Notifications;
 import app.enums.Role;
 import app.services.MessageService;
 import app.services.HashService;
+import app.services.ThreadService;
 import app.services.TryCatchService;
 import app.services.security.SecurityService;
 import io.javalin.apibuilder.EndpointGroup;
@@ -30,6 +31,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
     private static final SecurityService securityService = new SecurityService();
     private final MessageService messageService = Main.setup.getMessageService();
+    private final ThreadService threadService = Main.setup.getThreadService();
 
 
     public UserController() {
@@ -127,7 +129,7 @@ public class UserController extends BaseController<User, UserDTO> {
         );
 
         //Make sure to make responses for new users - Otherwise new users can't take older shift requests!
-        ShiftRequestController.checkActiveShiftRequests(user);
+        threadService.runAsync(() -> ShiftRequestController.checkActiveShiftRequests(user));
 
         String token = securityService.createToken(new UserDTO(user));
 
@@ -349,20 +351,6 @@ public class UserController extends BaseController<User, UserDTO> {
 
     // ________________________________________________________
 
-    @Override
-    protected List<User> getAllEntities() {
-        return userDAO.getAll();
-    }
-
-    // ________________________________________________________
-
-    @Override
-    protected User getEntityById(int id) {
-        return userDAO.getById(id);
-    }
-
-    // ________________________________________________________
-
     private void addRole(Context ctx) {
         User user = getUserByID(ctx);
 
@@ -397,8 +385,8 @@ public class UserController extends BaseController<User, UserDTO> {
         User user = getUserByID(ctx);
 
         Responsibility responsibility = TryCatchService.tryEntity(
-            responsibilityDAO.getByName(ctx.pathParam("responsibility")),
-            messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+                responsibilityDAO.getByName(ctx.pathParam("responsibility")),
+                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
         user.addResponsibility(responsibility);
@@ -437,17 +425,17 @@ public class UserController extends BaseController<User, UserDTO> {
         );
 
         TryCatchService.tryEntity(
-            responsibilityDAO.getByName(name),
-            messageService.buildMessage(
-                Notifications.GET_RESPONSIBILITY_NAME,
-                name
-            )
+                responsibilityDAO.getByName(name),
+                messageService.buildMessage(
+                        Notifications.GET_RESPONSIBILITY_NAME,
+                        name
+                )
         );
 
         List<UserDTO> users = userDAO.getUsersByResponsibility(name)
-            .stream()
-            .map(UserDTO::new)
-            .toList();
+                .stream()
+                .map(UserDTO::new)
+                .toList();
 
         if(users.isEmpty()){
             ctx.status(200).json(messageService.buildMessage(
@@ -458,8 +446,8 @@ public class UserController extends BaseController<User, UserDTO> {
         }
 
         String message = messageService.buildMessage(
-          Notifications.GET_USERS_RESPONSIBILITY,
-          name
+                Notifications.GET_USERS_RESPONSIBILITY,
+                name
         );
 
         respond(ctx, 200, message, Map.of("data", users));
@@ -489,10 +477,24 @@ public class UserController extends BaseController<User, UserDTO> {
         }
 
         String message = messageService.buildMessage(
-            Notifications.GET_USERS_ROLE,
-            String.valueOf(role)
+                Notifications.GET_USERS_ROLE,
+                String.valueOf(role)
         );
 
         respond(ctx, 200, message, Map.of("data", users));
+    }
+
+    // ________________________________________________________
+
+    @Override
+    protected List<User> getAllEntities() {
+        return userDAO.getAll();
+    }
+
+    // ________________________________________________________
+
+    @Override
+    protected User getEntityById(int id) {
+        return userDAO.getById(id);
     }
 }

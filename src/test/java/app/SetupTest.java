@@ -21,7 +21,6 @@ public abstract class SetupTest {
     // ________________________________________________________
 
     protected UserDAO userDAO;
-    protected MessageDAO messageDAO;
     protected ResponsibilityDAO responsibilityDAO;
     protected ShiftDAO shiftDAO;
     protected ResponseDAO responseDAO;
@@ -52,7 +51,6 @@ public abstract class SetupTest {
         em.getTransaction().begin();
 
         userDAO = new UserDAO(em);
-        messageDAO = new MessageDAO(em);
         responsibilityDAO = new ResponsibilityDAO(em);
         shiftDAO = new ShiftDAO(em);
         responseDAO = new ResponseDAO(em);

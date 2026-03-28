@@ -56,7 +56,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
             put("/shift_request/{id}", controller::update);
 
-            delete("/shift_request/clean", controller::checkOutdatedShiftRequests, Role.CHEF);
+            delete("/shift_requests/clean", controller::checkOutdatedShiftRequests, Role.CHEF);
         };
     }
 
@@ -67,8 +67,8 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         User owner = getAuthenticatedUser(ctx);
 
         int shiftId = TryCatchService.tryParseInt(
-                ctx.pathParam("id"),
-                Notifications.MUST_BE_INT.getDisplayName()
+            ctx.pathParam("id"),
+            Notifications.MUST_BE_INT.getDisplayName()
         );
 
         Shift shift = TryCatchService.tryEntity(
@@ -81,10 +81,16 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             return;
         }
 
-        ShiftRequest request = TryCatchService.tryEntity(ShiftRequest.builder().requester(owner).shift(shift).build(), Notifications.SHIFT_REQUEST_CREATE_FAILED.getDisplayName());
+        ShiftRequest request = TryCatchService.tryEntity(
+                ShiftRequest.builder()
+                .requester(shift.getOwner())
+                .shift(shift)
+                .build(),
+                Notifications.SHIFT_REQUEST_CREATE_FAILED.getDisplayName()
+        );
 
         userDAO.getAll().stream()
-                .filter(u -> u.getId() != owner.getId()).forEach(u -> request.getResponses()
+                .filter(u -> u.getId() != shift.getOwner().getId()).forEach(u -> request.getResponses()
                     .add(
                         TryCatchService.tryEntity(
                             Response.builder()
@@ -232,7 +238,19 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
                 )
             );
 
+            // Delete response for the new owner
+            Response response = request.getResponses().get(newOwner.getId());
+            responseDAO.delete(response);
+
+            // Create a new response for the old owner
+            Response newResponse = Response.builder()
+                .shiftRequest(request)
+                .user(request.getRequester())
+                .build();
+            responseDAO.create(newResponse);
+
             request.setRequester(newOwner);
+
         }
 
         if(body.containsKey("shift")){

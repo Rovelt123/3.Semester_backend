@@ -15,7 +15,7 @@ Authorization: Bearer {{token}}
 ### =========================
 ### CREATE SHIFT REQUEST
 ### =========================
-POST {{url}}/shift_request/2
+POST {{url}}/shift_request/4
 Authorization: Bearer {{token}}
 
 
@@ -30,12 +30,16 @@ Authorization: Bearer {{token}}
 ### You can update the following: status, owner, shift
 ### Yes, you can update multiple at a time!
 ### =========================
-PUT {{url}}/shift_request/5
+PUT {{url}}/shift_request/3
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "status": "SOLVED",
-  "owner": "3",
-  "shift": "5"
+  "status": "SOLVED"
 }
+
+### =========================
+### DELETE OUTDATED SHIFT REQUESTS
+### =========================
+DELETE {{url}}/shift_requests/clean
+Authorization: Bearer {{token}}

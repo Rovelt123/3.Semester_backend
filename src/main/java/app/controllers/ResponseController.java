@@ -3,13 +3,19 @@ package app.controllers;
 import app.Main;
 import app.controllers.Generic.BaseController;
 import app.daos.ResponseDAO;
+import app.daos.ShiftDAO;
+import app.daos.ShiftRequestDAO;
 import app.dtos.ResponseDTO;
+import app.dtos.ShiftDTO;
 import app.entities.Response;
+import app.entities.Shift;
 import app.entities.ShiftRequest;
+import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
 import app.services.MessageService;
+import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 
@@ -20,6 +26,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ResponseController extends BaseController<Response, ResponseDTO> {
 
+    private final ShiftRequestDAO requestDAO = Main.setup.getShiftRequestDAO();
+    private final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
     private final MessageService messageService = Main.setup.getMessageService();
 
@@ -40,7 +48,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             get("/responses/user/{id}", controller::getByUser, Role.USER);
             get("/responses/request/{id}", controller::getByRequest, Role.USER);
 
-            put("/response/{id}/accept", controller::transferShift, Role.USER);
+            put("/response/{id}/accept", controller::accept, Role.USER);
             put("/response/{id}/reject", controller::reject, Role.USER);
             put("/response/{id}/no-response", controller::noResponse, Role.USER);
             put("/response/{id}", controller::updateResponse, Role.CHEF);
@@ -106,6 +114,54 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
     }
 
     //________________________________________________________
+
+    private void accept(Context ctx) {
+        User user = getAuthenticatedUser(ctx);
+
+        int requestId = getPathId(ctx);
+
+        Response response = TryCatchService.tryEntity(
+                responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
+                messageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Response",
+                        String.valueOf(requestId)
+                )
+        );
+
+        ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(response.getShiftRequest().getId()),
+                messageService.buildMessage(
+                        Notifications.NOT_FOUND_ID,
+                        "Shift request",
+                        String.valueOf(requestId)
+                )
+        );
+
+        if (request.getStatus().equals(ShiftStatus.SOLVED)) {
+            respond(ctx, 500, Notifications.ALREADY_TAKEN.getDisplayName(), null);
+            return;
+        }
+
+        Shift shift = TryCatchService.tryEntity(
+            request.getShift(),
+            messageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "Shift",
+                String.valueOf(requestId)
+            )
+        );
+
+        response.setStatus(ShiftStatus.ACCEPTED);
+        request.solve();
+        shift.setOwner(user);
+        requestDAO.update(request);
+        responseDAO.update(response);
+        shiftDAO.update(shift);
+
+        String message = messageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
+
+        respond(ctx, 200, message, Map.of("shift", new ShiftDTO(shift)));
+    }
 
     private void reject(Context ctx){
 

@@ -2,17 +2,11 @@ package app.controllers.Generic;
 
 import app.Main;
 import app.daos.ResponseDAO;
-import app.daos.ShiftDAO;
-import app.daos.ShiftRequestDAO;
 import app.daos.UserDAO;
-import app.dtos.ShiftDTO;
 import app.dtos.UserDTO;
 import app.entities.Response;
-import app.entities.Shift;
-import app.entities.ShiftRequest;
 import app.entities.User;
 import app.enums.Notifications;
-import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.http.Context;
@@ -32,8 +26,6 @@ public abstract class BaseController<T, DTO> implements IController {
     protected abstract T getEntityById(int id);
     private final UserDAO userDAO = Main.setup.getUserDAO();
     private final ResponseDAO responseDAO = Main.setup.getResponseDAO();
-    private final ShiftRequestDAO requestDAO = Main.setup.getShiftRequestDAO();
-    private final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
     private final MessageService messageService = Main.setup.getMessageService();
 
     // ________________________________________________________
@@ -136,56 +128,6 @@ public abstract class BaseController<T, DTO> implements IController {
             ctx.pathParam("name"),
             Notifications.ENTER_NAME.getDisplayName()
         );
-    }
-
-    // ________________________________________________________
-
-    protected void transferShift(Context ctx) {
-        User user = getAuthenticatedUser(ctx);
-
-        int requestId = getPathId(ctx);
-
-        ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(requestId),
-            messageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Shift request",
-                String.valueOf(requestId)
-            )
-        );
-
-        if (request.getStatus().equals(ShiftStatus.SOLVED)) {
-            respond(ctx, 500, Notifications.ALREADY_TAKEN.getDisplayName(), null);
-            return;
-        }
-
-        Shift shift = TryCatchService.tryEntity(
-            request.getShift(),
-            messageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Shift",
-                String.valueOf(requestId)
-            )
-        );
-
-        Response response = TryCatchService.tryEntity(
-            responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
-            messageService.buildMessage(
-                Notifications.NOT_FOUND_ID,
-                "Response",
-                String.valueOf(requestId)
-            )
-        );
-
-        response.setStatus(ShiftStatus.ACCEPTED);
-        request.solve();
-        shift.setOwner(user);
-        requestDAO.update(request);
-        responseDAO.update(response);
-        shiftDAO.update(shift);
-
-        String message = messageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
-
-        respond(ctx, 200, message, Map.of("shift", new ShiftDTO(shift)));
     }
 
     // ________________________________________________________

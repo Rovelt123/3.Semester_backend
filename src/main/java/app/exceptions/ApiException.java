@@ -1,8 +1,10 @@
 package app.exceptions;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Getter
 public class ApiException extends RuntimeException {
 
     private final int status;
@@ -17,7 +19,5 @@ public class ApiException extends RuntimeException {
     }
 
     // ________________________________________________________
-
-    public int getStatus() {return this.status; }
 
 }

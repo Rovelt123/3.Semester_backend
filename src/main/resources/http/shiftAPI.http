@@ -39,9 +39,9 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "user_id": "4",
-  "title": "Bar3",
-  "date": "2026-05-01",
+  "user_id": "3",
+  "title": "Bar",
+  "date": "2026-03-02",
   "start_time": "10:00",
   "end_time": "16:00"
 }
@@ -52,13 +52,12 @@ Authorization: Bearer {{token}}
 ### You can update the following: date, start_time, end_time, owner, title
 ### Yes, you can update multiple at a time!
 ### =========================
-PUT {{url}}/shift/4
+PUT {{url}}/shift/2
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "date": "2026-01-01",
-  "end_time": "01:01"
+  "date": "2026-02-01"
 }
 
 
