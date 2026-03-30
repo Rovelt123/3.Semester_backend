@@ -6,7 +6,7 @@ import app.configs.*;
 public class Main {
 
     public static Setup setup;
-    private static final int port = 7070;
+    private static final int port = 9191;
 
     // ________________________________________________________
 
