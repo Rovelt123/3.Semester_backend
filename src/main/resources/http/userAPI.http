@@ -9,6 +9,12 @@ Content-Type: application/json
   "password": "admin"
 }
 
+> {%
+    client.global.set("token", response.body.data.token);
+    console.log("JWT Token:", client.global.get("token"));
+%}
+
+
 
 ### =========================
 ### REGISTER USER
@@ -23,7 +29,6 @@ Content-Type: application/json
   "password": "Rovelt",
   "repeat_password": "Rovelt"
 }
-
 
 ### =========================
 ### GET ALL USERS
@@ -124,7 +129,7 @@ Authorization: Bearer {{token}}
 ### FORCE DELETE USER (CHEF)
 ### /user/force-delete/{id}/{username}
 ### =========================
-DELETE {{url}}/user/force-delete/6/Rovelt
+DELETE {{url}}/user/force-delete/7/Rovelt
 Authorization: Bearer {{token}}
 
 

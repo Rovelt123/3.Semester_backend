@@ -1,6 +1,5 @@
 package app.daos;
 
-import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
@@ -77,8 +76,8 @@ public class EntityManagerDAO<T> implements IDAO<T> {
         return executeQuery(() -> {
             String JPQL = "SELECT x." + column + " FROM " + classSpecific.getSimpleName() + " x WHERE x.id = :id";
             return (R) em.createQuery(JPQL, Object.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
+            .setParameter("id", id)
+            .getSingleResult();
         });
     }
 
@@ -176,15 +175,6 @@ public class EntityManagerDAO<T> implements IDAO<T> {
             //throw new ApiException(500, e.getMessage());
             return null;
         }
-    }
-
-    // ________________________________________________________
-
-    protected void executeQuery(Runnable task) {
-        executeQuery(() -> {
-            task.run();
-            return null;
-        });
     }
 
     // ________________________________________________________

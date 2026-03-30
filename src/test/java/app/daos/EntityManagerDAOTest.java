@@ -1,15 +1,9 @@
 package app.daos;
 
 import app.SetupTest;
-import app.configs.TestHibernateConfig;
 import app.entities.User;
-import app.enums.Role;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.*;
-
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
