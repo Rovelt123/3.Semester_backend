@@ -1,5 +1,6 @@
 @startuml
 
+' ENUMS
 enum Role {
     USER
     CHEF
@@ -12,40 +13,33 @@ enum HolidayStatus {
 }
 
 enum ShiftStatus {
+    WAITING
     NO_RESPONSE
     APPROVED
     REJECTED
+    SOLVED
 }
+
+' ENTITIES
 
 class User {
     - int id
-    - String name
-    - Role role
+    - String firstname
+    - String lastname
+    - String username
+    - String password
+    - Set<Role> roles
 
-    + User(int id, String name, Role role)
+    + addRole(Role role)
+    + removeRole(Role role)
 
-    + int getId()
-    + String getName()
-    + Role getRole()
-
-    + void setName(String name)
-    + void setRole(Role role)
-
-    + void addResponsibility(Responsibility responsibility)
-    + void removeResponsibility(Responsibility responsibility)
-
-    + void respondToShift(ShiftRequest request, ShiftStatus status)
-
+    + addResponsibility(Responsibility r)
+    + removeResponsibility(Responsibility r)
 }
 
 class Responsibility {
     - int id
     - String name
-
-    + Responsibility(int id, String name)
-
-    + int getId()
-    + String getName()
 }
 
 class Holiday {
@@ -54,42 +48,30 @@ class Holiday {
     - LocalDate endDate
     - HolidayStatus status
 
-    + Holiday(int id, LocalDate startDate, LocalDate endDate)
-
-    + void approve()
-    + void reject()
+    + approve()
+    + reject()
 }
 
 class Shift {
     - int id
+    - String title
     - LocalDate date
     - LocalTime startTime
     - LocalTime endTime
-
-    + Shift(int id, LocalDate date, LocalTime startTime, LocalTime endTime)
 }
 
 class ShiftRequest {
     - int id
     - ShiftStatus status
-    - boolean taken
-    - Employee assignedTo
 
-    + ShiftRequest(int id)
-
-    + ShiftStatus getStatus()
-    + void approve(Employee employee)
-    + void reject()
+    + solve()
+    + addResponse(Response response)
+    + removeResponse(Response response)
 }
 
-class Message {
+class Response {
     - int id
-    - String content
-    - LocalDateTime sentAt
-
-    + Message(int id, String content)
-
-    + String getContent()
+    - ShiftStatus status
 }
 
 class Announcement {
@@ -98,17 +80,24 @@ class Announcement {
     - String content
     - LocalDateTime lastUpdated
 
-    + Announcement(int id, String title, String content)
-
-    + void updateContent(String content)
+    + updateContent(String content)
 }
 
-User -- Responsibility : has
-User -- Holiday : requests
-User -- ShiftRequest : responds
-Shift -- ShiftRequest
-User -- Message : sends
-User -- Message : receives
-User -- Announcement : writes
+' RELATIONER
+
+User "1" -- "*" Holiday : has
+User "1" -- "*" Shift : owns
+User "1" -- "*" Response : writes
+User "1" -- "*" Announcement : creates
+
+User "*" -- "*" Responsibility : has
+
+Shift "1" -- "*" ShiftRequest : contains
+ShiftRequest "1" -- "*" Response : has
+
+ShiftRequest "*" -- "1" User : requester
+Response "*" -- "1" User : user
+
+ShiftRequest "*" -- "1" Shift : belongs to
 
 @enduml

@@ -17,7 +17,6 @@ public class Routing {
             ShiftRequestController.registerRoutes().addEndpoints();
             ResponsibilityController.registerRoutes().addEndpoints();
             ResponseController.registerRoutes().addEndpoints();
-            //MessageController.registerRoutes().addEndpoints();
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
         };

@@ -25,7 +25,6 @@ public class Setup {
     private UserDAO userDAO;
     private ResponsibilityDAO respDAO;
     private HolidayDAO holidayDAO;
-    //private MessageDAO messageDAO;
     private AnnouncementDAO announcementDAO;
     private ShiftRequestDAO shiftRequestDAO;
     private ShiftDAO shiftDAO;
@@ -65,7 +64,6 @@ public class Setup {
         userDAO = new UserDAO(em);
         respDAO = new ResponsibilityDAO(em);
         holidayDAO = new HolidayDAO(em);
-        //messageDAO = new MessageDAO(em);
         announcementDAO = new AnnouncementDAO(em);
         shiftRequestDAO = new ShiftRequestDAO(em);
         shiftDAO = new ShiftDAO(em);

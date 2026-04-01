@@ -10,8 +10,6 @@ import com.nimbusds.jwt.SignedJWT;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class JWTTokenGenerator {
 

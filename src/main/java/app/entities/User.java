@@ -53,7 +53,7 @@ public class User {
 
     @Builder.Default
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Shift> shifts =  new HashSet<>();;
+    private Set<Shift> shifts =  new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -62,9 +62,6 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Response> responses = new HashSet<>();
-
-    /*@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messages = new ArrayList<>();*/
 
     // ________________________________________________________
 

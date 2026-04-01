@@ -19,7 +19,6 @@ public class TestData {
     private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
     private static final ShiftRequestDAO shiftRequestDAO = Main.setup.getShiftRequestDAO();
     private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
-    //private static final MessageDAO messageDAO = Main.setup.getMessageDAO();
     private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
     private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
 
@@ -176,17 +175,6 @@ public class TestData {
             .build();
 
         announcementDAO.create(announcement);
-
-        // ========================================================
-        // MESSAGES
-        // ========================================================
-
-        /*Message message =
-
-                new Message(worker, admin,
-                "Hello manager, I would like to swap shift");
-
-        messageDAO.create(message);*/
 
     }
 }

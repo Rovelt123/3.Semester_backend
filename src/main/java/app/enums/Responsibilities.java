@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Responsibilities {
+    // This enum is just to make some test data, should be deleted in production!
     PLANNER("Planning holidays"),
     CASHIER("Kassemedarbejder"),
     DRIVER("Chauffør"),

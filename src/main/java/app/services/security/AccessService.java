@@ -43,6 +43,7 @@ public class AccessService implements IAccessService {
 
         // Check if the user has the necessary roles to access the route
         UserDTO userDTO = ctx.attribute("user");
+        assert userDTO != null;
         User user = Main.setup.getUserDAO().getById(userDTO.getId());
         Set<RouteRole> allowedRoles = ctx.routeRoles(); // roles allowed for the current route
         if (!securityController.authorize(user, allowedRoles)) {
