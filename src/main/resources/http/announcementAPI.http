@@ -1,0 +1,58 @@
+### =========================
+### GET ALL ANNOUNCEMENTS
+### =========================
+GET {{url}}/announcements
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET BY ID
+### /announcement/{id}
+### =========================
+GET {{url}}/announcement/2
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET BY AUTHOR ID
+### /announcement/author/{id}
+### =========================
+GET {{url}}/announcement/author/4
+Authorization: Bearer {{token}}
+
+
+### =========================
+### CREATE ANNOUNCEMENT
+### =========================
+POST {{url}}/announcement
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Møde",
+  "content": "Der er personalemøde fredag kl 18"
+}
+
+
+### =========================
+### UPDATE ANNOUNCEMENT
+### You can update the following: content, lastupdated(yyyy-mm-ddThh:mm:ss), title, owner
+### =========================
+PUT {{url}}/announcement/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "content": "Changed",
+  "title": "Changed",
+  "lastupdated": "2026-01-01T20:55:00",
+  "owner": "3"
+}
+
+
+### =========================
+### DELETE ANNOUNCEMENT
+### /announcement/{id}
+### =========================
+DELETE {{url}}/announcement/1
+Authorization: Bearer {{token}}

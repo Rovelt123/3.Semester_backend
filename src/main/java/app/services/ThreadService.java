@@ -8,9 +8,13 @@ public class ThreadService {
 
     private final ExecutorService executor;
 
+    // ________________________________________________________
+
     public ThreadService(int poolSize) {
         this.executor = Executors.newFixedThreadPool(poolSize);
     }
+
+    // ________________________________________________________
 
     public void runAsync(Runnable task) {
         try {
@@ -20,6 +24,8 @@ public class ThreadService {
         }
     }
 
+    // ________________________________________________________
+
     public <T> Future<T> callAsync(Callable<T> task) {
         try {
             return executor.submit(wrapCallable(task));
@@ -27,6 +33,8 @@ public class ThreadService {
             throw new ThreadServiceException("Error submitting callable task", e);
         }
     }
+
+    // ________________________________________________________
 
     public <T> CompletableFuture<T> callAsyncCompletable(Callable<T> task) {
         return CompletableFuture.supplyAsync(() -> {
@@ -38,6 +46,8 @@ public class ThreadService {
         }, executor);
     }
 
+    // ________________________________________________________
+
     private Runnable wrapRunnable(Runnable task) {
         return () -> {
             try {
@@ -48,6 +58,8 @@ public class ThreadService {
         };
     }
 
+    // ________________________________________________________
+
     private <T> Callable<T> wrapCallable(Callable<T> task) {
         return () -> {
             try {
@@ -57,6 +69,8 @@ public class ThreadService {
             }
         };
     }
+
+    // ________________________________________________________
 
     public void shutdown() {
         executor.shutdown();

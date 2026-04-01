@@ -12,11 +12,15 @@ public class ShiftDAO  extends EntityManagerDAO<Shift> {
         super(em, Shift.class);
     }
 
-    public List<Shift> getShiftsByUserId(String userId) {
+    // ________________________________________________________
+
+    public List<Shift> getShiftsByUserId(int userId) {
         return em.createQuery(
         "SELECT s FROM Shift s WHERE s.owner.id = :userId", Shift.class)
             .setParameter("userId", userId).getResultList();
     }
+
+    // ________________________________________________________
 
     public List<Shift> getShiftsByDate(LocalDate date) {
         return em.createQuery(

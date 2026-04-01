@@ -2,17 +2,23 @@ package app.Server;
 
 import app.controllers.*;
 import io.javalin.Javalin;
+import io.javalin.apibuilder.EndpointGroup;
+import io.javalin.config.JavalinConfig;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.get;
 
 public class Routing {
 
-    public static void registerRoutes(Javalin app) {
-        AnnouncementController.registerRoutes(app);
-        HolidayController.registerRoutes(app);
-        MessageController.registerRoutes(app);
-        ResponseController.registerRoutes(app);
-        ResponsibilityController.registerRoutes(app);
-        ShiftController.registerRoutes(app);
-        ShiftRequestController.registerRoutes(app);
-        UserController.registerRoutes(app);
+    public static EndpointGroup registerRoutes() {
+        return () -> {
+            UserController.registerRoutes().addEndpoints();
+            ShiftController.registerRoutes().addEndpoints();
+            ShiftRequestController.registerRoutes().addEndpoints();
+            ResponsibilityController.registerRoutes().addEndpoints();
+            ResponseController.registerRoutes().addEndpoints();
+            HolidayController.registerRoutes().addEndpoints();
+            AnnouncementController.registerRoutes().addEndpoints();
+        };
     }
 }

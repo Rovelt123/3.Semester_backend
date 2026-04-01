@@ -1,14 +1,16 @@
 package app.entities;
 
 import app.enums.Role;
-import app.enums.ShiftStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 @Getter
@@ -19,45 +21,58 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String firstname;
+
+    private String lastname;
 
     @Column(unique = true)
     private String username;
+
     private String password;
 
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "roles")
+    private Set<Role> roles = new HashSet<>();
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "user_responsibility",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "responsibility_id")
+        name = "user_responsibilities",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "responsibility_id")
     )
-    private List<Responsibility> responsibilities = new ArrayList<>();
+    private Set<Responsibility> responsibilities = new HashSet<>();
 
-    @OneToMany(mappedBy = "userID", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Holiday> holidays = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Holiday> holidays = new HashSet<>();
 
-    @OneToMany(mappedBy = "ownerID", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Shift> shifts = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Shift> shifts =  new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Announcement> announcements = new ArrayList<>();
+    private Set<Announcement> announcements = new HashSet<>();
 
-
-    @OneToMany(mappedBy = "senderID", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messages = new ArrayList<>();
-
-    public User() {}
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Response> responses = new HashSet<>();
 
     // ________________________________________________________
 
-    public User(String name, Role role, String username, String password) {
-        this.name = name;
-        this.role = role;
-        this.username = username;
-        this.password = password;
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    // ________________________________________________________
+
+    public void removeRole(Role role) {
+        roles.remove(role);
     }
 
     // ________________________________________________________

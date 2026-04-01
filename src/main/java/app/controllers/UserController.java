@@ -1,23 +1,38 @@
 package app.controllers;
 
+
 import app.Main;
 import app.controllers.Generic.BaseController;
+import app.daos.ResponsibilityDAO;
 import app.daos.UserDAO;
 import app.dtos.UserDTO;
+import app.entities.Responsibility;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.services.MessageService;
-import app.services.PasswordService;
-import io.javalin.Javalin;
+import app.services.HashService;
+import app.services.ThreadService;
+import app.services.TryCatchService;
+import app.services.security.SecurityService;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 
 public class UserController extends BaseController<User, UserDTO> {
 
     private static final UserDAO userDAO = Main.setup.getUserDAO();
+    private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
+    private static final SecurityService securityService = new SecurityService();
+    private final MessageService messageService = Main.setup.getMessageService();
+    private final ThreadService threadService = Main.setup.getThreadService();
+
 
     public UserController() {
         super(User.class, UserDTO::new);
@@ -25,246 +40,448 @@ public class UserController extends BaseController<User, UserDTO> {
 
     // ________________________________________________________
 
-    public static void registerRoutes(Javalin app) {
+    public static EndpointGroup registerRoutes() {
         UserController controller = new UserController();
+        return ()->{
+            post("users/auth/register", controller::createUser, Role.ANYONE);
+            post("users/auth/login", controller::login, Role.ANYONE);
 
-        // Auth endpoints
-        app.post("/auth/register", controller::createUser);
-        app.post("/auth/login", controller::login);
-        app.post("/auth/logout", controller::logout);
+            // User endpoints
+            put("/user/username", controller::updateUsername, Role.USER);
+            put("/user/password", controller::updatePassword, Role.USER);
+            put("/user/{id}", controller::update, Role.USER);
+            delete("/user/delete", controller::deleteUserWithConfirm, Role.USER);
+            get("/users", controller::getAll, Role.USER);
+            get("/user/{id}", controller::getByID, Role.USER);
+            get("/user/by-username/{username}", controller::getByUsername, Role.USER);
+            get("/users/responsibility/{responsibility}", controller::getUsersWithResponsibility, Role.USER);
+            get("/users/role/{role}", controller::getUsersWithRole, Role.USER);
 
-        // User endpoints
-        app.put("/user/update-username", controller::updateUsername);
-        app.put("/user/update-password", controller::updatePassword);
-        app.delete("/user/delete", controller::deleteUserWithConfirm);
-        app.get("/users", controller::getAll);
-        app.get("/user/{id}", controller::getByID);
-        app.get("/user/by-username/{username}", controller::getByUsername);
-
-        // Admin endpoints
-        app.delete("/user/force-delete/{id}", controller::forceDeleteUser);
+            // Admin endpoints
+            delete("/user/force-delete/{id}/{confirm_name}", controller::forceDeleteUser, Role.CHEF);
+            delete("/user/{user_id}/roles/{role}", controller::removeRole , Role.CHEF);
+            put("/user/{user_id}/roles/{role}", controller::addRole , Role.CHEF);
+            put("/user/{user_id}/responsibility/{responsibility}", controller::addResponsibility , Role.CHEF);
+            delete("/user/{user_id}/responsibility/{responsibility}", controller::removeResponsibility , Role.CHEF);
+        };
     }
 
     // ________________________________________________________
 
     private void login(Context ctx) {
-        Map<String, String> body = ctx.bodyAsClass(Map.class);
-        String username = body.get("username");
-        String password = body.get("password");
-
-        User user = userDAO.getByUsername(username);
-        if (user == null) {
-            ctx.json(Notifications.WRONG_USERNAME.getDisplayName());
-            return;
-        }
-
-        if (!PasswordService.equals(password, user.getPassword())) {
-            ctx.json(Notifications.WRONG_PASSWORD.getDisplayName());
-            return;
-        }
-
-        ctx.sessionAttribute("user", user);
-
-        String message = MessageService.buildMessage(
-                Notifications.LOGGED_IN,
-                user.getName()
+        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        User user = TryCatchService.tryEntity(
+                userDAO.getByUsername(body.get("username")),
+                Notifications.WRONG_USERNAME.getDisplayName()
         );
 
-        ctx.json(Map.of(
-                "message", message,
-                "user", new UserDTO(user)
+        if (!HashService.hashEquals(body.get("password"), user.getPassword())) {
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
+            return;
+        }
+
+        String token = securityService.createToken(new UserDTO(user));
+
+        String message = messageService.buildMessage(
+                Notifications.LOGGED_IN,
+                user.getFirstname()
+        );
+
+        respond(ctx, 200, message, Map.of(
+            "token", token,
+            "data", new UserDTO(user)
         ));
     }
 
     // ________________________________________________________
 
-    private void logout(Context ctx) {
-        ctx.sessionAttribute("user", null);
-
-        ctx.json(Notifications.LOGGED_OUT.getDisplayName());
-    }
-
-    // ________________________________________________________
-
     private void createUser(Context ctx) {
-        Map<String, String> body = ctx.bodyAsClass(Map.class);
-        String username = body.get("username");
-        if((username == null || username.isEmpty())) {
-            ctx.status(400).json(Notifications.REGISTER_NO_USERNAME.getDisplayName());
-            return;
-        }
-        String password = body.get("password");
-        if((password == null || password.isEmpty())) {
-            ctx.status(400).json(Notifications.REGISTER_NO_PASSWORD.getDisplayName());
-            return;
-        }
-        String password_repeat = body.get("password_repeat");
-        if((password_repeat == null || password_repeat.isEmpty())) {
-            ctx.status(400).json(Notifications.REGISTER_NO_PASSWORD_REPEAT.getDisplayName());
-            return;
-        }
+        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+
+        String firstname = TryCatchService.tryString(body.get("first_name"), Notifications.REGISTER_NO_FIRSTNAME.getDisplayName());
+        String lastname = TryCatchService.tryString(body.get("last_name"), Notifications.REGISTER_NO_LASTNAME.getDisplayName());
+        String username = TryCatchService.tryString(body.get("username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
+        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String password_repeat = TryCatchService.tryString(body.get("repeat_password"), Notifications.REGISTER_NO_PASSWORD_REPEAT.getDisplayName());
+
         if(!password.equals(password_repeat)){
             ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
             return;
         }
-        String name = body.get("name");
-        if((name == null || name.isEmpty())) {
-            ctx.status(400).json(Notifications.REGISTER_NO_NAME.getDisplayName());
-            return;
-        }
+
         Role role = Role.USER;
 
         if (userDAO.existByColumn(username, "username")) {
-            String message = MessageService.buildMessage(Notifications.USERNAME_EXISTS, username);
+            String message = messageService.buildMessage(Notifications.USERNAME_EXISTS, username);
             ctx.status(400).json(message);
             return;
         }
 
-        User user = new User(name, role, username, PasswordService.hashHelper(password));
-        userDAO.create(user);
+        User user = TryCatchService.tryEntity(
+            userDAO.create(User.builder()
+                .firstname(firstname)
+                .lastname(lastname)
+                .roles(Set.of(role))
+                .username(username)
+                .password(HashService.hashHelper(password))
+                .build()),
+            messageService.buildMessage(Notifications.USERNAME_EXISTS, username)
+        );
 
-        String message = MessageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
+        //Make sure to make responses for new users - Otherwise new users can't take older shift requests!
+        threadService.runAsync(() -> ShiftRequestController.checkActiveShiftRequests(user));
 
-        ctx.status(201).json(Map.of(
-                "message", message,
-                "user", new UserDTO(user)
+        String token = securityService.createToken(new UserDTO(user));
 
+        String message = messageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
+
+        respond(ctx, 201, message, Map.of(
+            "token", token,
+            "data", new UserDTO(user)
         ));
     }
 
     // ________________________________________________________
 
     private void updateUsername(Context ctx) {
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
-        String newUsername = body.get("newUsername");
-        String password = body.get("password");
+        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
-        if(user == null){
-            ctx.status(401).json(Notifications.NOT_LOGGED_IN.getDisplayName());
-            return;
-        }
+        User user = getAuthenticatedUser(ctx);
 
-        if(!PasswordService.equals(password, user.getPassword())){
-            ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
-            return;
-        }
+        String newUsername = TryCatchService.tryString(body.get("new_username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
+        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
-        if(userDAO.existByColumn(newUsername, "username")){
-            String message = MessageService.buildMessage(Notifications.USERNAME_EXISTS, newUsername);
-            ctx.status(400).json(message);
+        if(!HashService.hashEquals(password, user.getPassword())){
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
             return;
         }
 
         user.setUsername(newUsername);
         userDAO.update(user);
 
-        String message = MessageService.buildMessage(Notifications.USERNAME_UPDATED, user.getUsername());
-
-        ctx.json(message);
+        String message = messageService.buildMessage(Notifications.USERNAME_UPDATED, user.getUsername());
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
 
     private void updatePassword(Context ctx) {
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
 
-        String oldPassword = body.get("oldPassword");
-        String newPassword = body.get("newPassword");
-        String newPassword_repeat = body.get("newPassword_repeat");
+        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
-        if(user == null){
-            ctx.status(401).json(Notifications.NOT_LOGGED_IN.getDisplayName());
-            return;
-        }
+        User user = getAuthenticatedUser(ctx);
 
-        if(!PasswordService.equals(oldPassword, user.getPassword())){
-            ctx.status(401).json(Notifications.WRONG_PASSWORD.getDisplayName());
+        String oldPassword = TryCatchService.tryString(body.get("old_password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String newPassword = TryCatchService.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
+        String newPassword_repeat = TryCatchService.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
+
+        if(!HashService.hashEquals(oldPassword, user.getPassword())){
+            respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
             return;
         }
 
         if(!newPassword.equals(newPassword_repeat)){
-            ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
+            respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
             return;
         }
 
-        user.setPassword(PasswordService.hashHelper(newPassword));
+        user.setPassword(HashService.hashHelper(newPassword));
         userDAO.update(user);
-        ctx.json(Notifications.PASSWORD_UPDATED.getDisplayName());
+
+        respond(ctx, 200, Notifications.PASSWORD_UPDATED.getDisplayName(), null);
+    }
+
+    // ________________________________________________________
+
+    private void update(Context ctx) {
+        User loggedIn = getAuthenticatedUser(ctx);
+
+        int id = getPathId(ctx);
+
+        if (loggedIn.getId() != id && !loggedIn.getRoles().contains(Role.CHEF)) {
+            respond(ctx, 400, Notifications.NOT_ALLOWED.getDisplayName(), null);
+            return;
+        }
+
+
+        User user = TryCatchService.tryEntity(
+            userDAO.getById(id),
+            messageService.buildMessage(
+                Notifications.NOT_FOUND_ID,
+                "User",
+                String.valueOf(id)
+            )
+        );
+
+        Map<String, String> body = TryCatchService.tryBodyMap(
+            ctx,
+            Notifications.BODY_EMPTY.getDisplayName()
+        );
+
+        if (body.containsKey("firstname"))
+            user.setFirstname(TryCatchService.tryString(
+                body.get("firstname"),
+                Notifications.REGISTER_NO_FIRSTNAME.getDisplayName()
+            ));
+
+
+        if (body.containsKey("lastname"))
+            user.setLastname(TryCatchService.tryString(
+                body.get("lastname"),
+                Notifications.REGISTER_NO_LASTNAME.getDisplayName()
+            ));
+
+        if (body.containsKey("username")) {
+            if (userDAO.existByColumn(body.get("username"), "username")) {
+                String message = messageService.buildMessage(Notifications.USERNAME_EXISTS, body.get("username"));
+                respond(ctx, 400, message, null);
+                return;
+            }
+
+            user.setUsername(TryCatchService.tryString(
+                body.get("username"),
+                Notifications.REGISTER_NO_LASTNAME.getDisplayName()
+            ));
+        }
+
+        if(body.containsKey("password")) {
+            if (loggedIn.getRoles().contains(Role.CHEF)) {
+                user.setPassword(TryCatchService.tryString(
+                    HashService.hashHelper(body.get("password")),
+                    Notifications.REGISTER_NO_FIRSTNAME.getDisplayName()
+                ));
+            } else {
+                String oldPassword = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+                String newPassword = TryCatchService.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
+                String newPassword_repeat = TryCatchService.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
+
+                if(!HashService.hashEquals(oldPassword, user.getPassword())){
+                    respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
+                    return;
+                }
+
+                if(!newPassword.equals(newPassword_repeat)){
+                    respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
+                    return;
+                }
+
+                user.setPassword(HashService.hashHelper(newPassword));
+            }
+        }
+
+        userDAO.update(user);
+
+        String message = messageService.buildMessage(
+                Notifications.USER_UPDATED,
+                String.valueOf(id)
+        );
+
+        respond(ctx, 200, message, Map.of(
+                "data", new UserDTO(user)
+        ));
     }
 
     // ________________________________________________________
 
     private void deleteUserWithConfirm(Context ctx) {
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
-        User user = ctx.sessionAttribute("user");
 
-        if(user == null){
-            ctx.status(401).json(Notifications.NOT_LOGGED_IN.getDisplayName());
+        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+
+        UserDTO userDTO = TryCatchService.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
+        User user = TryCatchService.tryEntity(
+                userDAO.getById(userDTO.getId()),
+                messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
+        );
+
+
+        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+
+        if(!HashService.hashEquals(password, user.getPassword())){
+            respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
             return;
         }
 
-        String password1 = body.get("password1");
-        String password2 = body.get("password2");
-
-        if(!password1.equals(password2) || !PasswordService.equals(password1, user.getPassword())){
-            ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
-            return;
-        }
         String username =  user.getUsername();
         userDAO.deleteById(user.getId());
 
-        ctx.sessionAttribute("user", null);
+        String message = messageService.buildMessage(Notifications.DELETE_USER_SUCESS, username);
 
-        String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, username);
-
-        ctx.json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
 
     private void forceDeleteUser(Context ctx) {
-        User admin = ctx.sessionAttribute("user");
-        int targetId = Integer.parseInt(ctx.pathParam("id"));
+        int targetId = getPathId(ctx);
 
-        if(admin == null || admin.getRole() != Role.CHEF){
-            ctx.status(403).json(Notifications.ADMINS_ONLY.getDisplayName());
+        User target = TryCatchService.tryEntity(userDAO.getById(targetId), messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId)));
+
+
+        String confirmUsername = TryCatchService.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
+
+        if (!target.getUsername().equals(confirmUsername)) {
+            String message = messageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getUsername(), confirmUsername);
+            respond(ctx, 400, message, null);
             return;
         }
 
-        User target = userDAO.getById(targetId);
-        if(target == null){
 
-            String message = MessageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId));
-            ctx.status(404).json(message);
-            return;
-        }
-
-        Map<String,String> body = ctx.bodyAsClass(Map.class);
-        String confirmUsername = body.get("confirm_username");
-
-        if (confirmUsername == null || !confirmUsername.equals(target.getUsername())) {
-            ctx.status(400).json(Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
-            return;
-        }
-
-        String message = MessageService.buildMessage(Notifications.DELETE_USER_SUCESS, target.getName());
+        String message = messageService.buildMessage(Notifications.DELETE_USER_SUCESS, target.getFirstname());
         userDAO.delete(target);
-        ctx.json(message);
+        respond(ctx, 200, message, null);
     }
 
     // ________________________________________________________
 
     private void getByUsername(Context ctx){
         String username = ctx.pathParam("username");
-        User user = userDAO.getByUsername(username);
-        if(user == null){
-            String message = MessageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username);
-            ctx.status(404).json(message);
+        User user = TryCatchService.tryEntity(
+            userDAO.getByUsername(username),
+                messageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username)
+        );
+
+        String message = messageService.buildMessage(
+            Notifications.GET_BY_NAME,
+            "user",
+            username
+        );
+
+        respond(ctx, 200, message, Map.of("data", new UserDTO(user)));
+    }
+
+    // ________________________________________________________
+
+    private void addRole(Context ctx) {
+        User user = getUserByID(ctx);
+
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+
+        user.addRole(role);
+        userDAO.update(user);
+
+        String message = messageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getFirstname());
+
+        respond(ctx, 200, message, null);
+    }
+
+    // ________________________________________________________
+
+    private void removeRole(Context ctx) {
+        User user = getUserByID(ctx);
+
+        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+
+        user.removeRole(role);
+        userDAO.update(user);
+
+        String message = messageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getFirstname());
+
+        respond(ctx, 200, message, null);
+    }
+
+    // ________________________________________________________
+
+    private void addResponsibility(Context ctx) {
+        User user = getUserByID(ctx);
+
+        Responsibility responsibility = TryCatchService.tryEntity(
+                responsibilityDAO.getByName(ctx.pathParam("responsibility")),
+                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+        );
+
+        user.addResponsibility(responsibility);
+        userDAO.update(user);
+
+        String message = messageService.buildMessage(Notifications.RESPONSIBILITY_ADDED_USER, responsibility.getName(), user.getFirstname());
+
+        respond(ctx, 200, message, null);
+    }
+
+    // ________________________________________________________
+
+    private void removeResponsibility(Context ctx) {
+        User user = getUserByID(ctx);
+
+        Responsibility responsibility = TryCatchService.tryEntity(
+                responsibilityDAO.getByName(ctx.pathParam("responsibility")),
+                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+        );
+
+        user.removeResponsibility(responsibility);
+        userDAO.update(user);
+
+        String message = messageService.buildMessage(Notifications.RESPONSIBILITY_REMOVED_USER, responsibility.getName(), user.getFirstname());
+
+        respond(ctx, 200, message, null);
+    }
+
+    // ________________________________________________________
+
+    private void getUsersWithResponsibility(Context ctx) {
+
+        String name = TryCatchService.tryString(
+                ctx.pathParam("responsibility"),
+                Notifications.FIELD_EMPTY.getDisplayName()
+        );
+
+        TryCatchService.tryEntity(
+                responsibilityDAO.getByName(name),
+                messageService.buildMessage(
+                        Notifications.GET_RESPONSIBILITY_NAME,
+                        name
+                )
+        );
+
+        List<UserDTO> users = userDAO.getUsersByResponsibility(name)
+                .stream()
+                .map(UserDTO::new)
+                .toList();
+
+        if(users.isEmpty()){
+            ctx.status(200).json(messageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    name
+            ));
             return;
         }
-        ctx.json(new UserDTO(user));
+
+        String message = messageService.buildMessage(
+                Notifications.GET_USERS_RESPONSIBILITY,
+                name
+        );
+
+        respond(ctx, 200, message, Map.of("data", users));
+    }
+
+    // ________________________________________________________
+
+    private void getUsersWithRole(Context ctx) {
+
+        Role role = TryCatchService.tryParseEnum(
+                Role.class,
+                ctx.pathParam("role"),
+                messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role"))
+        );
+
+        List<UserDTO> users = userDAO.getUsersByRole(role)
+                .stream()
+                .map(UserDTO::new)
+                .toList();
+
+        if(users.isEmpty()){
+            ctx.status(200).json(messageService.buildMessage(
+                    Notifications.GET_ALL_EMPTY,
+                    role.getDisplayName()
+            ));
+            return;
+        }
+
+        String message = messageService.buildMessage(
+                Notifications.GET_USERS_ROLE,
+                String.valueOf(role)
+        );
+
+        respond(ctx, 200, message, Map.of("data", users));
     }
 
     // ________________________________________________________
@@ -273,6 +490,8 @@ public class UserController extends BaseController<User, UserDTO> {
     protected List<User> getAllEntities() {
         return userDAO.getAll();
     }
+
+    // ________________________________________________________
 
     @Override
     protected User getEntityById(int id) {

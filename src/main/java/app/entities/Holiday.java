@@ -1,15 +1,21 @@
 package app.entities;
 
 import app.enums.HolidayStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
+
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "holidays")
 public class Holiday {
 
     @Id
@@ -19,18 +25,15 @@ public class Holiday {
     private LocalDate startDate;
     private LocalDate endDate;
 
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private HolidayStatus status = HolidayStatus.PENDING;
 
-    private int userID;
-
-    protected Holiday() {}
-
-    public Holiday(User user, LocalDate start, LocalDate end) {
-        this.userID = user.getId();
-        this.startDate = start;
-        this.endDate = end;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
     // ________________________________________________________
 

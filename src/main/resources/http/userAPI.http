@@ -1,0 +1,170 @@
+### =========================
+### LOGIN
+### =========================
+POST {{url}}/users/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+> {%
+    client.global.set("token", response.body.data.token);
+    console.log("JWT Token:", client.global.get("token"));
+%}
+
+
+
+### =========================
+### REGISTER USER
+### =========================
+POST {{url}}/users/auth/register
+Content-Type: application/json
+
+{
+  "first_name": "Andreas",
+  "last_name": "Rovelt",
+  "username": "Rovelt",
+  "password": "Rovelt",
+  "repeat_password": "Rovelt"
+}
+
+### =========================
+### GET ALL USERS
+### =========================
+GET {{url}}/users
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER BY ID
+### /user/{id}
+### =========================
+GET {{url}}/user/1
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER BY USERNAME
+### /user/by-username/{username}
+### =========================
+GET {{url}}/user/by-username/admin
+Authorization: Bearer {{token}}
+
+
+### =========================
+### UPDATE USERNAME
+### =========================
+PUT {{url}}/user/username
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "new_username": "admin",
+  "password": "admin"
+}
+
+
+### =========================
+### UPDATE PASSWORD
+### =========================
+PUT {{url}}/user/password
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "old_password": "Rovelt",
+  "new_password": "admin",
+  "new_password_repeat": "admin"
+}
+
+
+### =========================
+### ADD ROLE
+### /user/{id}/roles/{role}
+### =========================
+PUT {{url}}/user/2/roles/CHEF
+Authorization: Bearer {{token}}
+
+
+### =========================
+### REMOVE ROLE
+### /user/{id}/roles/{role}
+### =========================
+DELETE {{url}}/user/2/roles/CHEF
+Authorization: Bearer {{token}}
+
+
+### =========================
+### ADD RESPONSIBILITY
+### /user/{id}/responsibility/{responsibility}
+### =========================
+PUT {{url}}/user/3/responsibility/Chauffør
+Authorization: Bearer {{token}}
+
+
+
+### =========================
+### REMOVE RESPONSIBILITY
+### /user/{id}/responsibility/{responsibility}
+### =========================
+DELETE {{url}}/user/2/responsibility/Chauffør
+Authorization: Bearer {{token}}
+
+
+### =========================
+### DELETE USER (SELF)
+### =========================
+DELETE {{url}}/user/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "password": "Rovelt"
+}
+
+
+### =========================
+### FORCE DELETE USER (CHEF)
+### /user/force-delete/{id}/{username}
+### =========================
+DELETE {{url}}/user/force-delete/7/Rovelt
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER WITH RESPONSIBILITY
+### /users/responsibility/{responsibility}
+### =========================
+GET {{url}}/users/responsibility/Chauffør
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET USER WITH ROLE
+### /users/role/{role}
+### =========================
+GET {{url}}/users/role/USER
+Authorization: Bearer {{token}}
+
+
+### =========================
+#### UPDATE USER
+### /user/{id}
+### You can update the following: firstname, lastname, password, username
+### For password you must enter: password, new_password and new_password_repeat
+### Yes, you can update multiple at a time!
+### =========================
+PUT {{url}}/user/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "Rovelt",
+  "firstname": "Rovelt123",
+  "lastname": "Rovelt123",
+  "password": "Rovelt",
+  "new_password": "Rovelt123",
+  "new_password_repeat": "Rovelt123"
+}

@@ -8,7 +8,9 @@ public enum ShiftStatus {
     APPROVED("APPROVED"),
     REJECTED("REJECTED"),
     SOLVED("SOLVED"),
-    WAITING("WAITING");
+    WAITING("WAITING"),
+    ACCEPTED("ACCEPTED"),
+    DENIED("DENIED");
 
     // ________________________________________________________
 

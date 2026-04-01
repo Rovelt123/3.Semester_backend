@@ -1,0 +1,37 @@
+#### ======== GET DATA ========
+
+### GET ALL MESSAGES
+GET {{url}}/messages
+Authorization: Bearer {{token}}
+
+### GET CONVERSATION
+GET {{url}}/conversation/2
+Authorization: Bearer {{token}}
+
+
+#### ======== SEND MESSAGE ========
+
+POST {{url}}/message/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "content": "Går det godt habibi?"
+}
+
+
+#### ======== UPDATE MESSAGE ========
+
+PUT {{url}}/message/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "content": "Redigeret besked"
+}
+
+
+#### ======== DELETE MESSAGE ========
+
+DELETE {{url}}/message/2
+Authorization: Bearer {{token}}

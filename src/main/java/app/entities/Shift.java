@@ -1,17 +1,20 @@
 package app.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "shifts")
 public class Shift {
 
     @Id
@@ -20,7 +23,9 @@ public class Shift {
 
     private String title;
 
-    private int ownerID;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -28,17 +33,4 @@ public class Shift {
     @OneToMany(mappedBy = "shift", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShiftRequest> shiftRequests = new ArrayList<>();
 
-    public Shift(String title, User owner, LocalDate date, LocalTime now, LocalTime localTime) {
-        this.title = title;
-        this.ownerID = owner.getId();
-        this.date = date;
-        this.startTime = now;
-        this.endTime = localTime;
-    }
-
-    // ________________________________________________________
-
-    public Shift() {
-
-    }
 }

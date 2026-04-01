@@ -10,9 +10,9 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
         super(em, Responsibility.class);
     }
 
-    public void initializeResponsibilities() {
-        em.getTransaction().begin();
+    // ________________________________________________________
 
+    public void initializeResponsibilities() {
         for (Responsibilities r : Responsibilities.values()) {
             boolean exists = em.createQuery("SELECT 1 FROM Responsibility r WHERE r.name = :name")
                     .setParameter("name", r.getDisplayName())
@@ -21,13 +21,15 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
                     .isPresent();
 
             if (!exists) {
-                em.persist(new Responsibility(r.getDisplayName()));
+                this.create(Responsibility.builder()
+                        .name(r.getDisplayName())
+                        .build()
+                );
             }
         }
-
-        em.getTransaction().commit();
     }
 
+    // ________________________________________________________
 
     public Responsibility getByName(String name) {
         return em.createQuery("SELECT r FROM Responsibility r WHERE r.name = :name", Responsibility.class)

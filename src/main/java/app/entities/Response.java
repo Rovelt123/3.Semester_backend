@@ -2,33 +2,31 @@ package app.entities;
 
 import app.enums.ShiftStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Getter
 @Setter
+@Table(name = "responses")
 public class Response {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private ShiftStatus status = ShiftStatus.NO_RESPONSE;
 
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private int userID;
+    private User user;
 
-    @JoinColumn(name = "shift_request_id")
-    private int shiftRequestID;
-
-    public Response(User user, ShiftRequest request) {
-        this.userID = user.getId();
-        this.shiftRequestID = request.getId();
-    }
-
-    public Response() {
-
-    }
+    @ManyToOne
+    @JoinColumn(name = "shift_request")
+    private ShiftRequest shiftRequest;
 }

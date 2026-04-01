@@ -14,12 +14,11 @@ import java.util.Map;
 
 public class HolidayAPIService {
 
-    private final Map<LocalDate, String> holidays = new HashMap<>();
 
     // ________________________________________________________
 
-    public void loadHolidays(int year) {
-
+    public Map<LocalDate, String> getHolidays(int year) {
+        Map<LocalDate, String> holidays = new HashMap<>();
         try {
 
             String url = "https://date.nager.at/api/v3/PublicHolidays/" + year + "/DK";
@@ -44,7 +43,7 @@ public class HolidayAPIService {
 
                 holidays.put(date, name);
             }
-
+            return holidays;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,13 +51,13 @@ public class HolidayAPIService {
 
     // ________________________________________________________
 
-    public String getHoliday(LocalDate date) {
+    public String getHoliday(LocalDate date, Map<LocalDate, String> holidays) {
         return holidays.get(date);
     }
 
     // ________________________________________________________
 
-    public boolean isHoliday(LocalDate date) {
+    public boolean isHoliday(LocalDate date, Map<LocalDate, String> holidays) {
         return holidays.containsKey(date);
     }
 }

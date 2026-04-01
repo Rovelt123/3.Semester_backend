@@ -76,8 +76,19 @@ public class EntityManagerDAO<T> implements IDAO<T> {
         return executeQuery(() -> {
             String JPQL = "SELECT x." + column + " FROM " + classSpecific.getSimpleName() + " x WHERE x.id = :id";
             return (R) em.createQuery(JPQL, Object.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
+            .setParameter("id", id)
+            .getSingleResult();
+        });
+    }
+
+    // ________________________________________________________
+
+    public List<T> getByColumn(Object value, String column) {
+        return executeQuery(() -> {
+            String JPQL = "SELECT x FROM " + classSpecific.getSimpleName() + " x WHERE x." + column + " = :value";
+            return em.createQuery(JPQL, classSpecific)
+                    .setParameter("value", value)
+                    .getResultList();
         });
     }
 
@@ -161,30 +172,22 @@ public class EntityManagerDAO<T> implements IDAO<T> {
             if (startedTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e;
-        }
-    }
-
-    // ________________________________________________________
-
-    protected void executeQuery(Runnable task) {
-        executeQuery(() -> {
-            task.run();
+            //throw new ApiException(500, e.getMessage());
             return null;
-        });
+        }
     }
 
     // ________________________________________________________
 
     private T findById(Object id) {
         if (id instanceof Long) {
-            return em.find(classSpecific, (Long) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof Integer) {
-            return em.find(classSpecific, (Integer) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof String) {
-            return em.find(classSpecific, (String) id);
+            return em.find(classSpecific, id);
         } else if (id instanceof UUID) {
-            return em.find(classSpecific, (UUID) id);
+            return em.find(classSpecific, id);
         } else {
             throw new IllegalArgumentException("Unsupported ID type: " + id.getClass());
         }

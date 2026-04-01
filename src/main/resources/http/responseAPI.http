@@ -1,0 +1,75 @@
+### =========================
+### GET ALL RESPONSES
+### =========================
+GET {{url}}/responses
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET RESPONSE BY ID
+### /responsibility/{id}
+### =========================
+GET {{url}}/response/20
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET RESPONSES BY USER
+### /responses/user/{user_id}
+### =========================
+GET {{url}}/responses/user/2
+Authorization: Bearer {{token}}
+
+
+### =========================
+### GET RESPONSES BY SHIFT REQUEST
+### /responses/request/{shift_request}
+### =========================
+GET {{url}}/responses/request/5
+Authorization: Bearer {{token}}
+
+
+### =========================
+### ACCEPT RESPONSE
+### /response/{id}/accept
+### =========================
+PUT {{url}}/response/17/accept
+Authorization: Bearer {{token}}
+
+
+### =========================
+### REJECT BY ID
+### /response/{id}/reject
+### =========================
+PUT {{url}}/response/17/reject
+Authorization: Bearer {{token}}
+
+
+### =========================
+### SET NO RESPONSE
+### /response/{id}/no-response
+### =========================
+PUT {{url}}/response/1/no-response
+Authorization: Bearer {{token}}
+
+
+#### ======== UPDATE RESPONSE ========
+### You can update the following: status, shift_request, user_id
+### Yes, you can update multiple at a time!
+### ==================================
+PUT {{url}}/response/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "NO_RESPONSE"
+}
+
+
+### =========================
+### DELETE RESPONSE
+### /response/{id}
+### =========================
+#### ======== DELETE RESPONSE ========
+DELETE {{url}}/response/1
+Authorization: Bearer {{token}}
