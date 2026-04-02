@@ -21,7 +21,7 @@ public class Routing {
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
 
-            get("/health", ctx -> ctx.result("ALL GOOD!"));
+            get("/health", ctx -> ctx.result("Health is okay..."));
         };
     }
 }
