@@ -61,7 +61,7 @@ public abstract class SetupTest {
                 .firstname("John")
                 .lastname("Doe")
                 .roles(Set.of(Role.USER))
-                .username("Testuser")
+                .username("john123")
                 .password("123")
                 .build();
 
