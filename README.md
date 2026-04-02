@@ -51,10 +51,10 @@ Source code repository:
 ## Diagrams
 
 ### ERD
-![ERD](https://raw.githubusercontent.com/Rovelt123/Semesterprojekt-3.Sem/refs/heads/master/src/Diagrammer/ERD.png?token=GHSAT0AAAAAADLIX47IGXG5ORCGIXPHBUMK2OOSPJA)
+![ERD](/src/Diagrammer/ERD.png)
 
 ### Classdiagram
-![CLASS](https://raw.githubusercontent.com/Rovelt123/Semesterprojekt-3.Sem/refs/heads/master/src/Diagrammer/Klassediagram_final.png?token=GHSAT0AAAAAADLIX47ITYN6RBD5DUI3MGYC2OOSQGQ)
+![CLASS](/src/Diagrammer/Klassediagram_final.png)
 
 
 ---
