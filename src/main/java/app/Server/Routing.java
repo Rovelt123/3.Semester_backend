@@ -1,6 +1,7 @@
 package app.Server;
 
 import app.controllers.*;
+import app.enums.Role;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.config.JavalinConfig;
@@ -19,6 +20,8 @@ public class Routing {
             ResponseController.registerRoutes().addEndpoints();
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
+
+            get("/health", ctx -> ctx.result("OK"));
         };
     }
 }
