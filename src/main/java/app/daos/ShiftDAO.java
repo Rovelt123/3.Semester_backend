@@ -1,6 +1,7 @@
 package app.daos;
 
 import app.entities.Shift;
+import app.entities.User;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;
@@ -15,16 +16,39 @@ public class ShiftDAO  extends EntityManagerDAO<Shift> {
     // ________________________________________________________
 
     public List<Shift> getShiftsByUserId(int userId) {
-        return em.createQuery(
-        "SELECT s FROM Shift s WHERE s.owner.id = :userId", Shift.class)
-            .setParameter("userId", userId).getResultList();
+        String jpql = "SELECT s FROM Shift s WHERE s.owner.id = :userId";
+
+        return executeQuery(() ->
+            em.createQuery(jpql, Shift.class)
+            .setParameter("userId", userId)
+            .getResultList()
+        );
     }
 
     // ________________________________________________________
 
     public List<Shift> getShiftsByDate(LocalDate date) {
-        return em.createQuery(
-        "SELECT s FROM Shift s WHERE s.date = :date", Shift.class)
-        .setParameter("date", date).getResultList();
+        String jpql = "SELECT s FROM Shift s WHERE s.date = :date";
+
+        return executeQuery(() ->
+            em.createQuery(jpql, Shift.class)
+            .setParameter("date",date)
+            .getResultList()
+        );
+    }
+
+    // ________________________________________________________
+
+    public Shift findByUserAndDate(int userID, LocalDate localDate){
+        String jpql = "SELECT s FROM Shift s WHERE s.date = :date AND s.owner.id = :ownerID";
+
+        return executeQuery(() ->
+            em.createQuery(jpql, Shift.class)
+            .setParameter("date", localDate)
+            .setParameter("ownerID", userID)
+            .getResultStream()
+            .findFirst()
+            .orElse(null)
+        );
     }
 }

@@ -14,7 +14,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "shifts")
+
+//Secures no duplications of shifts to owners at same date (ENSURES NO RACE CONDITION!)
+@Table(
+    name = "shifts",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"owner_id", "date"})
+)
 public class Shift {
 
     @Id
