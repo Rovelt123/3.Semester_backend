@@ -43,4 +43,22 @@ class ShiftDAOTest extends SetupTest {
 
         assertEquals(1, shifts.size());
     }
+
+    @Test
+    void findByUserAndDate() {
+        User user = userDAO.create(testUser);
+
+        LocalDate today = LocalDate.now();
+
+        Shift shift = new Shift();
+        shift.setTitle("TESTS?!");
+        shift.setOwner(user);
+        shift.setDate(today);
+        shiftDAO.create(shift);
+
+        Shift found = shiftDAO.findByUserAndDate(user.getId(), today);
+
+        assertNotNull(found);
+
+    }
 }
