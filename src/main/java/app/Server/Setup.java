@@ -11,6 +11,8 @@ import io.javalin.config.JavalinConfig;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 
+import static app.services.VersionControlService.checkVersion;
+
 @Getter
 public class Setup {
 
@@ -72,7 +74,7 @@ public class Setup {
 
         app.unsafeConfig().router.apiBuilder(Routing.registerRoutes());
         TestData.generate();
-
+        System.out.println(checkVersion());
     }
 
     // ________________________________________________________
