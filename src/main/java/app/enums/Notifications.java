@@ -157,7 +157,14 @@ public enum Notifications {
     //  TEST
     // =================
     TEST_NOTIFICATION_1("This is with %s arg!"),
-    TEST_NOTIFICATION_2("This is with %s args! This is the other %s arg!");
+    TEST_NOTIFICATION_2("This is with %s args! This is the other %s arg!"),
+
+
+    // =================
+    //  VERSION
+    // =================
+    UP_TO_DATE("TEAMPLANNER: ALL UP TO DATE"),
+    NEW_UPDATE("New update available: %s \nYour version: %s");
 
     // ________________________________________________________
 
