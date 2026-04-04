@@ -1,7 +1,9 @@
 package app.services.security;
 
 import app.Main;
+import app.daos.UserDAO;
 import app.dtos.UserDTO;
+import app.services.Mappers.UserMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -12,6 +14,9 @@ import java.text.ParseException;
 import java.util.Date;
 
 public class JWTTokenGenerator {
+
+    private final static UserDAO userDAO = Main.setup.getUserDAO();
+    private final static UserMapper mapper = new UserMapper();
 
     // ________________________________________________________
 
@@ -53,6 +58,6 @@ public class JWTTokenGenerator {
     public static UserDTO getUserFromToken(String token) throws ParseException {
         SignedJWT signedJWT = SignedJWT.parse(token);
         String username = signedJWT.getJWTClaimsSet().getStringClaim("username");
-        return new UserDTO(Main.setup.getUserDAO().getByUsername(username));
+        return mapper.toDTO(userDAO.getByUsername(username));
     }
 }

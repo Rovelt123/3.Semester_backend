@@ -1,31 +1,23 @@
 package app.controllers;
 
-import app.Main;
 import app.controllers.Generic.BaseController;
-import app.daos.ResponsibilityDAO;
 import app.dtos.ResponsibilityDTO;
 import app.entities.Responsibility;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-
 import java.util.List;
 import java.util.Map;
-
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ResponsibilityController extends BaseController<Responsibility, ResponsibilityDTO> {
 
-    private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
-    private final MessageService messageService = Main.setup.getMessageService();
-
     //________________________________________________________
 
     public ResponsibilityController() {
-        super(Responsibility.class, ResponsibilityDTO::new);
+        super(Responsibility.class, responsibilityMapper);
     }
 
     //________________________________________________________
@@ -58,7 +50,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         String message = messageService.buildMessage(Notifications.CREATED, "Responsibility");
 
-        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(r)));
+        respond(ctx, 200, message, Map.of("data", responsibilityMapper.toDTO(r)));
     }
 
     //________________________________________________________
@@ -89,7 +81,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         String message = messageService.buildMessage(Notifications.UPDATED, "Responsibility");
 
-        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(responsibility)));
+        respond(ctx, 200, message, Map.of("data", responsibilityMapper.toDTO(responsibility)));
     }
 
     //________________________________________________________
@@ -136,7 +128,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
             name
         );
 
-        respond(ctx, 200, message, Map.of("data", new ResponsibilityDTO(responsibility)));
+        respond(ctx, 200, message, Map.of("data", responsibilityMapper.toDTO(responsibility)));
     }
 
     //________________________________________________________

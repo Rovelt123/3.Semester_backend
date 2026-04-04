@@ -1,11 +1,11 @@
 package app.dtos;
 
-import app.entities.Announcement;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class AnnouncementDTO {
@@ -14,14 +14,5 @@ public class AnnouncementDTO {
     private String title;
     private String context;
     private LocalDateTime lastUpdated;
-
-    // ________________________________________________________
-
-    public AnnouncementDTO(Announcement announcement){
-        this.id = announcement.getId();
-        this.title = announcement.getTitle();
-        this.context = announcement.getContent();
-        this.lastUpdated = announcement.getLastUpdated();
-    }
 
 }

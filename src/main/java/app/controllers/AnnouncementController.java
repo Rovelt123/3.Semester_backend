@@ -1,35 +1,24 @@
 package app.controllers;
 
-import app.Main;
 import app.controllers.Generic.BaseController;
-import app.daos.AnnouncementDAO;
-import app.daos.UserDAO;
 import app.dtos.AnnouncementDTO;
 import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class AnnouncementController extends BaseController<Announcement, AnnouncementDTO> {
 
-    private static final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
-    private static final UserDAO userDAO = Main.setup.getUserDAO();
-    private final MessageService messageService = Main.setup.getMessageService();
-
-    //________________________________________________________
 
     public AnnouncementController(){
-        super(Announcement.class, AnnouncementDTO::new);
+        super(Announcement.class, announcementMapper);
     }
 
     //________________________________________________________
@@ -70,7 +59,9 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         announcementDAO.create(a);
 
-        respond(ctx, 200, Notifications.ANNOUNCEMENT_CREATED.getDisplayName(), Map.of("data", new AnnouncementDTO(a)));
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_CREATED.getDisplayName(), Map.of(
+                "data", announcementMapper.toDTO(a)
+        ));
     }
 
     //________________________________________________________
@@ -95,7 +86,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
                 Notifications.MUST_ENTER_CONTENT.getDisplayName()
             );
 
-            announcement.updateContent(content);
+            announcement.setContent(content);
         }
 
         if (body.containsKey("title")) {
@@ -131,7 +122,9 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         announcementDAO.update(announcement);
 
-        respond(ctx, 200, Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(), Map.of("data", new AnnouncementDTO(announcement)));
+        respond(ctx, 200, Notifications.ANNOUNCEMENT_UPDATED.getDisplayName(), Map.of(
+                "data", announcementMapper.toDTO(announcement)
+        ));
     }
 
     //________________________________________________________
@@ -155,13 +148,13 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         );
 
         List<AnnouncementDTO> announcements = TryCatchService.tryList(
-                announcementDAO.getByColumn(author, "author.id"),
-                    messageService.buildMessage(
-                        Notifications.ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR,
-                        author
-                )
+            announcementDAO.getByColumn(author, "author.id"),
+                messageService.buildMessage(
+                    Notifications.ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR,
+                    author
+            )
         ).stream()
-        .map(AnnouncementDTO::new)
+        .map(announcementMapper::toDTO)
         .toList();
 
         String message = "";

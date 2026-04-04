@@ -26,10 +26,4 @@ public class Announcement {
     @ManyToOne
     private User author;
 
-    // ________________________________________________________
-
-    public void updateContent(String content) {
-        this.content = content;
-        this.lastUpdated = LocalDateTime.now();
-    }
 }

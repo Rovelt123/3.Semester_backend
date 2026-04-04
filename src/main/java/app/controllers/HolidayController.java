@@ -1,21 +1,15 @@
 package app.controllers;
 
-import app.Main;
 import app.controllers.Generic.BaseController;
-import app.daos.HolidayDAO;
-import app.daos.UserDAO;
 import app.dtos.HolidayDTO;
 import app.entities.Holiday;
 import app.entities.User;
 import app.enums.HolidayStatus;
 import app.enums.Notifications;
 import app.enums.Role;
-
-import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +18,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
-    private static final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
-    private static final UserDAO userDAO = Main.setup.getUserDAO();
-    private final MessageService messageService = Main.setup.getMessageService();
-
-    //________________________________________________________
-
     public HolidayController(){
-        super(Holiday.class, HolidayDTO::new);
+        super(Holiday.class, holidayMapper);
     }
 
     //________________________________________________________
@@ -86,7 +74,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             "Message"
         );
 
-        respond(ctx, 201, message, Map.of("data", new HolidayDTO(holiday)));
+        respond(ctx, 201, message, Map.of("data", holidayMapper.toDTO(holiday)));
     }
 
     //________________________________________________________
@@ -162,7 +150,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             "Holiday"
         );
 
-        respond(ctx, 200, message, Map.of("data", new HolidayDTO(holiday)));
+        respond(ctx, 200, message, Map.of("data", holidayMapper.toDTO(holiday)));
     }
 
     //________________________________________________________
@@ -184,7 +172,9 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.update(holiday);
 
-        respond(ctx, 200, Notifications.HOLIDAY_APPROVED.getDisplayName(), Map.of("data", new HolidayDTO(holiday)));
+        respond(ctx, 200, Notifications.HOLIDAY_APPROVED.getDisplayName(), Map.of(
+            "data", holidayMapper.toDTO(holiday)
+        ));
     }
 
     //________________________________________________________
@@ -206,7 +196,9 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         holidayDAO.update(holiday);
 
-        respond(ctx, 200, Notifications.HOLIDAY_REJECT.getDisplayName(), Map.of("data", new HolidayDTO(holiday)));
+        respond(ctx, 200, Notifications.HOLIDAY_REJECT.getDisplayName(), Map.of(
+                "data", holidayMapper.toDTO(holiday)
+        ));
     }
 
     //________________________________________________________
@@ -234,7 +226,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             .filter(h -> h.getUser().getResponsibilities()
             .stream()
             .anyMatch(r -> r.getName().equalsIgnoreCase(name)))
-            .map(HolidayDTO::new)
+            .map(holidayMapper::toDTO)
             .toList();
 
 

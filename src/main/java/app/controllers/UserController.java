@@ -1,25 +1,16 @@
 package app.controllers;
 
-
-import app.Main;
 import app.controllers.Generic.BaseController;
-import app.daos.ResponsibilityDAO;
-import app.daos.UserDAO;
 import app.dtos.UserDTO;
 import app.entities.Responsibility;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.MessageService;
 import app.services.HashService;
-import app.services.ThreadService;
 import app.services.TryCatchService;
-import app.services.security.SecurityService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-
 import static io.javalin.apibuilder.ApiBuilder.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,15 +18,8 @@ import java.util.Set;
 
 public class UserController extends BaseController<User, UserDTO> {
 
-    private static final UserDAO userDAO = Main.setup.getUserDAO();
-    private static final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
-    private static final SecurityService securityService = new SecurityService();
-    private final MessageService messageService = Main.setup.getMessageService();
-    private final ThreadService threadService = Main.setup.getThreadService();
-
-
     public UserController() {
-        super(User.class, UserDTO::new);
+        super(User.class, userMapper);
     }
 
     // ________________________________________________________
@@ -71,8 +55,8 @@ public class UserController extends BaseController<User, UserDTO> {
     private void login(Context ctx) {
         Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
         User user = TryCatchService.tryEntity(
-                userDAO.getByUsername(body.get("username")),
-                Notifications.WRONG_USERNAME.getDisplayName()
+            userDAO.getByUsername(body.get("username")),
+            Notifications.WRONG_USERNAME.getDisplayName()
         );
 
         if (!HashService.hashEquals(body.get("password"), user.getPassword())) {
@@ -80,7 +64,9 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        String token = securityService.createToken(new UserDTO(user));
+        UserDTO dto = userMapper.toDTO(user);
+
+        String token = securityService.createToken(dto);
 
         String message = messageService.buildMessage(
                 Notifications.LOGGED_IN,
@@ -89,7 +75,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         respond(ctx, 200, message, Map.of(
             "token", token,
-            "data", new UserDTO(user)
+            "data", dto
         ));
     }
 
@@ -129,15 +115,18 @@ public class UserController extends BaseController<User, UserDTO> {
         );
 
         //Make sure to make responses for new users - Otherwise new users can't take older shift requests!
-        threadService.runAsync(() -> ShiftRequestController.checkActiveShiftRequests(user));
+        ShiftRequestController shiftRequestController = new ShiftRequestController();
+        threadService.runAsync(() -> shiftRequestController.checkActiveShiftRequests(user));
 
-        String token = securityService.createToken(new UserDTO(user));
+        UserDTO dto = userMapper.toDTO(user);
+
+        String token = securityService.createToken(dto);
 
         String message = messageService.buildMessage(Notifications.REGISTER_SUCCESS, user.getUsername());
 
         respond(ctx, 201, message, Map.of(
             "token", token,
-            "data", new UserDTO(user)
+            "data", dto
         ));
     }
 
@@ -277,7 +266,7 @@ public class UserController extends BaseController<User, UserDTO> {
         );
 
         respond(ctx, 200, message, Map.of(
-                "data", new UserDTO(user)
+                "data", userMapper.toDTO(user)
         ));
     }
 
@@ -288,11 +277,11 @@ public class UserController extends BaseController<User, UserDTO> {
         Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
         UserDTO userDTO = TryCatchService.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
-        User user = TryCatchService.tryEntity(
-                userDAO.getById(userDTO.getId()),
-                messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
-        );
 
+        User user = TryCatchService.tryEntity(
+            userMapper.toEntity(userDTO),
+            messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
+        );
 
         String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
@@ -346,7 +335,7 @@ public class UserController extends BaseController<User, UserDTO> {
             username
         );
 
-        respond(ctx, 200, message, Map.of("data", new UserDTO(user)));
+        respond(ctx, 200, message, Map.of("data", userMapper.toDTO(user)));
     }
 
     // ________________________________________________________
@@ -385,8 +374,8 @@ public class UserController extends BaseController<User, UserDTO> {
         User user = getUserByID(ctx);
 
         Responsibility responsibility = TryCatchService.tryEntity(
-                responsibilityDAO.getByName(ctx.pathParam("responsibility")),
-                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+            responsibilityDAO.getByName(ctx.pathParam("responsibility")),
+            messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
         user.addResponsibility(responsibility);
@@ -403,8 +392,8 @@ public class UserController extends BaseController<User, UserDTO> {
         User user = getUserByID(ctx);
 
         Responsibility responsibility = TryCatchService.tryEntity(
-                responsibilityDAO.getByName(ctx.pathParam("responsibility")),
-                messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
+            responsibilityDAO.getByName(ctx.pathParam("responsibility")),
+            messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
         user.removeResponsibility(responsibility);
@@ -434,7 +423,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         List<UserDTO> users = userDAO.getUsersByResponsibility(name)
                 .stream()
-                .map(UserDTO::new)
+                .map(userMapper::toDTO)
                 .toList();
 
         if(users.isEmpty()){
@@ -465,7 +454,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         List<UserDTO> users = userDAO.getUsersByRole(role)
                 .stream()
-                .map(UserDTO::new)
+                .map(userMapper::toDTO)
                 .toList();
 
         if(users.isEmpty()){

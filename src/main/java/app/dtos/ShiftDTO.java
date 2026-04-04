@@ -1,12 +1,13 @@
 package app.dtos;
 
-import app.entities.Shift;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class ShiftDTO {
@@ -17,15 +18,5 @@ public class ShiftDTO {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    // ________________________________________________________
-
-    public ShiftDTO(Shift shift) {
-        this.id = shift.getId();
-        this.title = shift.getTitle();
-        this.date = shift.getDate();
-        this.startTime = shift.getStartTime();
-        this.endTime = shift.getEndTime();
-
-    }
 }
 

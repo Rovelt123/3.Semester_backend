@@ -68,6 +68,7 @@ public enum Notifications {
     SHIFT_REQUEST_CREATE_FAILED("Creation of shift request failed!"),
     SHIFT_REQUEST_DELETED("Shift request with ID: %s has been successfully deleted!"),
     GET_SHIFTREQUEST_DATE("You fetched %s shift requests by date: %s"),
+    DELETING_OUTDATED_SHIFTREQUESTS("Deleting outdated shift requests has started!"),
 
     // =================
     //  USER
