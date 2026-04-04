@@ -348,13 +348,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
             boolean isHoliday = holidayService.isHoliday(current, holidays);
 
-            LocalDate finalCurrent = current;
-
-            Shift existingShift = shiftDAO.getAll().stream()
-                .filter(s -> s.getOwner().getId() == user.getId())
-                .filter(s -> s.getDate().equals(finalCurrent))
-                .findFirst()
-                .orElse(null);
+            Shift existingShift = shiftDAO.findByUserAndDate(user.getId(), current);
 
             if (!day.isOffDay() && !isHoliday) {
 
