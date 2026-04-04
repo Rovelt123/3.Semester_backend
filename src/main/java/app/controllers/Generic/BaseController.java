@@ -1,14 +1,17 @@
 package app.controllers.Generic;
 
 import app.Main;
-import app.daos.ResponseDAO;
-import app.daos.UserDAO;
+import app.daos.*;
 import app.dtos.UserDTO;
 import app.entities.Response;
 import app.entities.User;
 import app.enums.Notifications;
+import app.services.HolidayAPIService;
+import app.services.Mappers.*;
 import app.services.MessageService;
+import app.services.ThreadService;
 import app.services.TryCatchService;
+import app.services.security.SecurityService;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
@@ -18,19 +21,44 @@ import java.util.Map;
 
 
 
-public abstract class BaseController<T, DTO> implements IController {
+public abstract class BaseController<E, D> implements IController {
 
-    protected Class<T> entityClass;
-    protected EntityMapper<T, DTO> mapper;
-    protected abstract List<T> getAllEntities();
-    protected abstract T getEntityById(int id);
-    private final UserDAO userDAO = Main.setup.getUserDAO();
-    private final ResponseDAO responseDAO = Main.setup.getResponseDAO();
-    private final MessageService messageService = Main.setup.getMessageService();
+    protected Class<E> entityClass;
+    protected Mapper<E, D> mapper;
+    protected abstract List<E> getAllEntities();
+    protected abstract E getEntityById(int id);
 
     // ________________________________________________________
 
-    protected BaseController(Class<T> entityClass, EntityMapper<T, DTO> mapper) {
+    protected final MessageService messageService = Main.setup.getMessageService();
+    protected final ThreadService threadService = Main.setup.getThreadService();
+    protected static final SecurityService securityService = new SecurityService();
+    protected static final HolidayAPIService holidayService = new HolidayAPIService();
+
+    // ________________________________________________________
+
+    protected static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
+    protected static final ShiftRequestDAO shiftRequestDAO = Main.setup.getShiftRequestDAO();
+
+    protected final UserDAO userDAO = Main.setup.getUserDAO();
+    protected final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
+    protected final ResponsibilityDAO responsibilityDAO = Main.setup.getRespDAO();
+    protected final HolidayDAO holidayDAO = Main.setup.getHolidayDAO();
+    protected final AnnouncementDAO announcementDAO = Main.setup.getAnnouncementDAO();
+
+    // ________________________________________________________
+
+    protected final static UserMapper userMapper = new UserMapper();
+    protected final static ShiftRequestMapper shiftRequestMapper = new ShiftRequestMapper();
+    protected final static ShiftMapper shiftMapper = new ShiftMapper();
+    protected final static ResponsibilityMapper responsibilityMapper = new ResponsibilityMapper();
+    protected final static ResponseMapper responseMapper = new ResponseMapper();
+    protected final static HolidayMapper holidayMapper = new HolidayMapper();
+    protected final static AnnouncementMapper announcementMapper = new AnnouncementMapper();
+
+    // ________________________________________________________
+
+    protected BaseController(Class<E> entityClass, Mapper<E, D> mapper) {
         this.entityClass = entityClass;
         this.mapper = mapper;
     }
@@ -40,7 +68,7 @@ public abstract class BaseController<T, DTO> implements IController {
     @Override
     public void getAll(Context ctx) {
 
-        List<DTO> list = new ArrayList<>();
+        List<D> list = new ArrayList<>();
 
         if (getAllEntities().isEmpty()) {
             String message = messageService.buildMessage(Notifications.GET_ALL_EMPTY, entityClass.getSimpleName().toLowerCase(Locale.ROOT));
@@ -48,7 +76,7 @@ public abstract class BaseController<T, DTO> implements IController {
             return;
         }
 
-        getAllEntities().forEach(entity -> list.add(mapper.map(entity)));
+        getAllEntities().forEach(entity -> list.add(mapper.toDTO(entity)));
 
 
         String message = messageService.buildMessage(
@@ -66,7 +94,7 @@ public abstract class BaseController<T, DTO> implements IController {
     public void getByID(Context ctx) {
         int id = TryCatchService.tryParseInt(ctx.pathParam("id"), messageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
 
-        T entity = TryCatchService.tryEntity(
+        E entity = TryCatchService.tryEntity(
             getEntityById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -75,7 +103,7 @@ public abstract class BaseController<T, DTO> implements IController {
             )
         );
 
-        DTO dto = mapper.map(entity);
+        D dto = mapper.toDTO(entity);
 
         String message = messageService.buildMessage(
             Notifications.GET_BY_ID,

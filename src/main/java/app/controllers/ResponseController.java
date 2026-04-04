@@ -1,12 +1,7 @@
 package app.controllers;
 
-import app.Main;
 import app.controllers.Generic.BaseController;
-import app.daos.ResponseDAO;
-import app.daos.ShiftDAO;
-import app.daos.ShiftRequestDAO;
 import app.dtos.ResponseDTO;
-import app.dtos.ShiftDTO;
 import app.entities.Response;
 import app.entities.Shift;
 import app.entities.ShiftRequest;
@@ -14,27 +9,17 @@ import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
-import app.services.MessageService;
 import app.services.TryCatchService;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
-
 import java.util.List;
 import java.util.Map;
-
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ResponseController extends BaseController<Response, ResponseDTO> {
 
-    private final ShiftRequestDAO requestDAO = Main.setup.getShiftRequestDAO();
-    private final ShiftDAO shiftDAO = Main.setup.getShiftDAO();
-    private static final ResponseDAO responseDAO = Main.setup.getResponseDAO();
-    private final MessageService messageService = Main.setup.getMessageService();
-
-    //________________________________________________________
-
     public ResponseController(){
-        super(Response.class, ResponseDTO::new);
+        super(Response.class, responseMapper);
     }
 
     //________________________________________________________
@@ -63,7 +48,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
         List<ResponseDTO> responses = responseDAO.getByColumn(id, "user.id")
                 .stream()
-                .map(ResponseDTO::new)
+                .map(responseMapper::toDTO)
                 .toList();
 
         if (responses.isEmpty()) {
@@ -92,7 +77,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
         List<ResponseDTO> responses = responseDAO.getByShiftRequestId(id)
             .stream()
-            .map(ResponseDTO::new)
+            .map(responseMapper::toDTO)
             .toList();
 
         if (responses.isEmpty()) {
@@ -129,7 +114,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                 )
         );
 
-        ShiftRequest request = TryCatchService.tryEntity(requestDAO.getById(response.getShiftRequest().getId()),
+        ShiftRequest request = TryCatchService.tryEntity(shiftRequestDAO.getById(response.getShiftRequest().getId()),
                 messageService.buildMessage(
                         Notifications.NOT_FOUND_ID,
                         "Shift request",
@@ -154,14 +139,16 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         response.setStatus(ShiftStatus.ACCEPTED);
         request.solve();
         shift.setOwner(user);
-        requestDAO.update(request);
+        shiftRequestDAO.update(request);
         responseDAO.update(response);
         shiftDAO.update(shift);
 
         String message = messageService.buildMessage(Notifications.SHIFT_TAKEN, String.valueOf(shift.getId()), user.getUsername());
 
-        respond(ctx, 200, message, Map.of("shift", new ShiftDTO(shift)));
+        respond(ctx, 200, message, Map.of("shift", shiftMapper.toDTO(shift)));
     }
+
+    //________________________________________________________
 
     private void reject(Context ctx){
 
@@ -200,7 +187,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             String.valueOf(response.getId())
         );
 
-        respond(ctx, 200, message, Map.of("data", new ResponseDTO(response)));
+        respond(ctx, 200, message, Map.of("data", responseMapper.toDTO(response)));
     }
 
     //________________________________________________________
@@ -228,17 +215,5 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
     private void updateResponse(Context ctx) {
         System.out.println("Not made yet!");
     }
-
-    //________________________________________________________
-
-    public static void deleteOutdatedResponses(ShiftRequest shiftRequest) {
-        List<Response> responses = responseDAO.getAll();
-
-        responses.stream()
-            .filter(response -> response.getShiftRequest().getId() == shiftRequest.getId())
-            .forEach(responseDAO::delete);
-    }
-
-
 
 }

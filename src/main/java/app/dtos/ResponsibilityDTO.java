@@ -1,10 +1,10 @@
 package app.dtos;
 
+import lombok.*;
 
-import app.entities.Responsibility;
-import lombok.Getter;
-import lombok.Setter;
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class ResponsibilityDTO {
@@ -12,10 +12,4 @@ public class ResponsibilityDTO {
     private int id;
     private String name;
 
-    // ________________________________________________________
-
-    public ResponsibilityDTO(Responsibility responsibility) {
-        this.id = responsibility.getId();
-        this.name = responsibility.getName();
-    }
 }

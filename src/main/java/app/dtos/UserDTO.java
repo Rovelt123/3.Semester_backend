@@ -1,9 +1,10 @@
 package app.dtos;
 
-import app.entities.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class UserDTO {
@@ -13,13 +14,5 @@ public class UserDTO {
     private String username;
     private String lastName;
 
-    // ________________________________________________________
-
-    public UserDTO(User owner) {
-        this.id = owner.getId();
-        this.name = owner.getFirstname();
-        this.lastName = owner.getLastname();
-        this.username = owner.getUsername();
-    }
 }
 
