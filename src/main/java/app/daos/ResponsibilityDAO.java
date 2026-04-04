@@ -12,31 +12,16 @@ public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {
 
     // ________________________________________________________
 
-    public void initializeResponsibilities() {
-        for (Responsibilities r : Responsibilities.values()) {
-            boolean exists = em.createQuery("SELECT 1 FROM Responsibility r WHERE r.name = :name")
-                    .setParameter("name", r.getDisplayName())
-                    .getResultStream()
-                    .findFirst()
-                    .isPresent();
-
-            if (!exists) {
-                this.create(Responsibility.builder()
-                        .name(r.getDisplayName())
-                        .build()
-                );
-            }
-        }
-    }
-
-    // ________________________________________________________
-
     public Responsibility getByName(String name) {
-        return em.createQuery("SELECT r FROM Responsibility r WHERE r.name = :name", Responsibility.class)
-                .setParameter("name", name)
-                .getResultStream()
-                .findFirst()
-                .orElse(null);
+
+        String jpql = "SELECT r FROM Responsibility r WHERE r.name = :name";
+
+        return executeQuery(() ->
+            em.createQuery(jpql, Responsibility.class)
+            .setParameter("name", name)
+            .getSingleResult()
+
+        );
     }
 
 }

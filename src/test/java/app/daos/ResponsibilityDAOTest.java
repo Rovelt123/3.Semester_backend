@@ -4,28 +4,17 @@ import app.SetupTest;
 import app.entities.Responsibility;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResponsibilityDAOTest extends SetupTest {
 
-    @Test
-    void initializeResponsibilities() {
-        responsibilityDAO.initializeResponsibilities();
-
-        List<Responsibility> all = responsibilityDAO.getAll();
-
-        assertFalse(all.isEmpty());
-    }
-
-    // ________________________________________________________
 
     @Test
     void getByName() {
-        responsibilityDAO.initializeResponsibilities();
+        Responsibility res = Responsibility.builder().name("TEST").build();
+        responsibilityDAO.create(res);
 
-        Responsibility r = responsibilityDAO.getAll().get(0);
+        Responsibility r = responsibilityDAO.getById(1);
 
         Responsibility found = responsibilityDAO.getByName(r.getName());
 
