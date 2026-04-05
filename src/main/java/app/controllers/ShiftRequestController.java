@@ -280,19 +280,20 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         LocalDate now = LocalDate.now();
 
-        //deleteOutdatedResponses(r);
+        // To optimize, maybe make a method getOutdatedShiftRequests() in DAO? Might be "heavy" load if there's a lot of shiftRequests, if company is big?
+        // Could be done as an update in the future!
         requests.stream()
-            .filter(r -> {
-                LocalDate shiftDate = r.getShift().getDate();
+        .filter(r -> {
+            LocalDate shiftDate = r.getShift().getDate();
 
-                boolean olderThan30Days = shiftDate.plusDays(30).isBefore(now);
-                boolean isPastShift = shiftDate.isBefore(now);
+            boolean olderThan30Days = shiftDate.plusDays(30).isBefore(now);
+            boolean isPastShift = shiftDate.isBefore(now);
 
-                return
-                    (r.getStatus() == ShiftStatus.SOLVED && olderThan30Days)
-                    ||
-                    (r.getStatus() == ShiftStatus.WAITING && isPastShift);
-            })
-            .forEach(shiftRequestDAO::delete);
+            return
+                (r.getStatus() == ShiftStatus.SOLVED && olderThan30Days)
+                ||
+                (r.getStatus() == ShiftStatus.WAITING && isPastShift);
+        })
+        .forEach(shiftRequestDAO::delete);
     }
 }
