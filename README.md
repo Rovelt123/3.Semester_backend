@@ -298,9 +298,9 @@ Authorization: Bearer {{token}}
 - As a user, I want to view announcements, so that I stay informed
 - As a user, I want to view announcements by author
 ### Admin
-As a boss, I want to create announcements, so that I can inform employees
-As a boss, I want to update announcements, so that I can update information
-As a boss, I want to delete announcements, so that I can remove outdated messages
+- As a boss, I want to create announcements, so that I can inform employees
+- As a boss, I want to update announcements, so that I can update information
+- As a boss, I want to delete announcements, so that I can remove outdated messages
 
 ---
 
