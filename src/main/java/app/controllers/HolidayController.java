@@ -7,7 +7,7 @@ import app.entities.User;
 import app.enums.HolidayStatus;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.time.LocalDate;
@@ -46,17 +46,17 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         User user = getAuthenticatedUser(ctx);
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String,String> body = ErrorHandler.tryBodyMap(
                 ctx,
                 Notifications.BODY_EMPTY.getDisplayName()
         );
 
-        LocalDate start = TryCatchService.tryParseLocalDate(
+        LocalDate start = ErrorHandler.tryParseLocalDate(
             body.get("start"),
             Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
         );
 
-        LocalDate end = TryCatchService.tryParseLocalDate(
+        LocalDate end = ErrorHandler.tryParseLocalDate(
             body.get("end"),
             Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
         );
@@ -85,7 +85,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         int id = getPathId(ctx);
 
-        Holiday holiday = TryCatchService.tryEntity(
+        Holiday holiday = ErrorHandler.tryEntity(
             holidayDAO.getById(id),
             messageService.buildMessage(
                 Notifications.GET_BY_ID,
@@ -99,30 +99,30 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
             return;
         }
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String,String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
         if (body.containsKey("start"))
-            holiday.setStartDate(TryCatchService.tryParseLocalDate(
+            holiday.setStartDate(ErrorHandler.tryParseLocalDate(
                     body.get("start"),
                     Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
             ));
 
         if (body.containsKey("end"))
-            holiday.setEndDate(TryCatchService.tryParseLocalDate(
+            holiday.setEndDate(ErrorHandler.tryParseLocalDate(
                     body.get("end"),
                     Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
             ));
 
         if (body.containsKey("owner") && user.getRoles().contains(Role.CHEF)) {
-            int userID = TryCatchService.tryParseInt(
+            int userID = ErrorHandler.tryParseInt(
                 body.get("owner"),
                 Notifications.MUST_BE_INT.getDisplayName()
             );
 
-            holiday.setUser(TryCatchService.tryEntity(
+            holiday.setUser(ErrorHandler.tryEntity(
                 userDAO.getById(userID),
                 messageService.buildMessage(
                     Notifications.NOT_FOUND_ID,
@@ -134,7 +134,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
 
         if (body.containsKey("status") && user.getRoles().contains(Role.CHEF)) {
-            HolidayStatus status = TryCatchService.tryParseEnum(
+            HolidayStatus status = ErrorHandler.tryParseEnum(
                 HolidayStatus.class,
                 body.get("status"),
                 Notifications.ENUM_NOT_FOUND.getDisplayName()
@@ -159,7 +159,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         int id = getPathId(ctx);
 
-        Holiday holiday = TryCatchService.tryEntity(
+        Holiday holiday = ErrorHandler.tryEntity(
             holidayDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -183,7 +183,7 @@ public class HolidayController extends BaseController<Holiday, HolidayDTO> {
 
         int id = getPathId(ctx);
 
-        Holiday holiday = TryCatchService.tryEntity(
+        Holiday holiday = ErrorHandler.tryEntity(
             holidayDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,

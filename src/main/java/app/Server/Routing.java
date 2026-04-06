@@ -1,13 +1,9 @@
 package app.Server;
 
 import app.controllers.*;
-import app.enums.Role;
-import app.services.VersionControlService;
-import io.javalin.Javalin;
+import app.services.VersionService;
 import io.javalin.apibuilder.EndpointGroup;
-import io.javalin.config.JavalinConfig;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
 import static io.javalin.apibuilder.ApiBuilder.get;
 
 public class Routing {
@@ -22,7 +18,7 @@ public class Routing {
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
 
-            get("/health", ctx -> ctx.result(VersionControlService.checkVersion()));
+            get("/health", ctx -> ctx.result(VersionService.checkVersion()));
         };
     }
 }

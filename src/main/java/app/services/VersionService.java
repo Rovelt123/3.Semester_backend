@@ -3,18 +3,14 @@ package app.services;
 import app.Main;
 import app.enums.Notifications;
 import app.exceptions.ApiException;
+import app.utils.ErrorHandler;
 import app.utils.Utils;
 
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.Scanner;
 
-public class VersionControlService {
+public class VersionService {
 
     private static final MessageService messageService = Main.setup.getMessageService();
     private static final String versionUrl =
@@ -60,7 +56,7 @@ public class VersionControlService {
 
         String version = Utils.getPropertyValue("VERSION", "config.properties");
 
-        return TryCatchService.tryParseDouble(
+        return ErrorHandler.tryParseDouble(
             version,
             "Could not parse double!"
         );

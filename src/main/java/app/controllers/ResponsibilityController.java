@@ -5,7 +5,7 @@ import app.dtos.ResponsibilityDTO;
 import app.entities.Responsibility;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.util.List;
@@ -56,17 +56,17 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
     //________________________________________________________
 
     private void updateResponsibility(Context ctx){
-        String oldResponsibility = TryCatchService.tryString(
+        String oldResponsibility = ErrorHandler.tryString(
             ctx.pathParam("old"),
             Notifications.ENTER_NAME.getDisplayName()
         );
 
-        String newResponsibility = TryCatchService.tryString(
+        String newResponsibility = ErrorHandler.tryString(
             ctx.pathParam("new"),
             Notifications.ENTER_NAME.getDisplayName()
         );
 
-        Responsibility responsibility = TryCatchService.tryEntity(
+        Responsibility responsibility = ErrorHandler.tryEntity(
             responsibilityDAO.getByName(oldResponsibility),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_WITH_NAME,
@@ -89,7 +89,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
     private void deleteResponsibility(Context ctx){
         String name = getPathName(ctx);
 
-        Responsibility responsibility = TryCatchService.tryEntity(
+        Responsibility responsibility = ErrorHandler.tryEntity(
             responsibilityDAO.getByName(name),
             messageService.buildMessage(
                 Notifications.RESPONSIBILITY_NOT_FOUND,
@@ -114,7 +114,7 @@ public class ResponsibilityController extends BaseController<Responsibility, Res
 
         String name = getPathName(ctx);
 
-        Responsibility responsibility = TryCatchService.tryEntity(
+        Responsibility responsibility = ErrorHandler.tryEntity(
             responsibilityDAO.getByName(name),
             messageService.buildMessage(
                 Notifications.RESPONSIBILITY_NOT_FOUND,

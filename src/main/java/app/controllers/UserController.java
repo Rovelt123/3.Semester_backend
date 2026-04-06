@@ -7,7 +7,7 @@ import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.services.HashService;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -53,8 +53,8 @@ public class UserController extends BaseController<User, UserDTO> {
     // ________________________________________________________
 
     private void login(Context ctx) {
-        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
-        User user = TryCatchService.tryEntity(
+        Map<String, String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        User user = ErrorHandler.tryEntity(
             userDAO.getByUsername(body.get("username")),
             Notifications.WRONG_USERNAME.getDisplayName()
         );
@@ -82,13 +82,13 @@ public class UserController extends BaseController<User, UserDTO> {
     // ________________________________________________________
 
     private void createUser(Context ctx) {
-        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        Map<String, String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
-        String firstname = TryCatchService.tryString(body.get("first_name"), Notifications.REGISTER_NO_FIRSTNAME.getDisplayName());
-        String lastname = TryCatchService.tryString(body.get("last_name"), Notifications.REGISTER_NO_LASTNAME.getDisplayName());
-        String username = TryCatchService.tryString(body.get("username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
-        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
-        String password_repeat = TryCatchService.tryString(body.get("repeat_password"), Notifications.REGISTER_NO_PASSWORD_REPEAT.getDisplayName());
+        String firstname = ErrorHandler.tryString(body.get("first_name"), Notifications.REGISTER_NO_FIRSTNAME.getDisplayName());
+        String lastname = ErrorHandler.tryString(body.get("last_name"), Notifications.REGISTER_NO_LASTNAME.getDisplayName());
+        String username = ErrorHandler.tryString(body.get("username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
+        String password = ErrorHandler.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String password_repeat = ErrorHandler.tryString(body.get("repeat_password"), Notifications.REGISTER_NO_PASSWORD_REPEAT.getDisplayName());
 
         if(!password.equals(password_repeat)){
             ctx.status(400).json(Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName());
@@ -103,7 +103,7 @@ public class UserController extends BaseController<User, UserDTO> {
             return;
         }
 
-        User user = TryCatchService.tryEntity(
+        User user = ErrorHandler.tryEntity(
             userDAO.create(User.builder()
                 .firstname(firstname)
                 .lastname(lastname)
@@ -133,12 +133,12 @@ public class UserController extends BaseController<User, UserDTO> {
     // ________________________________________________________
 
     private void updateUsername(Context ctx) {
-        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        Map<String, String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
         User user = getAuthenticatedUser(ctx);
 
-        String newUsername = TryCatchService.tryString(body.get("new_username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
-        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String newUsername = ErrorHandler.tryString(body.get("new_username"), Notifications.REGISTER_NO_USERNAME.getDisplayName());
+        String password = ErrorHandler.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
         if(!HashService.hashEquals(password, user.getPassword())){
             respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
@@ -156,13 +156,13 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void updatePassword(Context ctx) {
 
-        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        Map<String, String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
         User user = getAuthenticatedUser(ctx);
 
-        String oldPassword = TryCatchService.tryString(body.get("old_password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
-        String newPassword = TryCatchService.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
-        String newPassword_repeat = TryCatchService.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
+        String oldPassword = ErrorHandler.tryString(body.get("old_password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String newPassword = ErrorHandler.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
+        String newPassword_repeat = ErrorHandler.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
 
         if(!HashService.hashEquals(oldPassword, user.getPassword())){
             respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
@@ -193,7 +193,7 @@ public class UserController extends BaseController<User, UserDTO> {
         }
 
 
-        User user = TryCatchService.tryEntity(
+        User user = ErrorHandler.tryEntity(
             userDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -202,20 +202,20 @@ public class UserController extends BaseController<User, UserDTO> {
             )
         );
 
-        Map<String, String> body = TryCatchService.tryBodyMap(
+        Map<String, String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
         if (body.containsKey("firstname"))
-            user.setFirstname(TryCatchService.tryString(
+            user.setFirstname(ErrorHandler.tryString(
                 body.get("firstname"),
                 Notifications.REGISTER_NO_FIRSTNAME.getDisplayName()
             ));
 
 
         if (body.containsKey("lastname"))
-            user.setLastname(TryCatchService.tryString(
+            user.setLastname(ErrorHandler.tryString(
                 body.get("lastname"),
                 Notifications.REGISTER_NO_LASTNAME.getDisplayName()
             ));
@@ -227,7 +227,7 @@ public class UserController extends BaseController<User, UserDTO> {
                 return;
             }
 
-            user.setUsername(TryCatchService.tryString(
+            user.setUsername(ErrorHandler.tryString(
                 body.get("username"),
                 Notifications.REGISTER_NO_LASTNAME.getDisplayName()
             ));
@@ -235,14 +235,14 @@ public class UserController extends BaseController<User, UserDTO> {
 
         if(body.containsKey("password")) {
             if (loggedIn.getRoles().contains(Role.CHEF)) {
-                user.setPassword(TryCatchService.tryString(
+                user.setPassword(ErrorHandler.tryString(
                     HashService.hashHelper(body.get("password")),
                     Notifications.REGISTER_NO_FIRSTNAME.getDisplayName()
                 ));
             } else {
-                String oldPassword = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
-                String newPassword = TryCatchService.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
-                String newPassword_repeat = TryCatchService.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
+                String oldPassword = ErrorHandler.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+                String newPassword = ErrorHandler.tryString(body.get("new_password"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD.getDisplayName());
+                String newPassword_repeat = ErrorHandler.tryString(body.get("new_password_repeat"), Notifications.UPDATE_PASSWORD_NO_NEWPASSWORD_REPEAT.getDisplayName());
 
                 if(!HashService.hashEquals(oldPassword, user.getPassword())){
                     respond(ctx, 401, Notifications.WRONG_PASSWORD.getDisplayName(), null);
@@ -274,16 +274,16 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void deleteUserWithConfirm(Context ctx) {
 
-        Map<String, String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        Map<String, String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
 
-        UserDTO userDTO = TryCatchService.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
+        UserDTO userDTO = ErrorHandler.tryEntity(ctx.attribute("user"), Notifications.NOT_LOGGED_IN.getDisplayName());
 
-        User user = TryCatchService.tryEntity(
+        User user = ErrorHandler.tryEntity(
             userMapper.toEntity(userDTO),
             messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(userDTO.getId()))
         );
 
-        String password = TryCatchService.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
+        String password = ErrorHandler.tryString(body.get("password"), Notifications.REGISTER_NO_PASSWORD.getDisplayName());
 
         if(!HashService.hashEquals(password, user.getPassword())){
             respond(ctx, 400, Notifications.REGISTER_PASSWORD_MISMATCH.getDisplayName(), null);
@@ -303,10 +303,10 @@ public class UserController extends BaseController<User, UserDTO> {
     private void forceDeleteUser(Context ctx) {
         int targetId = getPathId(ctx);
 
-        User target = TryCatchService.tryEntity(userDAO.getById(targetId), messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId)));
+        User target = ErrorHandler.tryEntity(userDAO.getById(targetId), messageService.buildMessage(Notifications.USER_NOT_FOUND_ID, String.valueOf(targetId)));
 
 
-        String confirmUsername = TryCatchService.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
+        String confirmUsername = ErrorHandler.tryString(ctx.pathParam("confirm_name"), Notifications.USERNAME_CONFIRM_MISMATCH.getDisplayName());
 
         if (!target.getUsername().equals(confirmUsername)) {
             String message = messageService.buildMessage(Notifications.DELETE_USER_MISMATCH, target.getUsername(), confirmUsername);
@@ -324,7 +324,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void getByUsername(Context ctx){
         String username = ctx.pathParam("username");
-        User user = TryCatchService.tryEntity(
+        User user = ErrorHandler.tryEntity(
             userDAO.getByUsername(username),
                 messageService.buildMessage(Notifications.USER_NOT_FOUND_USERNAME, username)
         );
@@ -343,7 +343,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private void addRole(Context ctx) {
         User user = getUserByID(ctx);
 
-        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+        Role role = ErrorHandler.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
         user.addRole(role);
         userDAO.update(user);
@@ -358,7 +358,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private void removeRole(Context ctx) {
         User user = getUserByID(ctx);
 
-        Role role = TryCatchService.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
+        Role role = ErrorHandler.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
         user.removeRole(role);
         userDAO.update(user);
@@ -373,7 +373,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private void addResponsibility(Context ctx) {
         User user = getUserByID(ctx);
 
-        Responsibility responsibility = TryCatchService.tryEntity(
+        Responsibility responsibility = ErrorHandler.tryEntity(
             responsibilityDAO.getByName(ctx.pathParam("responsibility")),
             messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
@@ -391,7 +391,7 @@ public class UserController extends BaseController<User, UserDTO> {
     private void removeResponsibility(Context ctx) {
         User user = getUserByID(ctx);
 
-        Responsibility responsibility = TryCatchService.tryEntity(
+        Responsibility responsibility = ErrorHandler.tryEntity(
             responsibilityDAO.getByName(ctx.pathParam("responsibility")),
             messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
@@ -408,12 +408,12 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void getUsersWithResponsibility(Context ctx) {
 
-        String name = TryCatchService.tryString(
+        String name = ErrorHandler.tryString(
                 ctx.pathParam("responsibility"),
                 Notifications.FIELD_EMPTY.getDisplayName()
         );
 
-        TryCatchService.tryEntity(
+        ErrorHandler.tryEntity(
                 responsibilityDAO.getByName(name),
                 messageService.buildMessage(
                         Notifications.GET_RESPONSIBILITY_NAME,
@@ -446,7 +446,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
     private void getUsersWithRole(Context ctx) {
 
-        Role role = TryCatchService.tryParseEnum(
+        Role role = ErrorHandler.tryParseEnum(
                 Role.class,
                 ctx.pathParam("role"),
                 messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role"))

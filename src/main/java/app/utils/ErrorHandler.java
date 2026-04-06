@@ -1,4 +1,4 @@
-package app.services;
+package app.utils;
 
 import app.exceptions.ApiException;
 import io.javalin.http.Context;
@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-public class TryCatchService {
+public class ErrorHandler {
 
     public static int tryParseInt(String value, String message) {
         try {
