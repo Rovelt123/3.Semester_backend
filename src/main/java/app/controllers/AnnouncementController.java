@@ -6,7 +6,7 @@ import app.entities.Announcement;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         User user = getAuthenticatedUser(ctx);
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String,String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
@@ -72,7 +72,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         Announcement announcement = announcementDAO.getById(id);
 
-        Map<String, String> body = TryCatchService.tryBodyMap(
+        Map<String, String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
@@ -81,7 +81,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         announcement.setLastUpdated(LocalDateTime.now());
 
         if (body.containsKey("content")) {
-            String content = TryCatchService.tryString(
+            String content = ErrorHandler.tryString(
                 body.get("content"),
                 Notifications.MUST_ENTER_CONTENT.getDisplayName()
             );
@@ -90,7 +90,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         }
 
         if (body.containsKey("title")) {
-            String title = TryCatchService.tryString(
+            String title = ErrorHandler.tryString(
                 body.get("title"),
                 Notifications.MUST_ENTER_TITLE.getDisplayName()
             );
@@ -98,7 +98,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
         }
 
         if (body.containsKey("owner")) {
-            User user = TryCatchService.tryEntity(
+            User user = ErrorHandler.tryEntity(
                 userDAO.getById(body.get("owner")),
                 messageService.buildMessage(
                     Notifications.USER_NOT_FOUND_ID,
@@ -110,7 +110,7 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
         //OVERRIDES LAST UPDATED, IF YOU WANT TO OVERRIDE IT WITH A SPECIFIC DATE
         if (body.containsKey("lastupdated")) {
-            LocalDateTime date = TryCatchService.tryParseLocalDateTime(
+            LocalDateTime date = ErrorHandler.tryParseLocalDateTime(
                 body.get("lastupdated"),
                 messageService.buildMessage(
                     Notifications.MUST_BE_DATETIME_FORMAT,
@@ -142,12 +142,12 @@ public class AnnouncementController extends BaseController<Announcement, Announc
 
     private void getAnnouncementByAuthor(Context ctx) {
 
-        String author = TryCatchService.tryString(
+        String author = ErrorHandler.tryString(
                 ctx.pathParam("author"),
                 Notifications.MUST_ENTER_USERID.getDisplayName()
         );
 
-        List<AnnouncementDTO> announcements = TryCatchService.tryList(
+        List<AnnouncementDTO> announcements = ErrorHandler.tryList(
             announcementDAO.getByColumn(author, "author.id"),
                 messageService.buildMessage(
                     Notifications.ANNOUNCEMENT_NOT_FOUND_BY_AUTHOR,

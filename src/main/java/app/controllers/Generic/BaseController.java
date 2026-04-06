@@ -10,7 +10,7 @@ import app.services.HolidayAPIService;
 import app.services.Mappers.*;
 import app.services.MessageService;
 import app.services.ThreadService;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import app.services.security.SecurityService;
 import io.javalin.http.Context;
 
@@ -92,9 +92,9 @@ public abstract class BaseController<E, D> implements IController {
 
     @Override
     public void getByID(Context ctx) {
-        int id = TryCatchService.tryParseInt(ctx.pathParam("id"), messageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
+        int id = ErrorHandler.tryParseInt(ctx.pathParam("id"), messageService.buildMessage(Notifications.MUST_BE_INT, ctx.pathParam("id")));
 
-        E entity = TryCatchService.tryEntity(
+        E entity = ErrorHandler.tryEntity(
             getEntityById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -117,12 +117,12 @@ public abstract class BaseController<E, D> implements IController {
     // ________________________________________________________
 
     protected User getAuthenticatedUser(Context ctx) {
-        UserDTO userDTO = TryCatchService.tryEntity(
+        UserDTO userDTO = ErrorHandler.tryEntity(
                 ctx.attribute("user"),
                 Notifications.NOT_LOGGED_IN.getDisplayName()
         );
 
-        return TryCatchService.tryEntity(
+        return ErrorHandler.tryEntity(
             userDAO.getById(userDTO.getId()),
             messageService.buildMessage(
                 Notifications.USER_NOT_FOUND_ID,
@@ -135,7 +135,7 @@ public abstract class BaseController<E, D> implements IController {
 
     //TODO: Figure out if i wanna make them generic? Would it make sense to change "id" to id param instead? Maybe...
     protected int getPathId(Context ctx) {
-        return TryCatchService.tryParseInt(
+        return ErrorHandler.tryParseInt(
             ctx.pathParam("id"),
             Notifications.MUST_BE_INT.getDisplayName()
         );
@@ -144,15 +144,15 @@ public abstract class BaseController<E, D> implements IController {
     // ________________________________________________________
 
     protected User getUserByID(Context ctx) {
-        int userID = TryCatchService.tryParseInt(ctx.pathParam("user_id"), Notifications.MUST_BE_INT.getDisplayName());
+        int userID = ErrorHandler.tryParseInt(ctx.pathParam("user_id"), Notifications.MUST_BE_INT.getDisplayName());
 
-        return TryCatchService.tryEntity(userDAO.getById(userID), Notifications.USER_NOT_FOUND_ID.getDisplayName());
+        return ErrorHandler.tryEntity(userDAO.getById(userID), Notifications.USER_NOT_FOUND_ID.getDisplayName());
     }
 
     // ________________________________________________________
 
     protected String getPathName(Context ctx) {
-        return TryCatchService.tryString(
+        return ErrorHandler.tryString(
             ctx.pathParam("name"),
             Notifications.ENTER_NAME.getDisplayName()
         );
@@ -181,7 +181,7 @@ public abstract class BaseController<E, D> implements IController {
 
         int id = getPathId(ctx);
 
-        Response response = TryCatchService.tryEntity(
+        Response response = ErrorHandler.tryEntity(
             responseDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,

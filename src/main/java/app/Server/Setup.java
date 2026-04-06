@@ -11,7 +11,7 @@ import io.javalin.config.JavalinConfig;
 import jakarta.persistence.EntityManager;
 import lombok.Getter;
 
-import static app.services.VersionControlService.checkVersion;
+import static app.services.VersionService.checkVersion;
 
 @Getter
 public class Setup {

@@ -9,7 +9,7 @@ import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
 import app.enums.ShiftStatus;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.util.List;
@@ -105,7 +105,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
 
         int requestId = getPathId(ctx);
 
-        Response response = TryCatchService.tryEntity(
+        Response response = ErrorHandler.tryEntity(
                 responseDAO.getByUserAndShiftRequestId(user.getId(), requestId),
                 messageService.buildMessage(
                         Notifications.NOT_FOUND_ID,
@@ -114,7 +114,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
                 )
         );
 
-        ShiftRequest request = TryCatchService.tryEntity(shiftRequestDAO.getById(response.getShiftRequest().getId()),
+        ShiftRequest request = ErrorHandler.tryEntity(shiftRequestDAO.getById(response.getShiftRequest().getId()),
                 messageService.buildMessage(
                         Notifications.NOT_FOUND_ID,
                         "Shift request",
@@ -127,7 +127,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
             return;
         }
 
-        Shift shift = TryCatchService.tryEntity(
+        Shift shift = ErrorHandler.tryEntity(
             request.getShift(),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,

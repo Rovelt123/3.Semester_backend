@@ -11,7 +11,7 @@ import app.enums.Role;
 import app.enums.ShiftStatus;
 import app.services.MessageService;
 import app.services.ThreadService;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.time.LocalDate;
@@ -51,12 +51,12 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         User owner = getAuthenticatedUser(ctx);
 
-        int shiftId = TryCatchService.tryParseInt(
+        int shiftId = ErrorHandler.tryParseInt(
             ctx.pathParam("id"),
             Notifications.MUST_BE_INT.getDisplayName()
         );
 
-        Shift shift = TryCatchService.tryEntity(
+        Shift shift = ErrorHandler.tryEntity(
             shiftDAO.getById(shiftId),
             Notifications.SHIFT_NOT_FOUND.getDisplayName()
         );
@@ -66,7 +66,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             return;
         }
 
-        ShiftRequest request = TryCatchService.tryEntity(
+        ShiftRequest request = ErrorHandler.tryEntity(
                 ShiftRequest.builder()
                 .requester(shift.getOwner())
                 .shift(shift)
@@ -77,7 +77,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         userDAO.getAll().stream()
                 .filter(u -> u.getId() != shift.getOwner().getId()).forEach(u -> request.getResponses()
                     .add(
-                        TryCatchService.tryEntity(
+                        ErrorHandler.tryEntity(
                             Response.builder()
                                 .user(u)
                                 .shiftRequest(request)
@@ -104,7 +104,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         int id = getPathId(ctx);
 
-        ShiftRequest request =  TryCatchService.tryEntity(
+        ShiftRequest request =  ErrorHandler.tryEntity(
             shiftRequestDAO.getById(id),
             messageService.buildMessage(
                 Notifications.OBJECT_WITH_ID_NOT_FOUND,
@@ -160,7 +160,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
             if (!alreadyExists) {
 
-                Response response = TryCatchService.tryEntity(
+                Response response = ErrorHandler.tryEntity(
                         Response.builder()
                                 .user(user)
                                 .shiftRequest(s)
@@ -183,7 +183,7 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         int id = getPathId(ctx);
 
-        ShiftRequest request = TryCatchService.tryEntity(
+        ShiftRequest request = ErrorHandler.tryEntity(
             shiftRequestDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -192,13 +192,13 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
             )
         );
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String,String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
         if(body.containsKey("status")){
-            ShiftStatus status = TryCatchService.tryParseEnum(
+            ShiftStatus status = ErrorHandler.tryParseEnum(
                 ShiftStatus.class,
                 body.get("status"),
                 Notifications.ENUM_NOT_FOUND.getDisplayName()
@@ -207,12 +207,12 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         }
 
         if(body.containsKey("owner")){
-            int userId = TryCatchService.tryParseInt(
+            int userId = ErrorHandler.tryParseInt(
                 body.get("owner"),
                 Notifications.MUST_BE_INT.getDisplayName()
             );
 
-            User newOwner = TryCatchService.tryEntity(
+            User newOwner = ErrorHandler.tryEntity(
                 userDAO.getById(userId),
                 messageService.buildMessage(
                     Notifications.USER_NOT_FOUND_ID,
@@ -236,12 +236,12 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
         }
 
         if(body.containsKey("shift")){
-            int shiftId = TryCatchService.tryParseInt(
+            int shiftId = ErrorHandler.tryParseInt(
                 body.get("shift"),
                 Notifications.MUST_BE_INT.getDisplayName()
             );
 
-            Shift shift = TryCatchService.tryEntity(
+            Shift shift = ErrorHandler.tryEntity(
                 shiftDAO.getById(shiftId),
                 messageService.buildMessage(
                     Notifications.SHIFT_NOT_FOUND,
@@ -280,19 +280,20 @@ public class ShiftRequestController extends BaseController<ShiftRequest, ShiftRe
 
         LocalDate now = LocalDate.now();
 
-        //deleteOutdatedResponses(r);
+        // To optimize, maybe make a method getOutdatedShiftRequests() in DAO? Might be "heavy" load if there's a lot of shiftRequests, if company is big?
+        // Could be done as an update in the future!
         requests.stream()
-            .filter(r -> {
-                LocalDate shiftDate = r.getShift().getDate();
+        .filter(r -> {
+            LocalDate shiftDate = r.getShift().getDate();
 
-                boolean olderThan30Days = shiftDate.plusDays(30).isBefore(now);
-                boolean isPastShift = shiftDate.isBefore(now);
+            boolean olderThan30Days = shiftDate.plusDays(30).isBefore(now);
+            boolean isPastShift = shiftDate.isBefore(now);
 
-                return
-                    (r.getStatus() == ShiftStatus.SOLVED && olderThan30Days)
-                    ||
-                    (r.getStatus() == ShiftStatus.WAITING && isPastShift);
-            })
-            .forEach(shiftRequestDAO::delete);
+            return
+                (r.getStatus() == ShiftStatus.SOLVED && olderThan30Days)
+                ||
+                (r.getStatus() == ShiftStatus.WAITING && isPastShift);
+        })
+        .forEach(shiftRequestDAO::delete);
     }
 }

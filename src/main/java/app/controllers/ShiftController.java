@@ -8,7 +8,7 @@ import app.entities.Shift;
 import app.entities.User;
 import app.enums.Notifications;
 import app.enums.Role;
-import app.services.TryCatchService;
+import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
 import java.time.LocalDate;
@@ -46,11 +46,11 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
     //________________________________________________________
 
     private void createShift(Context ctx) {
-        Map<String,String> body = TryCatchService.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
-        int userId = TryCatchService.tryParseInt(body.get("user_id"), Notifications.MUST_BE_INT.getDisplayName());
-        String title = TryCatchService.tryString(body.get("title"), Notifications.MUST_ENTER_TITLE.getDisplayName());
+        Map<String,String> body = ErrorHandler.tryBodyMap(ctx, Notifications.BODY_EMPTY.getDisplayName());
+        int userId = ErrorHandler.tryParseInt(body.get("user_id"), Notifications.MUST_BE_INT.getDisplayName());
+        String title = ErrorHandler.tryString(body.get("title"), Notifications.MUST_ENTER_TITLE.getDisplayName());
 
-        LocalDate date = TryCatchService.tryParseLocalDate(
+        LocalDate date = ErrorHandler.tryParseLocalDate(
             body.get("date"),
             messageService.buildMessage(
                 Notifications.MUST_BE_DATE_FORMAT,
@@ -58,7 +58,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             )
         );
 
-        LocalTime start = TryCatchService.tryParseLocalTime(
+        LocalTime start = ErrorHandler.tryParseLocalTime(
             body.get("start_time"),
             messageService.buildMessage(
                 Notifications.MUST_BE_TIME_FORMAT,
@@ -66,7 +66,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             )
         );
 
-        LocalTime end = TryCatchService.tryParseLocalTime(
+        LocalTime end = ErrorHandler.tryParseLocalTime(
             body.get("end_time"),
             messageService.buildMessage(
                 Notifications.MUST_BE_TIME_FORMAT,
@@ -74,7 +74,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             )
         );
 
-        User owner = TryCatchService.tryEntity(
+        User owner = ErrorHandler.tryEntity(
             userDAO.getById(userId),
             messageService.buildMessage(
                 Notifications.USER_NOT_FOUND_ID,
@@ -115,7 +115,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
     private void updateShift(Context ctx) {
         int id = getPathId(ctx);
 
-        Shift shift = TryCatchService.tryEntity(
+        Shift shift = ErrorHandler.tryEntity(
             shiftDAO.getById(id),
             messageService.buildMessage(
                 Notifications.NOT_FOUND_ID,
@@ -124,41 +124,41 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
             )
         );
 
-        Map<String,String> body = TryCatchService.tryBodyMap(
+        Map<String,String> body = ErrorHandler.tryBodyMap(
             ctx,
             Notifications.BODY_EMPTY.getDisplayName()
         );
 
         if(body.containsKey("date"))
-            shift.setDate(TryCatchService.tryParseLocalDate(
+            shift.setDate(ErrorHandler.tryParseLocalDate(
                 body.get("date"),
                 Notifications.MUST_BE_DATE_FORMAT.getDisplayName()
             ));
 
         if(body.containsKey("start_time"))
-            shift.setStartTime(TryCatchService.tryParseLocalTime(
+            shift.setStartTime(ErrorHandler.tryParseLocalTime(
                 body.get("start_time"),
                 Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
             ));
 
         if(body.containsKey("end_time"))
-            shift.setEndTime(TryCatchService.tryParseLocalTime(
+            shift.setEndTime(ErrorHandler.tryParseLocalTime(
                 body.get("end_time"),
                 Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
             ));
 
         if(body.containsKey("title"))
-            shift.setTitle(TryCatchService.tryString(
+            shift.setTitle(ErrorHandler.tryString(
                 body.get("title"),
                 Notifications.MUST_ENTER_TITLE.getDisplayName()
             ));
 
         if(body.containsKey("owner")) {
-            Integer userId = TryCatchService.tryParseInt(
+            Integer userId = ErrorHandler.tryParseInt(
                 body.get("owner"),
                 Notifications.MUST_BE_INT.getDisplayName()
             );
-            User newOwner = TryCatchService.tryEntity(
+            User newOwner = ErrorHandler.tryEntity(
                 userDAO.getById(userId),
                 messageService.buildMessage(
                     Notifications.USER_NOT_FOUND_ID,
@@ -191,7 +191,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         int id = getPathId(ctx);
 
-        Shift shift  = TryCatchService.tryEntity(shiftDAO.getById(id), messageService.buildMessage(
+        Shift shift  = ErrorHandler.tryEntity(shiftDAO.getById(id), messageService.buildMessage(
                 Notifications.SHIFT_NOT_FOUND,
                 String.valueOf(id)
             )
@@ -240,7 +240,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
     private void getShiftsByDate(Context ctx) {
 
-        LocalDate date = TryCatchService.tryParseLocalDate(
+        LocalDate date = ErrorHandler.tryParseLocalDate(
             ctx.pathParam("date"),
             messageService.buildMessage(
                 Notifications.MUST_BE_DATE_FORMAT,
@@ -296,7 +296,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         int userId = schedule.getUser_id();
 
-        User user = TryCatchService.tryEntity(
+        User user = ErrorHandler.tryEntity(
             userDAO.getById(userId),
             messageService.buildMessage(
                 Notifications.USER_NOT_FOUND_ID,
@@ -352,12 +352,12 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
             if (!day.isOffDay() && !isHoliday) {
 
-                LocalTime start = TryCatchService.tryParseLocalTime(
+                LocalTime start = ErrorHandler.tryParseLocalTime(
                         day.getStart_time(),
                         Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
                 );
 
-                LocalTime end = TryCatchService.tryParseLocalTime(
+                LocalTime end = ErrorHandler.tryParseLocalTime(
                         day.getEnd_time(),
                         Notifications.MUST_BE_TIME_FORMAT.getDisplayName()
                 );
