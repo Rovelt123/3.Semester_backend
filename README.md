@@ -135,6 +135,11 @@ Represents a request of getting rid of a shift
 
 ***All of the above entities form a central part of the system’s domain model, as most of the application’s functionality is built around them. They represent the core business objects in the system and therefore play a crucial role in both data flow and application logic. For this reason, they are important to highlight in the project’s architecture.***
 
+
+
+---
+
+
 # API Documentation
 ### User
 
@@ -192,9 +197,113 @@ Authorization: Bearer {{token}}
 ````
 
 # User Stories
- 
-- Being added soon!
+## Authentication & Authorization
+### Authentication
 
-# Development notes
+- As a guest, I want to register a user
+- As a user, I want to log in
 
-- Being added soon!
+### Authorization
+
+- As a system, I want to restrict access based on roles, so that only authorized users can perform certain actions
+- As a boss, I want to assign roles to users, so that I can control access
+- As a boss, I want to remove roles from users, so that I can manage access
+- As a user, I want to be denied access if I lack permissions, so that security is enforced
+
+---
+
+## User Management
+- As a user, I want to view all users
+- As a user, I want to view a specific user by ID
+- As a user, I want to find a user by username
+- As a user, I want to filter users by role
+### Profile Management
+- As a user, I want to update my username
+- As a user, I want to update my password, so that I can keep my account secure
+- As a user, I want to update my personal information
+- As a user, I want to delete my user
+### Admin (boss)
+- As a boss, I want to update any user, so that I can manage user data
+- As a boss, I want to force delete a user
+- As a boss, I want to filter users by responsibility, so that I can manage teams
+- As a boss, I want to assign responsibilities to users, so that I can define their roles
+- As a boss, I want to remove responsibilities from users
+
+---
+
+## Shift Management
+### Viewing Shifts
+- As a user, I want to view all shifts
+- As a user, I want to view a shift by ID
+- As a user, I want to view shifts by date
+- As a user, I want to view my own shifts, so that I know when I work
+
+### Managing Shifts (boss)
+- As a boss, I want to create a shift
+- As a boss, I want to update a shift
+- As a boss, I want to delete a shift
+- As a boss, I want to schedule shifts for future months, so that I can plan ahead
+
+---
+
+## Shift Request System
+- As a user, I want to create a shift request, so that I can give away a shift
+- As a user, I want to view all shift requests, so that I can see available shifts
+- As a user, I want to view a shift request by ID, so that I can see details
+- As a user, I want to delete my shift request, so that I can cancel it
+### Admin
+- As a boss, I want to clean up old shift requests, so that the system stays organized
+- As a boss, I want to be able to update any shift requests
+
+---
+
+## Response System
+- As a user, I want to respond to a shift request, so that I can offer to take a shift
+- As a user, I want to reject a shift, so that I can decline it
+- As a user, I want to mark no response, so that I can reset my decision
+- As a owner of shift request, I want to be able to see all responses to my shift request
+### Admin
+- As a boss I want to see all responses
+- As a boss I want to fetch a response by ID
+- As a boss I want to fetch all responses by a shift request ID
+- As a boss I want to fetch all responses by User ID
+- As a boss, I want to manage responses, so that I can ensure shifts are covered
+- As a boss, I want to delete responses, so that I can remove invalid data
+
+---
+
+## Holiday Management
+- As a user, I want to request holiday
+- As a user, I want to update my holiday request, so that I can change my plans
+- As a user, I want to view my holidays
+### Admin
+- As a boss, I want to view all holiday requests, so that I can schedule holidays
+- As a boss, I want to approve holiday requests
+- As a boss, I want to reject holiday requests
+- As a boss, I want to filter holidays by responsibility, so that I can plan staffing
+
+---
+
+## Responsibility Management
+- As a user, I want to view all responsibilities
+- As a user, I want to view a responsibility by ID or name
+### Admin
+- As a boss, I want to create a responsibility, so that I can define roles
+- As a boss, I want to update a responsibility, so that I can rename it
+- As a boss, I want to delete a responsibility, so that I can remove unused roles
+
+---
+
+## Announcements
+- As a user, I want to view announcements, so that I stay informed
+- As a user, I want to view announcements by author
+### Admin
+As a boss, I want to create announcements, so that I can inform employees
+As a boss, I want to update announcements, so that I can update information
+As a boss, I want to delete announcements, so that I can remove outdated messages
+
+---
+
+## System & Utility
+- As a user, I want to view all API routes, so that I can understand available endpoints
+- As a user, I want to check system health/version, so that I know the API is running and up to date!

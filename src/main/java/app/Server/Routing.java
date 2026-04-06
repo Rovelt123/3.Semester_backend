@@ -18,7 +18,8 @@ public class Routing {
             HolidayController.registerRoutes().addEndpoints();
             AnnouncementController.registerRoutes().addEndpoints();
 
-            get("/health", ctx -> ctx.result(VersionService.checkVersion()));
+            get("/version", ctx -> ctx.result(VersionService.checkVersion()));
+            get("/health", ctx -> ctx.result("Health OK"));
         };
     }
 }
