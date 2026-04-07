@@ -137,7 +137,7 @@ public class ResponseController extends BaseController<Response, ResponseDTO> {
         );
 
         response.setStatus(ShiftStatus.ACCEPTED);
-        request.solve();
+        request.setStatus(ShiftStatus.SOLVED);
         shift.setOwner(user);
         shiftRequestDAO.update(request);
         responseDAO.update(response);

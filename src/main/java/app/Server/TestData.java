@@ -95,10 +95,10 @@ public class TestData {
 
 
 
-        worker.addResponsibility(responsibilityDAO.getByName(Responsibilities.CASHIER.getDisplayName()));
-        worker.addResponsibility(responsibilityDAO.getByName(Responsibilities.DRIVER.getDisplayName()));
+        worker.getResponsibilities().add(responsibilityDAO.getByName(Responsibilities.CASHIER.getDisplayName()));
+        worker.getResponsibilities().add(responsibilityDAO.getByName(Responsibilities.DRIVER.getDisplayName()));
         userDAO.update(worker);
-        admin.addResponsibility(responsibilityDAO.getByName(Responsibilities.PLANNER.getDisplayName()));
+        admin.getResponsibilities().add(responsibilityDAO.getByName(Responsibilities.PLANNER.getDisplayName()));
         userDAO.update(admin);
 
         // ========================================================

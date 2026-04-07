@@ -6,14 +6,10 @@ import app.enums.Role;
 import app.exceptions.ApiException;
 import app.exceptions.NotAuthorizedException;
 import app.utils.Utils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UnauthorizedResponse;
 import io.javalin.security.RouteRole;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +20,8 @@ import java.util.Set;
  * Author: Thomas Hartmann
  */
 public class SecurityService implements ISecurityService {
-    ObjectMapper objectMapper = new ObjectMapper();
     private static SecurityService instance;
-    private static Logger logger = LoggerFactory.getLogger(SecurityService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
 
     // ________________________________________________________
 
@@ -46,7 +41,6 @@ public class SecurityService implements ISecurityService {
     @Override
     public Handler authenticate() throws UnauthorizedResponse {
 
-        ObjectNode returnObject = objectMapper.createObjectNode();
         return (ctx) -> {
             // This is a preflight request => OK
             if (ctx.method().toString().equals("OPTIONS")) {
@@ -70,7 +64,7 @@ public class SecurityService implements ISecurityService {
             if (verifiedTokenUser == null) {
                 throw new UnauthorizedResponse("Invalid User or Token");
             }
-            logger.info("User verified: " + verifiedTokenUser);
+            logger.info("User verified: {}", verifiedTokenUser);
 
             ctx.attribute("user", verifiedTokenUser);
         };
@@ -114,7 +108,8 @@ public class SecurityService implements ISecurityService {
             }
             return JWTTokenGenerator.createToken(user, ISSUER, TOKEN_EXPIRE_TIME, SECRET_KEY);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Create token: {}", String.valueOf(e));
+
             throw new ApiException(500, "Could not create token");
         }
     }
@@ -130,15 +125,8 @@ public class SecurityService implements ISecurityService {
             }
             return JWTTokenGenerator.getUserFromToken(token);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Verify token: {}", String.valueOf(e));
             throw new ApiException(HttpStatus.UNAUTHORIZED.getCode(), "Unauthorized. Could not verify token");
         }
-    }
-
-    // ________________________________________________________
-
-    // Health check for the API. Used in deployment
-    public void healthCheck(@NotNull Context ctx) {
-        ctx.status(200).json("{\"msg\": \"API is up and running\"}");
     }
 }

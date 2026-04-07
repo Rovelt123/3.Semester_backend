@@ -1,7 +1,6 @@
 package app.daos;
 
 import app.entities.Shift;
-import app.entities.User;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDate;

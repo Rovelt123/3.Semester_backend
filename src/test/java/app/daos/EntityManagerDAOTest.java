@@ -71,7 +71,7 @@ class EntityManagerDAOTest extends SetupTest {
     void getColumnById() {
         userDAO.create(testUser);
 
-        String username = userDAO.getColumnById(testUser.getId(), "username");
+        String username = userDAO.getColumnById(testUser.getId(), "username", String.class);
 
         assertEquals("john123", username);
     }

@@ -32,7 +32,6 @@ public enum Notifications {
     // =================
     //  RESPONSIBILITY
     // =================
-    RESPONSIBILITY_EXISTS("Responsibility with the name %s already exists!"),
     RESPONSIBILITY_DELETED("Responsibility deleted with ID: %s"),
     RESPONSIBILITY_NOT_FOUND("Responsibility %s was not found!"),
     RESPONSIBILITY_ADDED_USER("Responsibiltiy %s was added to %s"),
@@ -57,10 +56,16 @@ public enum Notifications {
     MUST_BE_DATE_FORMAT("Wrong date format. Must be yyyy-mm-dd! You entered: %s"),
     MUST_BE_TIME_FORMAT("Wrong time format. Must be 00:00! You entered: %s "),
 
-    SCHEDULE_CREATED("You've created a schedule for: %s \n" +
-            "Monday: %s \n" + "Tuesday: %s \n" + "Wednesday: %s \n" + "Thursday: %s \n" +
-            "Friday: %s \n" + "Saturday: %s \n" + "Sunday: %s"
-    ),
+    SCHEDULE_CREATED("""
+            You've created a schedule for: %s\s
+            Monday: %s\s
+            Tuesday: %s\s
+            Wednesday: %s\s
+            Thursday: %s\s
+            Friday: %s\s
+            Saturday: %s\s
+            Sunday: %s
+    """),
 
     // =================
     //  SHIFT REQUEST
@@ -74,9 +79,7 @@ public enum Notifications {
     //  USER
     // =================
     LOGGED_IN("Welcome back %s!"),
-    LOGGED_OUT("See you later!"),
     NOT_LOGGED_IN("Not logged in..."),
-    LOGIN_FAILED("Login failed.."),
     WRONG_PASSWORD("You entered the wrong password!"),
     WRONG_USERNAME("You did not enter a valid username!"),
 
@@ -103,7 +106,6 @@ public enum Notifications {
     USER_NOT_FOUND_USERNAME("User not found with username: %s!"),
     USER_UPDATED("User updated with ID: %s"),
 
-    ADMINS_ONLY("Forbidden! Admins only!"),
     GET_USERS_ROLE("You fetched all users with role: %s"),
     ROLE_NOT_FOUND("%s role was not found!"),
     ROLE_ADDED_USER("Role %s was added to %s"),
@@ -118,17 +120,13 @@ public enum Notifications {
     BODY_EMPTY("Body is empty or invalid!"),
 
     ENUM_NOT_FOUND("Enum not found!"),
-    CLASS_IS_NULL("Class %s is null!"),
 
     CREATED("%s was successfully created"),
     UPDATED("%s was successfully updated"),
-    DELETE_FAILED("Delete of %s failed for ID: %s!"),
-    DELETED_WITH_ID("%s deleted with ID: %s"),
 
     NOT_FOUND_ID("%s not found with ID: %s"),
     NOT_FOUND_WITH_NAME("%s not found with name: %s"),
     OBJECT_WITH_ID_NOT_FOUND("%s with ID: %s was not found..."),
-    OBJECT_WITH_NAME_NOT_FOUND("%s with name: %s was not found..."),
 
     NOT_OWNED("You dont own %s with ID: %s"),
     NOT_ALLOWED("You're not allowed to do this!"),

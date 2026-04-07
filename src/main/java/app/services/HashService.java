@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class HashService {
 
     public static boolean hashEquals(String hash, String enteredHash) {
-        return (BCrypt.checkpw(hash, enteredHash));
+        return BCrypt.checkpw(hash, enteredHash);
     }
 
     // ________________________________________________________

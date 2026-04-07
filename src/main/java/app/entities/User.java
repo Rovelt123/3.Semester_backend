@@ -63,28 +63,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Response> responses = new HashSet<>();
 
-    // ________________________________________________________
-
-    public void addRole(Role role) {
-        roles.add(role);
-    }
-
-    // ________________________________________________________
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-    }
-
-    // ________________________________________________________
-
-    public void addResponsibility(Responsibility r) {
-        responsibilities.add(r);
-    }
-
-    // ________________________________________________________
-
-    public void removeResponsibility(Responsibility r) {
-        responsibilities.remove(r);
-    }
 }
 

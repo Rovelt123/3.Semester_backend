@@ -13,8 +13,7 @@ import java.util.Scanner;
 public class VersionService {
 
     private static final MessageService messageService = Main.setup.getMessageService();
-    private static final String versionUrl =
-            "https://raw.githubusercontent.com/Rovelt123/3.Semester_backend/master/src/main/resources/config.properties";
+    private static final String versionUrl = "https://raw.githubusercontent.com/Rovelt123/3.Semester_backend/master/src/main/resources/config.properties";
 
     // ________________________________________________________
 
