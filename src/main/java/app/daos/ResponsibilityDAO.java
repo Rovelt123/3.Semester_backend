@@ -1,7 +1,6 @@
 package app.daos;
 
 import app.entities.Responsibility;
-import app.enums.Responsibilities;
 import jakarta.persistence.EntityManager;
 
 public class ResponsibilityDAO  extends EntityManagerDAO<Responsibility> {

@@ -6,8 +6,8 @@ public interface IDAO <T> {
     T create(T entity);
     T update(T entity);
     T getById(Object id);
-    <R> R getColumnById(Object id, String column);
-    <R> R updateColumnById(Object id, String column, Object value);
+    <R> R getColumnById(Object id, String column, Class<R> type);
+    int updateColumnById(Object id, String column, Object value);
     boolean existByColumn(Object o, String column);
     T findEntityByColumn(Object value, String column);
     List<T> getAll();

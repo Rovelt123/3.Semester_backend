@@ -25,12 +25,10 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     @Override
     public T create(T t) {
         return executeQuery(() -> {
-            if (em.contains(t)) {
-                return t;
-            } else {
+            if (!em.contains(t)) {
                 em.persist(t);
-                return t;
             }
+            return t;
         });
     }
 
@@ -75,10 +73,10 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     // ________________________________________________________
 
     @Override
-    public <R> R getColumnById(Object id, String column) {
+    public <R> R getColumnById(Object id, String column, Class<R> type) {
         return executeQuery(() -> {
             String JPQL = "SELECT x." + column + " FROM " + classSpecific.getSimpleName() + " x WHERE x.id = :id";
-            return (R) em.createQuery(JPQL, Object.class)
+            return em.createQuery(JPQL, type)
             .setParameter("id", id)
             .getSingleResult();
         });
@@ -98,14 +96,13 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     // ________________________________________________________
 
     @Override
-    public <R> R updateColumnById(Object id, String column, Object value) {
+    public int updateColumnById(Object id, String column, Object value) {
         return executeQuery(() -> {
             String JPQL = "UPDATE " + classSpecific.getSimpleName() + " x SET x." + column + " = :value WHERE x.id = :id";
-            int updatedRows = em.createQuery(JPQL)
+            return em.createQuery(JPQL)
                     .setParameter("value", value)
                     .setParameter("id", id)
                     .executeUpdate();
-            return (R) Integer.valueOf(updatedRows);
         });
     }
 
@@ -187,17 +184,7 @@ public class EntityManagerDAO<T> implements IDAO<T> {
     // ________________________________________________________
 
     private T findById(Object id) {
-        if (id instanceof Long) {
-            return em.find(classSpecific, id);
-        } else if (id instanceof Integer) {
-            return em.find(classSpecific, id);
-        } else if (id instanceof String) {
-            return em.find(classSpecific, id);
-        } else if (id instanceof UUID) {
-            return em.find(classSpecific, id);
-        } else {
-            throw new IllegalArgumentException("Unsupported ID type: " + id.getClass());
-        }
+        return em.find(classSpecific, id);
     }
 
 }

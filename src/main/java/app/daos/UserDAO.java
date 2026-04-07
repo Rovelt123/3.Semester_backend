@@ -3,7 +3,6 @@ package app.daos;
 import app.entities.User;
 import app.enums.Role;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 
 import java.util.List;
 

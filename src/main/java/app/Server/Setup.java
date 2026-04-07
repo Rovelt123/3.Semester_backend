@@ -58,9 +58,7 @@ public class Setup {
     public void initialize(){
 
         // Gives me error message
-        app.exception(Exception.class, (e, ctx) -> {
-            ctx.status(500).result(e.getMessage());
-        });
+        app.exception(Exception.class, (e, ctx) -> ctx.status(500).result(e.getMessage()));
 
         // DAOS
         userDAO = new UserDAO(em);
@@ -79,6 +77,7 @@ public class Setup {
 
     // ________________________________________________________
 
+    // Should it ever end? It has been added to end the session!
     public void endSession() {
         this.messageService.notify(Notifications.APP_CLOSING.getDisplayName());
         em.close();

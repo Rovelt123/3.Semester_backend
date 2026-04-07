@@ -345,7 +345,8 @@ public class UserController extends BaseController<User, UserDTO> {
 
         Role role = ErrorHandler.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
-        user.addRole(role);
+
+        user.getRoles().add(role);
         userDAO.update(user);
 
         String message = messageService.buildMessage(Notifications.ROLE_ADDED_USER, role.getDisplayName(), user.getFirstname());
@@ -360,7 +361,7 @@ public class UserController extends BaseController<User, UserDTO> {
 
         Role role = ErrorHandler.tryParseEnum(Role.class, ctx.pathParam("role"), messageService.buildMessage(Notifications.ROLE_NOT_FOUND, ctx.pathParam("role")));
 
-        user.removeRole(role);
+        user.getRoles().remove(role);
         userDAO.update(user);
 
         String message = messageService.buildMessage(Notifications.ROLE_REMOVED_USER, role.getDisplayName(), user.getFirstname());
@@ -378,7 +379,7 @@ public class UserController extends BaseController<User, UserDTO> {
             messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
-        user.addResponsibility(responsibility);
+        user.getResponsibilities().add(responsibility);
         userDAO.update(user);
 
         String message = messageService.buildMessage(Notifications.RESPONSIBILITY_ADDED_USER, responsibility.getName(), user.getFirstname());
@@ -396,7 +397,7 @@ public class UserController extends BaseController<User, UserDTO> {
             messageService.buildMessage(Notifications.RESPONSIBILITY_NOT_FOUND, ctx.pathParam("responsibility"))
         );
 
-        user.removeResponsibility(responsibility);
+        user.getResponsibilities().remove(responsibility);
         userDAO.update(user);
 
         String message = messageService.buildMessage(Notifications.RESPONSIBILITY_REMOVED_USER, responsibility.getName(), user.getFirstname());

@@ -32,7 +32,6 @@ public class ErrorHandler {
 
     public static <T> T tryEntity(T entity, String message) {
         if (entity == null) {
-            System.out.println(message);
             throw new ApiException(404, message);
         }
         return entity;

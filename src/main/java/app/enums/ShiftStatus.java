@@ -5,12 +5,10 @@ import lombok.Getter;
 @Getter
 public enum ShiftStatus {
     NO_RESPONSE("NO RESPONSE"),
-    APPROVED("APPROVED"),
     REJECTED("REJECTED"),
     SOLVED("SOLVED"),
     WAITING("WAITING"),
-    ACCEPTED("ACCEPTED"),
-    DENIED("DENIED");
+    ACCEPTED("ACCEPTED");
 
     // ________________________________________________________
 
