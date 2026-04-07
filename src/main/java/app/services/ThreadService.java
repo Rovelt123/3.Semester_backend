@@ -18,7 +18,7 @@ public class ThreadService {
 
     public void runAsync(Runnable task) {
         try {
-            executor.submit(wrapRunnable(task));
+            executor.submit(task);
         } catch (Exception e) {
             throw new ThreadServiceException("Error submitting runnable task", e);
         }
@@ -28,7 +28,7 @@ public class ThreadService {
 
     public <T> Future<T> callAsync(Callable<T> task) {
         try {
-            return executor.submit(wrapCallable(task));
+            return executor.submit(task);
         } catch (Exception e) {
             throw new ThreadServiceException("Error submitting callable task", e);
         }
@@ -44,30 +44,6 @@ public class ThreadService {
                 throw new ThreadServiceException("Error in CompletableFuture task", e);
             }
         }, executor);
-    }
-
-    // ________________________________________________________
-
-    private Runnable wrapRunnable(Runnable task) {
-        return () -> {
-            try {
-                task.run();
-            } catch (Exception e) {
-                throw new ThreadServiceException("Runnable execution failed", e);
-            }
-        };
-    }
-
-    // ________________________________________________________
-
-    private <T> Callable<T> wrapCallable(Callable<T> task) {
-        return () -> {
-            try {
-                return task.call();
-            } catch (Exception e) {
-                throw new ThreadServiceException("Callable execution failed", e);
-            }
-        };
     }
 
     // ________________________________________________________
