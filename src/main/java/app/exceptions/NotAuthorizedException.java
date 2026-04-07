@@ -1,9 +1,12 @@
 package app.exceptions;
 
+import lombok.Getter;
+
 /**
  * Purpose: To handle No authorized exceptions in the API
  * Author: Thomas Hartmann
  */
+@Getter
 public class NotAuthorizedException extends Exception {
     private final int statusCode;
 
@@ -12,16 +15,4 @@ public class NotAuthorizedException extends Exception {
         this.statusCode = statusCode;
     }
 
-    // ________________________________________________________
-
-    public NotAuthorizedException(int statusCode, String message, Throwable cause) {
-        super(message, cause);
-        this.statusCode = statusCode;
-    }
-
-    // ________________________________________________________
-
-    public int getStatusCode() {
-        return statusCode;
-    }
 }
