@@ -50,4 +50,18 @@ public class ShiftDAO  extends EntityManagerDAO<Shift> {
             .orElse(null)
         );
     }
+
+    // ________________________________________________________
+
+    public List<Shift> findByUserAndDateRange(int userId, LocalDate start, LocalDate end) {
+        String jpql = "SELECT s FROM Shift s WHERE s.owner.id = :userId AND s.date BETWEEN :start AND :end";
+
+        return executeQuery(() ->
+                em.createQuery(jpql, Shift.class)
+                .setParameter("userId", userId)
+                .setParameter("start", start)
+                .setParameter("end", end)
+                .getResultList()
+        );
+    }
 }
