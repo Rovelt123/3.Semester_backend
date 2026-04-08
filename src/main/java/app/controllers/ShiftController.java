@@ -11,10 +11,14 @@ import app.enums.Role;
 import app.utils.ErrorHandler;
 import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.Context;
+import jakarta.persistence.PersistenceException;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class ShiftController extends BaseController<Shift, ShiftDTO> {
@@ -332,6 +336,13 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
         Map<LocalDate, String> holidays = holidayService.getHolidays(startDate.getYear());
 
+        Map<LocalDate, Shift> existingShifts = shiftDAO.findByUserAndDateRange(
+                user.getId(),
+                startDate,
+                endDate
+        ).stream().collect(Collectors.toMap(Shift::getDate, s -> s));
+
+
         LocalDate current = startDate;
 
         while (!current.isAfter(endDate)) {
@@ -348,7 +359,7 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
 
             boolean isHoliday = holidayService.isHoliday(current, holidays);
 
-            Shift existingShift = shiftDAO.findByUserAndDate(user.getId(), current);
+            Shift existingShift = existingShifts.get(current);
 
             if (!day.isOffDay() && !isHoliday) {
 
@@ -368,13 +379,29 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                     existingShift.setEndTime(end);
                     shiftDAO.update(existingShift);
                 } else {
-                    shiftDAO.create(Shift.builder()
-                        .title(day.getTitle())
-                        .owner(user)
-                        .date(current)
-                        .startTime(start)
-                        .endTime(end)
-                        .build());
+                    try {
+                        Shift newShift = shiftDAO.create(Shift.builder()
+                                .title(day.getTitle())
+                                .owner(user)
+                                .date(current)
+                                .startTime(start)
+                                .endTime(end)
+                                .build());
+
+                        existingShifts.put(current, newShift);
+
+                    } catch (PersistenceException e) {
+                        Shift retry = shiftDAO.findByUserAndDate(user.getId(), current);
+
+                        if (retry != null) {
+                            retry.setTitle(day.getTitle());
+                            retry.setStartTime(start);
+                            retry.setEndTime(end);
+                            shiftDAO.update(retry);
+
+                            existingShifts.put(current, retry);
+                        }
+                    }
                 }
 
             } else if (isHoliday) {
@@ -387,11 +414,27 @@ public class ShiftController extends BaseController<Shift, ShiftDTO> {
                     existingShift.setEndTime(null);
                     shiftDAO.update(existingShift);
                 } else {
-                    shiftDAO.create(Shift.builder()
-                            .title(title)
-                            .owner(user)
-                            .date(current)
-                            .build());
+                    try {
+                        Shift newShift = shiftDAO.create(Shift.builder()
+                                .title(title)
+                                .owner(user)
+                                .date(current)
+                                .build());
+
+                        existingShifts.put(current, newShift);
+
+                    } catch (PersistenceException e) {
+                        Shift retry = shiftDAO.findByUserAndDate(user.getId(), current);
+
+                        if (retry != null) {
+                            retry.setTitle(title);
+                            retry.setStartTime(null);
+                            retry.setEndTime(null);
+                            shiftDAO.update(retry);
+
+                            existingShifts.put(current, retry);
+                        }
+                    }
                 }
             }
 

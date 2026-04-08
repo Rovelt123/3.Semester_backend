@@ -3,6 +3,7 @@ package app.daos;
 import app.exceptions.ApiException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceException;
 
 import java.util.List;
 import java.util.UUID;
@@ -177,6 +178,11 @@ public class EntityManagerDAO<T> implements IDAO<T> {
             if (startedTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
+
+            if (e instanceof PersistenceException) {
+                throw e;
+            }
+
             throw new ApiException(500, e.getMessage());
         }
     }
