@@ -1,4 +1,4 @@
-package app.controllers.Generic;
+package app.controllers.generic;
 
 import app.Main;
 import app.daos.*;
@@ -7,7 +7,7 @@ import app.entities.Response;
 import app.entities.User;
 import app.enums.Notifications;
 import app.services.HolidayAPIService;
-import app.services.Mappers.*;
+import app.services.mappers.*;
 import app.services.MessageService;
 import app.services.ThreadService;
 import app.utils.ErrorHandler;
@@ -24,7 +24,7 @@ import java.util.Map;
 public abstract class BaseController<E, D> implements IController {
 
     protected Class<E> entityClass;
-    protected Mapper<E, D> mapper;
+    protected IMapper<E, D> mapper;
     protected abstract List<E> getAllEntities();
     protected abstract E getEntityById(int id);
 
@@ -58,7 +58,7 @@ public abstract class BaseController<E, D> implements IController {
 
     // ________________________________________________________
 
-    protected BaseController(Class<E> entityClass, Mapper<E, D> mapper) {
+    protected BaseController(Class<E> entityClass, IMapper<E, D> mapper) {
         this.entityClass = entityClass;
         this.mapper = mapper;
     }

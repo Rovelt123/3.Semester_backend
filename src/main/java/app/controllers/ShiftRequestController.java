@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.Generic.BaseController;
+import app.controllers.generic.BaseController;
 import app.dtos.ShiftRequestDTO;
 import app.entities.Response;
 import app.entities.Shift;

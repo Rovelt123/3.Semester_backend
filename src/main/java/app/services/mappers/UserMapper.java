@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.UserDTO;
 import app.entities.User;
 
-public class UserMapper implements Mapper<User, UserDTO> {
+public class UserMapper implements IMapper<User, UserDTO> {
 
     @Override
     public User toEntity(UserDTO dto) {

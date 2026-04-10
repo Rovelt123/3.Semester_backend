@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.ResponsibilityDTO;
 import app.entities.Responsibility;
 
-public class ResponsibilityMapper  implements Mapper<Responsibility, ResponsibilityDTO> {
+public class ResponsibilityMapper  implements IMapper<Responsibility, ResponsibilityDTO> {
 
     @Override
     public Responsibility toEntity(ResponsibilityDTO dto) {

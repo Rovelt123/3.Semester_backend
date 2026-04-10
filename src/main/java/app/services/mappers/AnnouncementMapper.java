@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.AnnouncementDTO;
 import app.entities.Announcement;
 
-public class AnnouncementMapper  implements Mapper<Announcement, AnnouncementDTO> {
+public class AnnouncementMapper  implements IMapper<Announcement, AnnouncementDTO> {
 
     @Override
     public Announcement toEntity(AnnouncementDTO dto) {

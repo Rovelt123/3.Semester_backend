@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.Generic.BaseController;
+import app.controllers.generic.BaseController;
 import app.dtos.AnnouncementDTO;
 import app.entities.Announcement;
 import app.entities.User;

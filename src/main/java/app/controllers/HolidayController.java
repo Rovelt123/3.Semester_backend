@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.Generic.BaseController;
+import app.controllers.generic.BaseController;
 import app.dtos.HolidayDTO;
 import app.entities.Holiday;
 import app.entities.User;

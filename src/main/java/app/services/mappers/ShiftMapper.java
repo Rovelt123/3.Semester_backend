@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.ShiftDTO;
 import app.entities.Shift;
 
-public class ShiftMapper  implements Mapper<Shift, ShiftDTO> {
+public class ShiftMapper  implements IMapper<Shift, ShiftDTO> {
 
     @Override
     public Shift toEntity(ShiftDTO dto) {

@@ -1,4 +1,4 @@
-package app.Server;
+package app.server;
 
 import app.controllers.*;
 import app.services.VersionService;
