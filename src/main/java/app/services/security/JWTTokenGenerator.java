@@ -3,7 +3,7 @@ package app.services.security;
 import app.Main;
 import app.daos.UserDAO;
 import app.dtos.UserDTO;
-import app.services.Mappers.UserMapper;
+import app.services.mappers.UserMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;

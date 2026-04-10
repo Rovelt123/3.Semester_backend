@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.Generic.BaseController;
+import app.controllers.generic.BaseController;
 import app.dtos.UserDTO;
 import app.entities.Responsibility;
 import app.entities.User;

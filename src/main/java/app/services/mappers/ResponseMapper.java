@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.ResponseDTO;
 import app.entities.Response;
 
-public class ResponseMapper  implements Mapper<Response, ResponseDTO> {
+public class ResponseMapper  implements IMapper<Response, ResponseDTO> {
 
     @Override
     public Response toEntity(ResponseDTO dto) {

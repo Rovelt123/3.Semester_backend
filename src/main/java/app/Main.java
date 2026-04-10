@@ -1,6 +1,6 @@
 package app;
 
-import app.Server.Setup;
+import app.server.Setup;
 import app.configs.*;
 
 public class Main {

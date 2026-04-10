@@ -1,9 +1,9 @@
-package app.services.Mappers;
+package app.services.mappers;
 
 import app.dtos.HolidayDTO;
 import app.entities.Holiday;
 
-public class HolidayMapper  implements Mapper<Holiday, HolidayDTO> {
+public class HolidayMapper  implements IMapper<Holiday, HolidayDTO> {
 
     @Override
     public Holiday toEntity(HolidayDTO dto) {
