@@ -93,19 +93,11 @@ public class SecurityService implements ISecurityService {
     @Override
     public String createToken(UserDTO user) {
         try {
-            String ISSUER;
-            String TOKEN_EXPIRE_TIME;
-            String SECRET_KEY;
-
-            if (System.getenv("DEPLOYED") != null) {
-                ISSUER = System.getenv("ISSUER");
-                TOKEN_EXPIRE_TIME = System.getenv("TOKEN_EXPIRE_TIME");
-                SECRET_KEY = System.getenv("SECRET_KEY");
-            } else {
-                ISSUER = Utils.getPropertyValue("ISSUER", "config.properties");
-                TOKEN_EXPIRE_TIME = Utils.getPropertyValue("TOKEN_EXPIRE_TIME", "config.properties");
-                SECRET_KEY = Utils.getPropertyValue("SECRET_KEY", "config.properties");
-            }
+            
+            String ISSUER = Utils.getPropertyValue("ISSUER", "config.properties");
+            String TOKEN_EXPIRE_TIME = Utils.getPropertyValue("TOKEN_EXPIRE_TIME", "config.properties");
+            String SECRET_KEY = Utils.getPropertyValue("SECRET_KEY", "config.properties");
+            
             return JWTTokenGenerator.createToken(user, ISSUER, TOKEN_EXPIRE_TIME, SECRET_KEY);
         } catch (Exception e) {
             logger.error("Create token: {}", String.valueOf(e));
